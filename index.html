@@ -133,6 +133,7 @@
 
         .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 100; backdrop-filter: blur(2px); }
         .sheet-overlay.active { opacity: 1; pointer-events: auto; }
+        
         .bottom-sheet { 
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); 
             width: 100%; max-width: 414px; background: #fff; border-radius: 24px 24px 0 0; 
@@ -141,6 +142,7 @@
             box-shadow: 0 -10px 25px rgba(0,0,0,0.1); max-height: 85vh; overflow-y: auto;
         }
         .bottom-sheet.active { transform: translateX(-50%) translateY(0); }
+        
         .swipe-area { width: 100%; padding: 10px 0 20px 0; display: flex; justify-content: center; align-items: center; }
         .sheet-handle { width: 40px; height: 5px; background-color: #E5E5EA; border-radius: 3px; }
         .sheet-option { padding: 16px; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; }
@@ -216,6 +218,7 @@
     
     <div class="bottom-sheet" id="sheet-sesi">
         <div class="swipe-area"><div class="sheet-handle"></div></div>
+        <div class="sheet-title">Pilih Sesi</div>
         <div class="sheet-option" onclick="pilihSesi('Sesi 1', 'Sesi 1')">Sesi 1 (07.00 - 08.20)</div>
         <div class="sheet-option" onclick="pilihSesi('Sesi 2', 'Sesi 2')">Sesi 2 (08.50 - 10.10)</div>
         <div class="sheet-option" onclick="pilihSesi('Sesi 3', 'Sesi 3')">Sesi 3 (10.30 - 11.50)</div>
@@ -223,15 +226,8 @@
 
     <div class="bottom-sheet" id="sheet-kelas">
         <div class="swipe-area"><div class="sheet-handle"></div></div>
-        <div class="sheet-option" onclick="pilihKelas('Sifir')">Sifir</div>
-        <div class="sheet-option" onclick="pilihKelas('Kelas 1')">Kelas 1</div>
-        <div class="sheet-option" onclick="pilihKelas('Kelas 2')">Kelas 2</div>
-        <div class="sheet-option" onclick="pilihKelas('Kelas 3')">Kelas 3</div>
-        <div class="sheet-option" onclick="pilihKelas('Kelas 4')">Kelas 4</div>
-        <div class="sheet-option" onclick="pilihKelas('Kelas 5')">Kelas 5</div>
-        <div class="sheet-option" onclick="pilihKelas('Kelas 6')">Kelas 6</div>
-        <div class="sheet-option" onclick="pilihKelas('-')">Piket/ Pimpinan</div>
-    </div>
+        <div class="sheet-title">Pilih Kelas</div>
+        </div>
 
     <div class="bottom-sheet" id="sheet-izin">
         <div class="swipe-area"><div class="sheet-handle"></div></div>
@@ -253,10 +249,10 @@
         <div class="alert-box">
             <div class="alert-title">Pratinjau Presensi</div>
             <div class="alert-msg">
-                <strong>Sesi Terpilih:</strong> <span id="prev-sesi"></span><br>
+                <strong>Sesi:</strong> <span id="prev-sesi"></span><br>
                 <strong>Kelas:</strong> <span id="prev-kelas"></span><br>
-                <strong>Koordinat:</strong> <span id="prev-gps" style="font-size:11px; color:var(--emerald-main);"></span><br><br>
-                <em>Pastikan data di atas sudah benar sebelum divalidasi ke dalam sistem.</em>
+                <strong>Koordinat GPS:</strong> <span id="prev-gps" style="font-size:11px; color:var(--emerald-main);"></span><br><br>
+                <em>Pastikan data di atas sudah benar sebelum dikirim.</em>
             </div>
             <div class="alert-btn-group">
                 <div class="alert-btn alert-btn-cancel" onclick="batalPreview()">Batal</div>
@@ -279,7 +275,7 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6vM-69kO_QCyCGYaIJ-a-JEq5P5PBcbZz0aesjvqSfoAYWLxTeCc-ruOxeempEmHk/exec';
     
     let valSesi = ""; let valKelas = ""; let valJenisIzin = "Sakit";
-    let tempLat = 0; let tempLon = 0; // Untuk menyimpan GPS sementara di pratinjau
+    let tempLat = 0; let tempLon = 0;
     
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => {}));
@@ -287,7 +283,6 @@
 
     window.onload = function() {
         initSwipeToClose();
-        // Set tanggal izin default hari ini
         document.getElementById('tanggal_izin').valueAsDate = new Date();
 
         const savedSession = localStorage.getItem('guruSession');
@@ -319,7 +314,8 @@
             if (result.success) {
                 const sessionData = {
                     no_hp: noHp, nama: result.data.nama, kategori: result.data.kategori,
-                    punyaJadwal: result.data.jadwal && result.data.jadwal.length > 0
+                    punyaJadwal: result.data.jadwal && result.data.jadwal.length > 0,
+                    jadwal: result.data.jadwal // Menyimpan jadwal untuk di-render
                 };
                 localStorage.setItem('guruSession', JSON.stringify(sessionData));
                 tampilkanDashboard(sessionData);
@@ -344,13 +340,30 @@
         } else {
             document.getElementById('form-absen-container').style.display = 'block';
             document.getElementById('no-jadwal-container').style.display = 'none';
+            
+            // --- LOGIKA BARU: RENDER LACI KELAS SECARA DINAMIS DARI DATABASE ---
+            const sheetKelasContainer = document.getElementById('sheet-kelas');
+            sheetKelasContainer.innerHTML = '<div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Pilih Kelas</div>';
+            
+            if (data.jadwal && data.jadwal.length > 0) {
+                const kelasUnik = [...new Set(data.jadwal.map(j => j.kelas))];
+                kelasUnik.forEach(k => {
+                    const div = document.createElement('div');
+                    div.className = 'sheet-option';
+                    // Konversi pembacaan "standby" menjadi "Piket / Pimpinan"
+                    div.innerText = k.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : k;
+                    div.onclick = () => pilihKelas(k);
+                    sheetKelasContainer.appendChild(div);
+                });
+            }
+            // ------------------------------------------------------------------
+
             autoDeteksiSesi();
         }
     }
 
     function prosesLogout() { localStorage.removeItem('guruSession'); window.location.reload(); }
 
-    // TAHAP 1: MENGAMBIL LOKASI LALU MEMBUKA PRATINJAU
     function mulaiProsesAbsen() {
         if (!valSesi || !valKelas) { showAlert('Peringatan', 'Harap pilih Sesi dan Kelas.'); return; }
         const btn = document.getElementById('btn-absen');
@@ -368,7 +381,7 @@
                 
                 // Tampilkan Modal Pratinjau
                 document.getElementById('prev-sesi').innerText = valSesi;
-                document.getElementById('prev-kelas').innerText = valKelas === '-' ? 'Piket/Pimpinan' : valKelas;
+                document.getElementById('prev-kelas').innerText = valKelas.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : valKelas;
                 document.getElementById('prev-gps').innerText = tempLat.toFixed(5) + ", " + tempLon.toFixed(5);
                 document.getElementById('previewAlert').classList.add('active');
             },
@@ -384,7 +397,6 @@
         document.getElementById('previewAlert').classList.remove('active');
     }
 
-    // TAHAP 2: KIRIM DATA FINAL SETELAH DIVALIDASI
     function kirimFinalAbsen() {
         document.getElementById('previewAlert').classList.remove('active');
         
@@ -415,7 +427,6 @@
         });
     }
 
-    // PENGAJUAN IZIN
     function kirimPengajuanIzin() {
         const tglIzin = document.getElementById('tanggal_izin').value;
         const keterangan = document.getElementById('keterangan_izin').value.trim();
@@ -452,7 +463,6 @@
         document.getElementById('label-jenis-izin').innerText = "Jenis: " + valJenisIzin;
     }
 
-    // UTILITAS UI
     function bukaSheet(id) { document.getElementById('sheet-overlay').classList.add('active'); document.getElementById(id).classList.add('active'); }
     function tutupSemuaSheet() {
         document.getElementById('sheet-overlay').classList.remove('active');
@@ -460,8 +470,15 @@
             sheet.classList.remove('active'); setTimeout(() => sheet.style.transform = '', 300);
         });
     }
+    
     function pilihSesi(val, label) { valSesi = val; document.getElementById('label-sesi').innerText = label; tutupSemuaSheet(); }
-    function pilihKelas(val) { valKelas = val; let lbl = val === '-' ? 'Piket/ Pimpinan' : val; document.getElementById('label-kelas').innerText = lbl; tutupSemuaSheet(); }
+    
+    function pilihKelas(val) { 
+        valKelas = val; 
+        let lbl = val.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : val; 
+        document.getElementById('label-kelas').innerText = lbl; 
+        tutupSemuaSheet(); 
+    }
 
     function autoDeteksiSesi() {
         const jam = new Date().getHours() + (new Date().getMinutes() / 60);
