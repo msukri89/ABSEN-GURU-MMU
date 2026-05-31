@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="manifest" href="manifest.json">
     <title>Presensi Guru PWA</title>
     <style>
-        /* =========================================
-           CSS VARIABEL & PALET WARNA KUSTOM
-           ========================================= */
         :root {
-            --emerald-main: #0F6B3D; /* Hijau Emerald Logo */
+            --emerald-main: #0F6B3D;
             --emerald-dark: #0A4A2A;
             --emerald-light: #E7F1EC;
-            --merah-bata: #C0392B; /* Merah elegan, tidak norak */
+            --merah-bata: #C0392B;
             --ios-bg: #F2F2F7;
             --ios-card: #FFFFFF;
             --text-main: #1C1C1E;
@@ -30,170 +28,148 @@
             overflow-x: hidden;
         }
 
-        /* Pembungkus utama ala layar HP */
         .app-container {
             width: 100%;
             max-width: 414px;
             margin: 0 auto;
             min-height: 100vh;
-            background-color: var(--ios-bg);
+            background-color: var(--ios-card);
             position: relative;
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
         }
 
-        /* =========================================
-           TAMPILAN HEADER (1/3 HALAMAN 9:16)
-           ========================================= */
+        /* HEADER 1/3 HALAMAN - RATA KIRI */
         .emerald-header {
             background: linear-gradient(135deg, var(--emerald-main), var(--emerald-dark));
-            height: 33vh; /* Tepat 1/3 tinggi layar */
+            height: 33vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
             color: white;
-            padding: 20px;
+            padding: 30px 24px;
             box-sizing: border-box;
             position: relative;
             z-index: 1;
         }
 
-        /* Profil Area */
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            margin-top: 20px; /* Menyesuaikan area notch/statusbar iOS */
+        }
+
         .profile-photo {
-            width: 70px;
-            height: 70px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.3);
+            border: 3px solid rgba(255,255,255,0.4);
             background-color: rgba(255,255,255,0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .profile-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .greeting {
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0.9;
-            margin-bottom: 4px;
-        }
-
-        .teacher-name {
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 700;
-            margin: 0 0 6px 0;
-            letter-spacing: 0.3px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            flex-shrink: 0;
         }
 
-        .teacher-status {
-            font-size: 12px;
-            background: rgba(255,255,255,0.2);
-            padding: 4px 12px;
-            border-radius: 12px;
-            backdrop-filter: blur(5px);
+        .user-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        /* =========================================
-           KONTEN UTAMA (OVERLAP SEAMLESS)
-           ========================================= */
+        .greeting { font-size: 14px; font-weight: 500; opacity: 0.9; margin-bottom: 4px; }
+        .teacher-name { font-size: 20px; font-weight: 700; margin: 0 0 8px 0; line-height: 1.2; text-transform: uppercase;}
+        .teacher-status { font-size: 12px; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; backdrop-filter: blur(5px); }
+
+        /* KONTEN UTAMA */
         .main-content {
             background-color: var(--ios-card);
             flex: 1;
-            border-radius: 30px 30px 0 0; /* Rounded atas ala iOS */
-            margin-top: -25px; /* Overlap ke header hijau */
+            border-radius: 30px 30px 0 0;
+            margin-top: -30px;
             padding: 35px 24px 24px 24px;
             z-index: 2;
             position: relative;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
         }
 
-        /* Dropdown ala iOS */
-        .ios-select-group {
-            margin-bottom: 24px;
-        }
-
-        .ios-select-wrapper {
-            position: relative;
-            margin-bottom: 16px;
-        }
-
-        .ios-select-wrapper select {
+        /* CUSTOM SELECT BUTTON iOS STYLE */
+        .custom-select-btn {
             width: 100%;
             padding: 16px 20px;
             font-size: 16px;
             font-weight: 500;
             color: var(--text-main);
-            background-color: var(--ios-bg);
-            border: 1px solid transparent;
+            background-color: #FAFAFA;
+            border: 1px solid var(--border-color);
             border-radius: 16px;
-            appearance: none;
-            -webkit-appearance: none;
-            outline: none;
-            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
         }
+        .custom-select-btn:active { background-color: #F0F0F0; }
+        .custom-select-btn svg { width: 18px; height: 18px; color: var(--text-sub); }
 
-        .ios-select-wrapper select:focus {
-            border-color: var(--emerald-main);
-            background-color: #fff;
-            box-shadow: 0 0 0 3px var(--emerald-light);
-        }
-
-        /* Ikon Panah Dropdown Custom */
-        .ios-select-wrapper::after {
-            content: '';
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 12px;
-            height: 12px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-            pointer-events: none;
-        }
-
-        /* =========================================
-           TOMBOL-TOMBOL AKSI
-           ========================================= */
         .btn-absen {
             width: 100%;
             padding: 18px;
             background-color: var(--emerald-main);
             color: white;
             border: none;
-            border-radius: 18px; /* Lebih rounded memanjang */
+            border-radius: 18px;
             font-size: 17px;
             font-weight: 600;
             box-shadow: 0 8px 20px rgba(15, 107, 61, 0.25);
             cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
+            transition: transform 0.1s;
             margin-bottom: 24px;
         }
-        .btn-absen:active { transform: scale(0.97); opacity: 0.9; }
+        .btn-absen:active { transform: scale(0.97); }
 
+        /* PANEL PIMPINAN */
+        .pimpinan-panel {
+            display: none;
+            background: #FFF9E6;
+            border: 1px solid #FDEBB3;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .pimpinan-panel-title { font-size: 14px; font-weight: 700; color: #B88600; margin-bottom: 12px; }
+        .btn-pimpinan {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            margin-bottom: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-rekap { background-color: #EBF4FF; color: #007AFF; }
+        .btn-verifikasi { background-color: #F4E8FF; color: #AF52DE; margin-bottom: 0;}
+
+        /* ACTION ROW BAWAH */
         .action-row {
             display: flex;
             gap: 12px;
-            margin-top: auto; /* Mendorong ke bawah jika layar panjang */
+            margin-top: auto;
         }
-
         .btn-izin {
-            flex: 1; /* Mengisi ruang sisa (lebar) */
+            flex: 1;
             padding: 16px;
             background-color: var(--emerald-light);
             color: var(--emerald-main);
@@ -206,12 +182,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: transform 0.1s;
         }
-        .btn-izin:active { transform: scale(0.97); }
-
         .btn-logout {
-            width: 52px; /* Bundar sempurna */
+            width: 52px;
             height: 52px;
             border-radius: 50%;
             background-color: var(--merah-bata);
@@ -222,87 +195,10 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(192, 57, 43, 0.2);
-            transition: transform 0.1s;
             flex-shrink: 0;
         }
-        .btn-logout:active { transform: scale(0.92); }
 
-        /* =========================================
-           BOTTOM SHEET (MODAL IZIN ANIMASI MAHAL)
-           ========================================= */
-        .overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0,0,0,0.4);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 99;
-            backdrop-filter: blur(2px);
-        }
-        .overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .bottom-sheet {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%) translateY(100%);
-            width: 100%;
-            max-width: 414px;
-            background-color: #fff;
-            border-radius: 24px 24px 0 0;
-            padding: 30px 24px;
-            box-sizing: border-box;
-            z-index: 100;
-            /* Apple Spring Animation Cubic Bezier */
-            transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1.15);
-            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
-        }
-        .bottom-sheet.active {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .sheet-handle {
-            width: 40px;
-            height: 5px;
-            background-color: #E5E5EA;
-            border-radius: 3px;
-            margin: -10px auto 20px auto;
-        }
-
-        .sheet-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin: 0 0 20px 0;
-            text-align: center;
-        }
-
-        .ios-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 16px;
-            font-size: 15px;
-            box-sizing: border-box;
-            background: #FAFAFA;
-            outline: none;
-            font-family: inherit;
-        }
-        .ios-input:focus { border-color: var(--emerald-main); }
-
-        textarea.ios-input { height: 100px; resize: none; }
-
-        /* Loader */
-        .loading { display: none; text-align: center; font-size: 14px; color: var(--text-sub); margin-top: 10px; }
-
-        /* Sembunyikan view sebelum login */
-        #dashboard-view { display: none; height: 100vh; flex-direction: column; }
-        
-        /* Halaman Login Minimalis */
+        /* TAMPILAN LOGIN */
         #login-view {
             padding: 40px 24px;
             display: flex;
@@ -310,131 +206,200 @@
             justify-content: center;
             min-height: 100vh;
             background-color: #fff;
+            z-index: 10;
         }
-        .login-logo {
-            width: 100px;
-            margin: 0 auto 30px auto;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(15, 107, 61, 0.15);
-        }
+        .login-logo { width: 100px; margin: 0 auto 30px auto; border-radius: 24px; overflow: hidden; box-shadow: 0 10px 20px rgba(15, 107, 61, 0.15); }
         .login-logo img { width: 100%; display: block; }
         .login-title { text-align: center; font-size: 24px; font-weight: 700; color: var(--emerald-main); margin-bottom: 30px; }
+        .ios-input { width: 100%; padding: 16px; border: 1px solid var(--border-color); border-radius: 16px; margin-bottom: 16px; font-size: 16px; box-sizing: border-box; background: #FAFAFA; outline: none; transition: 0.2s; }
+        .ios-input:focus { border-color: var(--emerald-main); background: #fff; }
 
+        /* CUSTOM ALERT iOS STYLE */
+        .alert-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: 0.2s; z-index: 999; backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; }
+        .alert-overlay.active { opacity: 1; pointer-events: auto; }
+        .alert-box { background: rgba(255,255,255,0.95); width: 270px; border-radius: 14px; text-align: center; transform: scale(1.1); transition: 0.2s cubic-bezier(0.32, 0.72, 0, 1.15); box-shadow: 0 10px 30px rgba(0,0,0,0.1); backdrop-filter: blur(10px); }
+        .alert-overlay.active .alert-box { transform: scale(1); }
+        .alert-title { font-weight: 600; font-size: 17px; padding: 20px 16px 4px 16px; }
+        .alert-msg { font-size: 13px; padding: 0 16px 20px 16px; color: var(--text-main); line-height: 1.4; }
+        .alert-btn { border-top: 1px solid rgba(0,0,0,0.1); padding: 12px; color: #007AFF; font-weight: 600; font-size: 17px; cursor: pointer; }
+
+        /* BOTTOM SHEET UNTUK CUSTOM SELECT */
+        .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 100; backdrop-filter: blur(2px); }
+        .sheet-overlay.active { opacity: 1; pointer-events: auto; }
+        .bottom-sheet { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); width: 100%; max-width: 414px; background: #fff; border-radius: 24px 24px 0 0; padding: 20px 24px 30px 24px; box-sizing: border-box; z-index: 101; transition: 0.4s cubic-bezier(0.32, 0.72, 0, 1.15); box-shadow: 0 -10px 25px rgba(0,0,0,0.1); max-height: 80vh; overflow-y: auto;}
+        .bottom-sheet.active { transform: translateX(-50%) translateY(0); }
+        .sheet-handle { width: 40px; height: 5px; background-color: #E5E5EA; border-radius: 3px; margin: 0 auto 20px auto; }
+        .sheet-option { padding: 16px; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 500; cursor: pointer; }
+        .sheet-option:last-child { border-bottom: none; }
+        .sheet-option:active { background: #FAFAFA; }
+
+        /* UTILS */
+        #dashboard-view { display: none; height: 100vh; flex-direction: column; }
+        .loading { display: none; text-align: center; font-size: 14px; color: var(--text-sub); margin-top: 10px; }
+        .empty-state { text-align: center; padding: 30px 10px; color: var(--text-sub); font-size: 15px; font-weight: 500;}
     </style>
 </head>
 <body>
 
 <div class="app-container">
 
-    <!-- ================= HALAMAN LOGIN ================= -->
+    <!-- HALAMAN LOGIN -->
     <div id="login-view">
-        <div class="login-logo">
-            <!-- Memanggil icon.jpg dari repository Anda -->
-            <img src="icon.png" alt="Logo Santri">
-        </div>
+        <div class="login-logo"><img src="icon.png" alt="Logo"></div>
         <div class="login-title">Presensi Madrasah</div>
         
         <input type="tel" class="ios-input" id="no_hp" placeholder="Nomor Handphone" autocomplete="off">
-        <input type="password" class="ios-input" id="pin" placeholder="PIN Keamanan" autocomplete="off">
+        <input type="password" class="ios-input" id="pin" placeholder="PIN Keamanan (Auto-Login)" autocomplete="off">
         
-        <button class="btn-absen" onclick="prosesLogin()" style="margin-top: 10px;">Masuk Aplikasi</button>
+        <button class="btn-absen" id="btn-login" onclick="prosesLogin()" style="margin-top: 10px;">Masuk Aplikasi</button>
         <div class="loading" id="login-loading">Memvalidasi data Anda...</div>
     </div>
 
 
-    <!-- ================= HALAMAN DASHBOARD ================= -->
+    <!-- HALAMAN DASHBOARD -->
     <div id="dashboard-view">
         
-        <!-- HEADER 1/3 HALAMAN -->
         <div class="emerald-header">
-            <div class="profile-photo" id="user-avatar-container">
-                <!-- Inisial atau tempat <img> foto profil nantinya -->
-                <span id="user-inisial">?</span>
+            <div class="header-content">
+                <div class="profile-photo" id="user-avatar-container">
+                    <span id="user-inisial">?</span>
+                </div>
+                <div class="user-text">
+                    <div class="greeting">Assalamualaikum,</div>
+                    <h2 class="teacher-name" id="user-nama">Nama Guru</h2>
+                    <div class="teacher-status" id="user-kategori">Memuat Status...</div>
+                </div>
             </div>
-            <div class="greeting">Assalamualaikum,</div>
-            <h2 class="teacher-name" id="user-nama">Nama Guru</h2>
-            <div class="teacher-status" id="user-kategori">Memuat Status...</div>
         </div>
 
-        <!-- KONTEN BAWAH (SEAMLESS) -->
         <div class="main-content">
             
-            <div class="ios-select-group">
-                <div class="ios-select-wrapper">
-                    <select id="sesi">
-                        <option value="Sesi 1">Sesi 1 (07.00 - 08.20)</option>
-                        <option value="Sesi 2">Sesi 2 (08.50 - 10.10)</option>
-                        <option value="Sesi 3">Sesi 3 (10.30 - 11.50)</option>
-                    </select>
-                </div>
-                
-                <div class="ios-select-wrapper">
-                    <select id="kelas">
-                        <option value="VII-A">Kelas VII - A</option>
-                        <option value="VII-B">Kelas VII - B</option>
-                        <option value="VIII-A">Kelas VIII - A</option>
-                        <option value="VIII-B">Kelas VIII - B</option>
-                        <option value="IX-A">Kelas IX - A</option>
-                        <option value="IX-B">Kelas IX - B</option>
-                        <option value="-">Tidak Masuk Kelas (Piket/Pimpinan)</option>
-                    </select>
-                </div>
+            <!-- PANEL PIMPINAN -->
+            <div class="pimpinan-panel" id="pimpinan-panel">
+                <div class="pimpinan-panel-title">🛡️ Panel Kontrol Pimpinan</div>
+                <button class="btn-pimpinan btn-rekap" onclick="showAlert('Laporan', 'Rekap absen sedang di-*generate*. Mohon tunggu.')">📊 Download Rekap Absen</button>
+                <button class="btn-pimpinan btn-verifikasi" onclick="showAlert('Verifikasi', 'Tidak ada pengajuan izin baru hari ini.')">✍️ Konfirmasi Izin / Sakit</button>
             </div>
 
-            <button class="btn-absen" id="btn-absen" onclick="ambilLokasiDanAbsen()">Kirim Presensi Hadir</button>
-            <div class="loading" id="absen-loading" style="margin-bottom: 20px;">Mengunci GPS & Mengirim...</div>
+            <!-- CONTAINER JADWAL/FORM ABSEN -->
+            <div id="form-absen-container">
+                <!-- Custom Dropdown Sesi -->
+                <div class="custom-select-btn" onclick="bukaSheetSesi()">
+                    <span id="label-sesi">Pilih Sesi Mengajar...</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                
+                <!-- Custom Dropdown Kelas -->
+                <div class="custom-select-btn" onclick="bukaSheetKelas()">
+                    <span id="label-kelas">Pilih Kelas...</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
 
-            <!-- ROW BAWAH: IZIN (LEBAR) & LOGOUT (BUNDAR MERAH BATA) -->
+                <button class="btn-absen" id="btn-absen" onclick="ambilLokasiDanAbsen()">Kirim Presensi Hadir</button>
+                <div class="loading" id="absen-loading" style="margin-bottom: 20px;">Mengunci GPS & Mengirim...</div>
+            </div>
+
+            <!-- Pesan Jika Pimpinan/Guru Tidak Ada Jadwal -->
+            <div id="no-jadwal-container" class="empty-state" style="display: none;">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#C7C7CC" stroke-width="1.5" style="margin-bottom:10px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <br>Tidak ada jadwal wajib mengajar hari ini.
+            </div>
+
             <div class="action-row">
-                <button class="btn-izin" onclick="bukaModalIzin()">
-                    <!-- Icon Surat iOS -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <button class="btn-izin" onclick="showAlert('Form Izin', 'Fitur pengajuan izin akan segera diaktifkan.')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     Pengajuan Izin / Sakit
                 </button>
                 
-                <button class="btn-logout" onclick="window.location.reload()" title="Keluar">
-                    <!-- Icon Logout Minimalis -->
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <button class="btn-logout" onclick="prosesLogout()" title="Keluar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 </button>
             </div>
             
         </div>
     </div>
 
-    <!-- ================= BOTTOM SHEET IZIN ================= -->
-    <div class="overlay" id="overlay" onclick="tutupModalIzin()"></div>
-    <div class="bottom-sheet" id="modal-izin">
+    <!-- CUSTOM BOTTOM SHEETS -->
+    <div class="sheet-overlay" id="sheet-overlay" onclick="tutupSemuaSheet()"></div>
+    
+    <div class="bottom-sheet" id="sheet-sesi">
         <div class="sheet-handle"></div>
-        <h3 class="sheet-title">Formulir Izin / Sakit</h3>
-        
-        <select class="ios-input" id="jenis_izin">
-            <option value="Sakit">Sakit (Lampirkan Surat Medis di WA)</option>
-            <option value="Izin Dinas">Izin Dinas Luar</option>
-            <option value="Izin Kepentingan Keluarga">Izin Kepentingan Keluarga</option>
-        </select>
-        
-        <textarea class="ios-input" id="keterangan_izin" placeholder="Tuliskan keterangan singkat..."></textarea>
-        
-        <button class="btn-absen" onclick="kirimIzin()" style="margin-bottom: 0;">Kirim Pengajuan</button>
+        <div class="sheet-option" onclick="pilihSesi('Sesi 1', 'Sesi 1 (07.00 - 08.20)')">Sesi 1 (07.00 - 08.20)</div>
+        <div class="sheet-option" onclick="pilihSesi('Sesi 2', 'Sesi 2 (08.50 - 10.10)')">Sesi 2 (08.50 - 10.10)</div>
+        <div class="sheet-option" onclick="pilihSesi('Sesi 3', 'Sesi 3 (10.30 - 11.50)')">Sesi 3 (10.30 - 11.50)</div>
+    </div>
+
+    <div class="bottom-sheet" id="sheet-kelas">
+        <div class="sheet-handle"></div>
+        <div class="sheet-option" onclick="pilihKelas('VII-A')">Kelas VII - A</div>
+        <div class="sheet-option" onclick="pilihKelas('VII-B')">Kelas VII - B</div>
+        <div class="sheet-option" onclick="pilihKelas('VIII-A')">Kelas VIII - A</div>
+        <div class="sheet-option" onclick="pilihKelas('VIII-B')">Kelas VIII - B</div>
+        <div class="sheet-option" onclick="pilihKelas('IX-A')">Kelas IX - A</div>
+        <div class="sheet-option" onclick="pilihKelas('IX-B')">Kelas IX - B</div>
+        <div class="sheet-option" onclick="pilihKelas('-')">Tidak Masuk Kelas (Piket/Pimpinan)</div>
+    </div>
+
+    <!-- CUSTOM ALERT iOS -->
+    <div class="alert-overlay" id="iosAlert">
+        <div class="alert-box">
+            <div class="alert-title" id="iosAlertTitle">Pesan</div>
+            <div class="alert-msg" id="iosAlertMsg">Detail pesan</div>
+            <div class="alert-btn" onclick="closeAlert()">OK</div>
+        </div>
     </div>
 
 </div>
 
 <script>
-    // URL Web App Google Apps Script Anda (PASTIKAN DIGANTI DENGAN MILIK ANDA)
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6vM-69kO_QCyCGYaIJ-a-JEq5P5PBcbZz0aesjvqSfoAYWLxTeCc-ruOxeempEmHk/exec';
     
-    let GURU_AKTIF = { no_hp: '', nama: '', kategori: '' };
+    // Variabel state pilihan dropdown
+    let valSesi = "";
+    let valKelas = "";
+    
+    // Pendaftaran Service Worker untuk PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW reg gagal', err));
+      });
+    }
+
+    // Mencegah Swipe Back dan Tombol Kembali Fisik
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+
+    // INISIALISASI SAAT HALAMAN DIMUAT (Anti-Refresh)
+    window.onload = function() {
+        const savedSession = localStorage.getItem('guruSession');
+        if (savedSession) {
+            const data = JSON.parse(savedSession);
+            tampilkanDashboard(data);
+        }
+    }
+
+    // LOGIKA AUTO-LOGIN PADA INPUT PIN (Enter & 6 Digit)
+    const pinInput = document.getElementById('pin');
+    pinInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') prosesLogin();
+    });
+    pinInput.addEventListener('input', function() {
+        if (this.value.length >= 6) {
+            this.blur(); // Menutup keyboard HP
+            prosesLogin();
+        }
+    });
 
     // --- FUNGSI LOGIN ---
     function prosesLogin() {
         const noHp = document.getElementById('no_hp').value;
         const pin = document.getElementById('pin').value;
-        const btn = document.querySelector('#login-view .btn-absen');
+        const btn = document.getElementById('btn-login');
         const loading = document.getElementById('login-loading');
 
-        if (!noHp || !pin) { alert('Mohon lengkapi Nomor HP dan PIN.'); return; }
+        if (!noHp || !pin) { showAlert('Perhatian', 'Mohon lengkapi Nomor HP dan PIN.'); return; }
 
         btn.style.display = 'none'; loading.style.display = 'block';
 
@@ -447,36 +412,72 @@
         .then(result => {
             btn.style.display = 'block'; loading.style.display = 'none';
             if (result.success) {
-                GURU_AKTIF.no_hp = noHp;
-                GURU_AKTIF.nama = result.data.nama;
-                GURU_AKTIF.kategori = result.data.kategori;
-
-                // Terapkan ke UI Header
-                document.getElementById('user-nama').innerText = GURU_AKTIF.nama;
-                document.getElementById('user-kategori').innerText = GURU_AKTIF.kategori;
-                document.getElementById('user-inisial').innerText = GURU_AKTIF.nama.charAt(0).toUpperCase();
-
-                document.getElementById('login-view').style.display = 'none';
-                document.getElementById('dashboard-view').style.display = 'flex';
-                
-                autoDeteksiSesi(); // Opsional: Pilih sesi otomatis berdasarkan jam
+                // Simpan ke LocalStorage agar anti-refresh
+                const sessionData = {
+                    no_hp: noHp,
+                    nama: result.data.nama,
+                    kategori: result.data.kategori,
+                    punyaJadwal: result.data.jadwal && result.data.jadwal.length > 0
+                };
+                localStorage.setItem('guruSession', JSON.stringify(sessionData));
+                tampilkanDashboard(sessionData);
             } else {
-                alert(result.message);
+                showAlert('Gagal', result.message);
+                document.getElementById('pin').value = '';
             }
         })
         .catch(error => {
             btn.style.display = 'block'; loading.style.display = 'none';
-            alert('Koneksi terputus. Pastikan internet stabil.');
+            showAlert('Koneksi Terputus', 'Pastikan internet stabil.');
         });
+    }
+
+    // --- RENDER UI DASHBOARD ---
+    function tampilkanDashboard(data) {
+        document.getElementById('user-nama').innerText = data.nama;
+        document.getElementById('user-kategori').innerText = data.kategori;
+        document.getElementById('user-inisial').innerText = data.nama.charAt(0).toUpperCase();
+
+        document.getElementById('login-view').style.display = 'none';
+        document.getElementById('dashboard-view').style.display = 'flex';
+        
+        // Logika Khusus Pimpinan
+        const isPimpinan = data.kategori.toLowerCase() === 'pimpinan';
+        
+        if (isPimpinan) {
+            document.getElementById('pimpinan-panel').style.display = 'block';
+        }
+
+        // Logika Tampilan Form Absen vs No Jadwal
+        // Jika Pimpinan dan tidak punya jadwal khusus hari ini, sembunyikan form absen.
+        if (isPimpinan && !data.punyaJadwal) {
+            document.getElementById('form-absen-container').style.display = 'none';
+            document.getElementById('no-jadwal-container').style.display = 'block';
+        } else {
+            document.getElementById('form-absen-container').style.display = 'block';
+            document.getElementById('no-jadwal-container').style.display = 'none';
+            autoDeteksiSesi();
+        }
+    }
+
+    // --- FUNGSI LOGOUT ---
+    function prosesLogout() {
+        localStorage.removeItem('guruSession');
+        window.location.reload();
     }
 
     // --- FUNGSI ABSEN ---
     function ambilLokasiDanAbsen() {
+        if (!valSesi || !valKelas) {
+            showAlert('Peringatan', 'Harap pilih Sesi dan Kelas terlebih dahulu.');
+            return;
+        }
+
         const btn = document.getElementById('btn-absen');
         const loading = document.getElementById('absen-loading');
         
         if (!navigator.geolocation) {
-            alert("Fitur GPS tidak didukung di perangkat ini."); return;
+            showAlert('Error', "Fitur GPS tidak didukung di perangkat ini."); return;
         }
 
         btn.style.display = 'none'; loading.style.display = 'block';
@@ -487,25 +488,24 @@
             },
             function(error) {
                 btn.style.display = 'block'; loading.style.display = 'none';
-                alert("Gagal mengunci lokasi. Pastikan izin GPS menyala.");
+                showAlert('GPS Ditolak', "Gagal mengunci lokasi. Pastikan izin GPS browser menyala.");
             },
             { enableHighAccuracy: true, timeout: 10000 }
         );
     }
 
     function kirimDataAbsenKeServer(lat, lon, btn, loading) {
-        const sesi = document.getElementById('sesi').value;
-        const kelas = document.getElementById('kelas').value;
+        const sessionData = JSON.parse(localStorage.getItem('guruSession'));
         
         fetch(SCRIPT_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
                 action: 'absen',
-                no_hp: GURU_AKTIF.no_hp,
-                nama_guru: GURU_AKTIF.nama,
-                sesi: sesi,
-                kelas: kelas,
+                no_hp: sessionData.no_hp,
+                nama_guru: sessionData.nama,
+                sesi: valSesi,
+                kelas: valKelas,
                 latitude: lat,
                 longitude: lon
             })
@@ -515,46 +515,61 @@
             loading.style.display = 'none';
             btn.style.display = 'block';
             if(result.success) {
-                // Ubah tombol jadi sukses
                 btn.style.backgroundColor = '#E7F1EC';
                 btn.style.color = '#0F6B3D';
                 btn.innerText = '✓ Berhasil';
                 btn.disabled = true;
-                setTimeout(() => alert(result.message), 100);
+                showAlert('Berhasil', result.message);
             } else {
-                alert(result.message);
+                showAlert('Gagal', result.message);
             }
         })
         .catch(error => {
             btn.style.display = 'block'; loading.style.display = 'none';
-            alert('Kesalahan jaringan.');
+            showAlert('Error', 'Kesalahan jaringan saat mengirim data.');
         });
     }
 
-    // --- KONTROL BOTTOM SHEET (ANIMASI MEMBAL) ---
-    function bukaModalIzin() {
-        document.getElementById('overlay').classList.add('active');
-        document.getElementById('modal-izin').classList.add('active');
+    // --- CUSTOM DROPDOWN CONTROL ---
+    function bukaSheetSesi() { document.getElementById('sheet-overlay').classList.add('active'); document.getElementById('sheet-sesi').classList.add('active'); }
+    function bukaSheetKelas() { document.getElementById('sheet-overlay').classList.add('active'); document.getElementById('sheet-kelas').classList.add('active'); }
+    
+    function tutupSemuaSheet() {
+        document.getElementById('sheet-overlay').classList.remove('active');
+        document.getElementById('sheet-sesi').classList.remove('active');
+        document.getElementById('sheet-kelas').classList.remove('active');
     }
 
-    function tutupModalIzin() {
-        document.getElementById('overlay').classList.remove('active');
-        document.getElementById('modal-izin').classList.remove('active');
+    function pilihSesi(val, label) {
+        valSesi = val;
+        document.getElementById('label-sesi').innerText = label;
+        document.getElementById('label-sesi').style.color = 'var(--text-main)';
+        tutupSemuaSheet();
     }
 
-    function kirimIzin() {
-        alert("Fitur pengajuan izin akan dikembangkan di tahap berikutnya.");
-        tutupModalIzin();
+    function pilihKelas(val) {
+        valKelas = val;
+        let lbl = val === '-' ? 'Tidak Masuk Kelas (Piket/Pimpinan)' : 'Kelas ' + val;
+        document.getElementById('label-kelas').innerText = lbl;
+        document.getElementById('label-kelas').style.color = 'var(--text-main)';
+        tutupSemuaSheet();
     }
 
-    // --- BANTUAN UI ---
     function autoDeteksiSesi() {
         const jam = new Date().getHours() + (new Date().getMinutes() / 60);
-        const select = document.getElementById('sesi');
-        if (jam >= 6.5 && jam <= 8.5) select.value = "Sesi 1";
-        else if (jam > 8.5 && jam <= 10.3) select.value = "Sesi 2";
-        else if (jam > 10.3 && jam <= 13.0) select.value = "Sesi 3";
+        if (jam >= 6.5 && jam <= 8.5) pilihSesi("Sesi 1", "Sesi 1 (07.00 - 08.20)");
+        else if (jam > 8.5 && jam <= 10.3) pilihSesi("Sesi 2", "Sesi 2 (08.50 - 10.10)");
+        else if (jam > 10.3 && jam <= 13.0) pilihSesi("Sesi 3", "Sesi 3 (10.30 - 11.50)");
     }
+
+    // --- CUSTOM ALERT CONTROL ---
+    function showAlert(title, message) {
+        document.getElementById('iosAlertTitle').innerText = title;
+        document.getElementById('iosAlertMsg').innerText = message;
+        document.getElementById('iosAlert').classList.add('active');
+    }
+    function closeAlert() { document.getElementById('iosAlert').classList.remove('active'); }
+
 </script>
 
 </body>
