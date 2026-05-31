@@ -139,15 +139,32 @@
             width: 100%; max-width: 414px; background: #fff; border-radius: 24px 24px 0 0; 
             padding: 10px 24px calc(30px + env(safe-area-inset-bottom)) 24px; box-sizing: border-box; 
             z-index: 101; transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1.15); 
-            box-shadow: 0 -10px 25px rgba(0,0,0,0.1); max-height: 85vh; overflow-y: auto;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1); max-height: 85vh; display: flex; flex-direction: column;
         }
         .bottom-sheet.active { transform: translateX(-50%) translateY(0); }
         
-        .swipe-area { width: 100%; padding: 10px 0 20px 0; display: flex; justify-content: center; align-items: center; }
+        .swipe-area { width: 100%; padding: 10px 0 20px 0; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
         .sheet-handle { width: 40px; height: 5px; background-color: #E5E5EA; border-radius: 3px; }
         .sheet-option { padding: 16px; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; }
         .sheet-option:last-child { border-bottom: none; }
-        .sheet-title { font-size: 18px; font-weight: 700; text-align: center; margin: 0 0 20px 0; }
+        .sheet-title { font-size: 18px; font-weight: 700; text-align: center; margin: 0 0 20px 0; flex-shrink: 0; }
+
+        .sheet-scroll-area { overflow-y: auto; flex: 1; padding-bottom: 20px;}
+
+        /* CSS KHUSUS KARTU VERIFIKASI PIMPINAN */
+        .verif-card {
+            background: #FAFAFA; border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 16px; margin-bottom: 12px;
+        }
+        .verif-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .verif-name { font-weight: 700; font-size: 15px; }
+        .verif-date { font-size: 12px; color: var(--text-sub); background: #E5E5EA; padding: 2px 8px; border-radius: 8px;}
+        .verif-type { font-size: 12px; font-weight: 600; color: var(--emerald-main); margin-bottom: 6px; }
+        .verif-desc { font-size: 14px; line-height: 1.4; color: var(--text-sub); margin-bottom: 16px; }
+        .verif-actions { display: flex; gap: 8px; }
+        .verif-btn { flex: 1; padding: 10px; border-radius: 10px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; }
+        .verif-btn-tolak { background: #FDE8E7; color: var(--merah-bata); }
+        .verif-btn-setuju { background: var(--emerald-light); color: var(--emerald-main); }
 
         #dashboard-view { display: none; height: 100vh; flex-direction: column; overflow: hidden; }
         .loading { display: none; text-align: center; font-size: 14px; color: var(--text-sub); margin-top: 10px; font-weight: 500; }
@@ -196,11 +213,11 @@
 
         <div class="bottom-wrapper">
             <div class="pimpinan-panel" id="pimpinan-panel">
-                <button class="btn-pimpinan" onclick="showAlert('Laporan', 'Fitur Rekap Absen segera aktif.')">
+                <button class="btn-pimpinan" onclick="showAlert('Laporan', 'Fitur Rekap Absen akan aktif di Tahap 3.')">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     Download Rekap Absen
                 </button>
-                <button class="btn-pimpinan" style="margin-bottom: 0;" onclick="showAlert('Verifikasi', 'Segera hadir pada update berikutnya.')">
+                <button class="btn-pimpinan" style="margin-bottom: 0;" onclick="bukaVerifikasiIzin()" id="btn-verifikasi">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     Konfirmasi Izin / Sakit
                 </button>
@@ -214,6 +231,7 @@
         </div>
     </div>
 
+    <!-- PENGATURAN BOTTOM SHEETS -->
     <div class="sheet-overlay" id="sheet-overlay" onclick="tutupSemuaSheet()"></div>
     
     <div class="bottom-sheet" id="sheet-sesi">
@@ -227,24 +245,35 @@
     <div class="bottom-sheet" id="sheet-kelas">
         <div class="swipe-area"><div class="sheet-handle"></div></div>
         <div class="sheet-title">Pilih Kelas</div>
-        </div>
+        <div class="sheet-scroll-area" id="kelas-container"></div>
+    </div>
 
+    <!-- FORM PENGAJUAN IZIN -->
     <div class="bottom-sheet" id="sheet-izin">
         <div class="swipe-area"><div class="sheet-handle"></div></div>
         <div class="sheet-title">Formulir Pengajuan</div>
         
         <input type="date" class="ios-input" id="tanggal_izin" style="margin-bottom: 12px; font-family: inherit;">
-
         <div class="custom-select-btn" style="margin-bottom: 16px; justify-content: center; background: #FAFAFA; border: 1px solid var(--border-color); color: var(--text-main);" onclick="toggleJenisIzin()">
             <span id="label-jenis-izin">Jenis: Sakit</span>
         </div>
-        
         <textarea class="ios-input" id="keterangan_izin" placeholder="Tulis alasan detail..."></textarea>
         
         <button class="btn-absen" id="btn-kirim-izin" onclick="kirimPengajuanIzin()">KIRIM PENGAJUAN</button>
         <div class="loading" id="izin-loading">Memproses Pengajuan...</div>
     </div>
 
+    <!-- PANEL VERIFIKASI PIMPINAN (BARU) -->
+    <div class="bottom-sheet" id="sheet-verifikasi">
+        <div class="swipe-area"><div class="sheet-handle"></div></div>
+        <div class="sheet-title">Menunggu Konfirmasi</div>
+        <div class="loading" id="verifikasi-loading" style="display:block;">Memuat data...</div>
+        <div class="sheet-scroll-area" id="verifikasi-container">
+            <!-- Kartu data akan muncul di sini via JS -->
+        </div>
+    </div>
+
+    <!-- PRATINJAU VALIDASI ABSEN -->
     <div class="alert-overlay" id="previewAlert">
         <div class="alert-box">
             <div class="alert-title">Pratinjau Presensi</div>
@@ -284,7 +313,6 @@
     window.onload = function() {
         initSwipeToClose();
         document.getElementById('tanggal_izin').valueAsDate = new Date();
-
         const savedSession = localStorage.getItem('guruSession');
         if (savedSession) tampilkanDashboard(JSON.parse(savedSession));
     }
@@ -315,7 +343,7 @@
                 const sessionData = {
                     no_hp: noHp, nama: result.data.nama, kategori: result.data.kategori,
                     punyaJadwal: result.data.jadwal && result.data.jadwal.length > 0,
-                    jadwal: result.data.jadwal // Menyimpan jadwal untuk di-render
+                    jadwal: result.data.jadwal 
                 };
                 localStorage.setItem('guruSession', JSON.stringify(sessionData));
                 tampilkanDashboard(sessionData);
@@ -341,23 +369,19 @@
             document.getElementById('form-absen-container').style.display = 'block';
             document.getElementById('no-jadwal-container').style.display = 'none';
             
-            // --- LOGIKA BARU: RENDER LACI KELAS SECARA DINAMIS DARI DATABASE ---
-            const sheetKelasContainer = document.getElementById('sheet-kelas');
-            sheetKelasContainer.innerHTML = '<div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Pilih Kelas</div>';
+            const kContainer = document.getElementById('kelas-container');
+            kContainer.innerHTML = '';
             
             if (data.jadwal && data.jadwal.length > 0) {
                 const kelasUnik = [...new Set(data.jadwal.map(j => j.kelas))];
                 kelasUnik.forEach(k => {
                     const div = document.createElement('div');
                     div.className = 'sheet-option';
-                    // Konversi pembacaan "standby" menjadi "Piket / Pimpinan"
                     div.innerText = k.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : k;
                     div.onclick = () => pilihKelas(k);
-                    sheetKelasContainer.appendChild(div);
+                    kContainer.appendChild(div);
                 });
             }
-            // ------------------------------------------------------------------
-
             autoDeteksiSesi();
         }
     }
@@ -370,16 +394,12 @@
         const loading = document.getElementById('absen-loading');
         
         if (!navigator.geolocation) { showAlert('Error', "GPS tidak didukung."); return; }
-
         btn.style.display = 'none'; loading.style.display = 'block';
 
         navigator.geolocation.getCurrentPosition(
             function(position) {
                 btn.style.display = 'block'; loading.style.display = 'none';
-                tempLat = position.coords.latitude;
-                tempLon = position.coords.longitude;
-                
-                // Tampilkan Modal Pratinjau
+                tempLat = position.coords.latitude; tempLon = position.coords.longitude;
                 document.getElementById('prev-sesi').innerText = valSesi;
                 document.getElementById('prev-kelas').innerText = valKelas.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : valKelas;
                 document.getElementById('prev-gps').innerText = tempLat.toFixed(5) + ", " + tempLon.toFixed(5);
@@ -393,17 +413,13 @@
         );
     }
 
-    function batalPreview() {
-        document.getElementById('previewAlert').classList.remove('active');
-    }
+    function batalPreview() { document.getElementById('previewAlert').classList.remove('active'); }
 
     function kirimFinalAbsen() {
         document.getElementById('previewAlert').classList.remove('active');
-        
         const btn = document.getElementById('btn-absen');
         const loading = document.getElementById('absen-loading');
-        btn.style.display = 'none'; loading.style.display = 'block';
-        loading.innerText = 'Mengirim Data...';
+        btn.style.display = 'none'; loading.style.display = 'block'; loading.innerText = 'Mengirim Data...';
 
         const sessionData = JSON.parse(localStorage.getItem('guruSession'));
         fetch(SCRIPT_URL, {
@@ -416,21 +432,15 @@
         .then(response => response.json())
         .then(result => {
             loading.style.display = 'none'; btn.style.display = 'block'; loading.innerText = 'Mengunci Satelit GPS...';
-            if(result.success) {
-                btn.innerText = '✓ DATA TEREKAM'; btn.disabled = true;
-                showAlert('Berhasil', result.message);
-            } else showAlert('Gagal', result.message);
+            if(result.success) { btn.innerText = '✓ DATA TEREKAM'; btn.disabled = true; showAlert('Berhasil', result.message); } 
+            else showAlert('Gagal', result.message);
         })
-        .catch(error => {
-            btn.style.display = 'block'; loading.style.display = 'none'; loading.innerText = 'Mengunci Satelit GPS...';
-            showAlert('Error', 'Kesalahan jaringan.');
-        });
+        .catch(error => { btn.style.display = 'block'; loading.style.display = 'none'; loading.innerText = 'Mengunci Satelit GPS...'; showAlert('Error', 'Kesalahan jaringan.'); });
     }
 
     function kirimPengajuanIzin() {
         const tglIzin = document.getElementById('tanggal_izin').value;
         const keterangan = document.getElementById('keterangan_izin').value.trim();
-        
         if (!tglIzin || !keterangan) { showAlert('Peringatan', 'Tanggal dan Keterangan harus diisi.'); return; }
 
         const btn = document.getElementById('btn-kirim-izin');
@@ -450,12 +460,69 @@
         .then(result => {
             loading.style.display = 'none'; btn.style.display = 'block';
             if(result.success) {
-                tutupSemuaSheet();
-                document.getElementById('keterangan_izin').value = '';
-                showAlert('Berhasil', result.message);
-            } else showAlert('Gagal', result.message);
+                tutupSemuaSheet(); document.getElementById('keterangan_izin').value = ''; showAlert('Berhasil', result.message);
+            } else showAlert('Ditolak Sistem', result.message); // Pesan jika dikunci jam 07.00
         })
         .catch(error => { btn.style.display = 'block'; loading.style.display = 'none'; showAlert('Error', 'Jaringan putus.'); });
+    }
+
+    // --- FITUR BARU: VERIFIKASI PIMPINAN ---
+    function bukaVerifikasiIzin() {
+        bukaSheet('sheet-verifikasi');
+        const vContainer = document.getElementById('verifikasi-container');
+        const loading = document.getElementById('verifikasi-loading');
+        vContainer.innerHTML = '';
+        loading.style.display = 'block';
+
+        fetch(SCRIPT_URL, {
+            method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'get_pending_izin' })
+        })
+        .then(response => response.json())
+        .then(result => {
+            loading.style.display = 'none';
+            if(result.success && result.data.length > 0) {
+                result.data.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'verif-card';
+                    card.innerHTML = `
+                        <div class="verif-header">
+                            <span class="verif-name">${item.nama_guru}</span>
+                            <span class="verif-date">${item.tanggal_izin}</span>
+                        </div>
+                        <div class="verif-type">${item.jenis_izin}</div>
+                        <div class="verif-desc">"${item.keterangan}"</div>
+                        <div class="verif-actions">
+                            <button class="verif-btn verif-btn-tolak" onclick="prosesVerifikasi(${item.row_index}, 'Ditolak', this)">Tolak</button>
+                            <button class="verif-btn verif-btn-setuju" onclick="prosesVerifikasi(${item.row_index}, 'Disetujui', this)">Setujui</button>
+                        </div>
+                    `;
+                    vContainer.appendChild(card);
+                });
+            } else {
+                vContainer.innerHTML = '<div class="empty-state">Tidak ada pengajuan baru.</div>';
+            }
+        })
+        .catch(error => { loading.innerText = 'Gagal memuat koneksi.'; });
+    }
+
+    function prosesVerifikasi(rowIndex, statusBaru, btnElement) {
+        const cardElement = btnElement.closest('.verif-card');
+        cardElement.style.opacity = '0.5';
+        
+        fetch(SCRIPT_URL, {
+            method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'verifikasi_izin', row_index: rowIndex, status_baru: statusBaru })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if(result.success) {
+                cardElement.style.display = 'none'; // Sembunyikan kartu setelah sukses
+            } else {
+                cardElement.style.opacity = '1';
+                showAlert('Gagal', result.message);
+            }
+        });
     }
 
     function toggleJenisIzin() {
@@ -472,13 +539,7 @@
     }
     
     function pilihSesi(val, label) { valSesi = val; document.getElementById('label-sesi').innerText = label; tutupSemuaSheet(); }
-    
-    function pilihKelas(val) { 
-        valKelas = val; 
-        let lbl = val.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : val; 
-        document.getElementById('label-kelas').innerText = lbl; 
-        tutupSemuaSheet(); 
-    }
+    function pilihKelas(val) { valKelas = val; let lbl = val.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : val; document.getElementById('label-kelas').innerText = lbl; tutupSemuaSheet(); }
 
     function autoDeteksiSesi() {
         const jam = new Date().getHours() + (new Date().getMinutes() / 60);
