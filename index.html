@@ -18,14 +18,13 @@
             --border-color: #E5E5EA;
         }
 
-        /* ANTI-SCROLL & BOUNCE FIX */
         html, body {
             height: 100vh;
             width: 100vw;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Mengunci scroll */
-            overscroll-behavior-y: none; /* Mencegah efek membal/tarik di iOS/Android */
+            overflow: hidden;
+            overscroll-behavior-y: none;
             background-color: var(--ios-bg);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
             color: var(--text-main);
@@ -36,7 +35,7 @@
             width: 100%;
             max-width: 414px;
             margin: 0 auto;
-            height: 100vh; /* Memenuhi layar tepat 100% */
+            height: 100vh;
             background-color: var(--ios-bg);
             position: relative;
             display: flex;
@@ -44,12 +43,12 @@
             overflow: hidden;
         }
 
-        /* FLOATING HEADER SESUAI MOCKUP (DIBUAT LEBIH LEBAR) */
+        /* FLOATING HEADER DENGAN SAFE AREA UNTUK PONI HP */
         .header-card {
             background: linear-gradient(135deg, var(--emerald-main), var(--emerald-dark));
             border-radius: 24px;
-            margin: 20px 20px 10px 20px;
-            padding: 40px 24px; /* Padding vertikal ditambah dari 30px menjadi 40px */
+            margin: calc(20px + env(safe-area-inset-top)) 20px 10px 20px;
+            padding: 40px 24px;
             color: white;
             display: flex;
             align-items: center;
@@ -82,34 +81,19 @@
         .teacher-name { font-size: 18px; font-weight: 700; margin: 0 0 8px 0; letter-spacing: 0.5px; text-transform: uppercase;}
         .teacher-status { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 12px; }
 
-        /* AREA TENGAH & BAWAH FLEKSIBEL */
+        /* AREA KONTEN (Form Absen Naik ke Atas) */
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Mencegah konten meluap */
+            padding: 10px 24px 0 24px; /* Form langsung menempel di bawah kartu */
+            overflow: hidden;
         }
 
-        /* Pembungkus agar form absen / info tidak ada jadwal berada tepat di tengah sisa layar */
-        .center-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 24px;
-        }
-
-        /* Pembungkus agar tombol aksi (Pimpinan & Izin) diam di bawah */
-        .bottom-wrapper {
-            padding: 0 24px 30px 24px; /* Padding bawah 30px agar tidak menabrak batas HP */
-            flex-shrink: 0;
-        }
-
-        /* ROW DROPDOWN (Sesi & Kelas Bersebelahan) */
         .dropdown-row {
             display: flex;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .custom-select-btn {
@@ -119,7 +103,7 @@
             font-weight: 600;
             color: var(--emerald-main);
             background-color: var(--emerald-light);
-            border-radius: 100px; /* Bentuk Pill */
+            border-radius: 100px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -129,7 +113,6 @@
         .custom-select-btn:active { transform: scale(0.97); }
         .custom-select-btn svg { width: 18px; height: 18px; color: var(--emerald-main); }
 
-        /* TOMBOL ABSEN MASUK */
         .btn-absen {
             width: 100%;
             padding: 16px;
@@ -147,7 +130,15 @@
         }
         .btn-absen:active { transform: scale(0.97); }
 
-        /* PANEL PIMPINAN (Diubah warnanya senada dengan Izin & Ditaruh bawah) */
+        .empty-state { text-align: center; color: var(--text-sub); font-size: 15px; font-weight: 500; margin-top: 20px;}
+
+        /* AREA BAWAH (Tombol-tombol menempel di bawah) */
+        .bottom-wrapper {
+            padding: 0 24px calc(30px + env(safe-area-inset-bottom)) 24px;
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+
         .pimpinan-panel {
             display: none;
             margin-bottom: 12px;
@@ -171,7 +162,6 @@
         }
         .btn-pimpinan:active { transform: scale(0.97); }
 
-        /* ACTION ROW BAWAH */
         .action-row {
             display: flex;
             gap: 16px;
@@ -226,9 +216,11 @@
             width: 100%; padding: 18px; border: 1px solid var(--border-color); 
             border-radius: 100px; margin-bottom: 16px; font-size: 16px; 
             box-sizing: border-box; background: #FAFAFA; outline: none; transition: 0.2s; 
-            text-align: center; font-weight: 500;
+            text-align: center; font-weight: 500; font-family: inherit;
         }
         .ios-input:focus { border-color: var(--emerald-main); background: #fff; }
+
+        textarea.ios-input { border-radius: 24px; height: 100px; resize: none; text-align: left; padding: 18px; }
 
         /* CUSTOM MODAL & BOTTOM SHEET */
         .alert-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: 0.2s; z-index: 999; backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; }
@@ -241,16 +233,28 @@
 
         .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 100; backdrop-filter: blur(2px); }
         .sheet-overlay.active { opacity: 1; pointer-events: auto; }
-        .bottom-sheet { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); width: 100%; max-width: 414px; background: #fff; border-radius: 24px 24px 0 0; padding: 20px 24px 40px 24px; box-sizing: border-box; z-index: 101; transition: 0.4s cubic-bezier(0.32, 0.72, 0, 1.15); box-shadow: 0 -10px 25px rgba(0,0,0,0.1); max-height: 80vh; overflow-y: auto;}
+        
+        .bottom-sheet { 
+            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); 
+            width: 100%; max-width: 414px; background: #fff; border-radius: 24px 24px 0 0; 
+            padding: 10px 24px calc(30px + env(safe-area-inset-bottom)) 24px; box-sizing: border-box; 
+            z-index: 101; transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1.15); 
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1); max-height: 85vh; overflow-y: auto;
+        }
         .bottom-sheet.active { transform: translateX(-50%) translateY(0); }
-        .sheet-handle { width: 40px; height: 5px; background-color: #E5E5EA; border-radius: 3px; margin: 0 auto 24px auto; }
+        
+        /* Area Handle Swipe */
+        .swipe-area { width: 100%; padding: 10px 0 20px 0; display: flex; justify-content: center; align-items: center; }
+        .sheet-handle { width: 40px; height: 5px; background-color: #E5E5EA; border-radius: 3px; }
+        
         .sheet-option { padding: 16px; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; }
         .sheet-option:last-child { border-bottom: none; }
         .sheet-option:active { background: #FAFAFA; }
 
+        .sheet-title { font-size: 18px; font-weight: 700; text-align: center; margin: 0 0 20px 0; }
+
         #dashboard-view { display: none; height: 100vh; flex-direction: column; overflow: hidden; }
         .loading { display: none; text-align: center; font-size: 14px; color: var(--text-sub); margin-top: 10px; }
-        .empty-state { text-align: center; color: var(--text-sub); font-size: 15px; font-weight: 500;}
     </style>
 </head>
 <body>
@@ -265,7 +269,7 @@
         <input type="password" class="ios-input" id="pin" placeholder="PIN Keamanan" autocomplete="off">
         
         <button class="btn-absen" id="btn-login" onclick="prosesLogin()" style="margin-top: 10px;">MASUK</button>
-        <div class="loading" id="login-loading">Memvalidasi data Anda...</div>
+        <div class="loading" id="login-loading">Memvalidasi data...</div>
     </div>
 
 
@@ -283,79 +287,90 @@
         </div>
 
         <div class="main-content">
-            
-            <div class="center-wrapper">
-                <div id="form-absen-container">
-                    <div class="dropdown-row">
-                        <div class="custom-select-btn" onclick="bukaSheetSesi()">
-                            <span id="label-sesi">Sesi</span>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </div>
-                        
-                        <div class="custom-select-btn" onclick="bukaSheetKelas()">
-                            <span id="label-kelas">Kelas</span>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </div>
+            <div id="form-absen-container">
+                <div class="dropdown-row">
+                    <div class="custom-select-btn" onclick="bukaSheet('sheet-sesi')">
+                        <span id="label-sesi">Sesi</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-
-                    <button class="btn-absen" id="btn-absen" onclick="ambilLokasiDanAbsen()">ABSEN MASUK</button>
-                    <div class="loading" id="absen-loading">Mengunci GPS & Mengirim...</div>
-                </div>
-
-                <div id="no-jadwal-container" class="empty-state" style="display: none;">
-                    Tidak ada jadwal wajib mengajar hari ini.
-                </div>
-            </div>
-
-            <div class="bottom-wrapper">
-                
-                <div class="pimpinan-panel" id="pimpinan-panel">
-                    <button class="btn-pimpinan" onclick="showAlert('Laporan', 'Rekap absen sedang di-generate. Mohon tunggu.')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Download Rekap Absen
-                    </button>
-                    <button class="btn-pimpinan" style="margin-bottom: 0;" onclick="showAlert('Verifikasi', 'Tidak ada pengajuan izin baru hari ini.')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        Konfirmasi Izin / Sakit
-                    </button>
-                </div>
-
-                <div class="action-row">
-                    <button class="btn-izin" onclick="showAlert('Form Izin', 'Fitur pengajuan izin akan segera diaktifkan.')">
-                        Pengajuan Izin/ Sakit
-                    </button>
                     
-                    <button class="btn-logout" onclick="prosesLogout()" title="Keluar">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                            <polyline points="16 17 21 12 16 7"></polyline>
-                            <line x1="21" y1="12" x2="9" y2="12"></line>
-                        </svg>
-                    </button>
+                    <div class="custom-select-btn" onclick="bukaSheet('sheet-kelas')">
+                        <span id="label-kelas">Kelas</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
                 </div>
+
+                <button class="btn-absen" id="btn-absen" onclick="ambilLokasiDanAbsen()">ABSEN MASUK</button>
+                <div class="loading" id="absen-loading">Mengunci GPS & Mengirim...</div>
             </div>
-            
+
+            <div id="no-jadwal-container" class="empty-state" style="display: none;">
+                Tidak ada jadwal wajib mengajar hari ini.
+            </div>
         </div>
+
+        <div class="bottom-wrapper">
+            <div class="pimpinan-panel" id="pimpinan-panel">
+                <button class="btn-pimpinan" onclick="showAlert('Laporan', 'Fitur Rekap Absen akan aktif setelah persetujuan operasional bulan ini.')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Rekap Absen
+                </button>
+                <button class="btn-pimpinan" style="margin-bottom: 0;" onclick="showAlert('Verifikasi', 'Seluruh pengajuan izin saat ini telah dikonfirmasi.')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Konfirmasi Izin / Sakit
+                </button>
+            </div>
+
+            <div class="action-row">
+                <button class="btn-izin" onclick="bukaSheet('sheet-izin')">
+                    Pengajuan Izin/ Sakit
+                </button>
+                
+                <button class="btn-logout" onclick="prosesLogout()" title="Keluar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            
     </div>
 
     <div class="sheet-overlay" id="sheet-overlay" onclick="tutupSemuaSheet()"></div>
     
     <div class="bottom-sheet" id="sheet-sesi">
-        <div class="sheet-handle"></div>
+        <div class="swipe-area"><div class="sheet-handle"></div></div>
         <div class="sheet-option" onclick="pilihSesi('Sesi 1', 'Sesi 1')">Sesi 1 (07.00 - 08.20)</div>
         <div class="sheet-option" onclick="pilihSesi('Sesi 2', 'Sesi 2')">Sesi 2 (08.50 - 10.10)</div>
         <div class="sheet-option" onclick="pilihSesi('Sesi 3', 'Sesi 3')">Sesi 3 (10.30 - 11.50)</div>
     </div>
 
     <div class="bottom-sheet" id="sheet-kelas">
-        <div class="sheet-handle"></div>
-        <div class="sheet-option" onclick="pilihKelas('VII-A')">Kelas VII - A</div>
-        <div class="sheet-option" onclick="pilihKelas('VII-B')">Kelas VII - B</div>
-        <div class="sheet-option" onclick="pilihKelas('VIII-A')">Kelas VIII - A</div>
-        <div class="sheet-option" onclick="pilihKelas('VIII-B')">Kelas VIII - B</div>
-        <div class="sheet-option" onclick="pilihKelas('IX-A')">Kelas IX - A</div>
-        <div class="sheet-option" onclick="pilihKelas('IX-B')">Kelas IX - B</div>
-        <div class="sheet-option" onclick="pilihKelas('-')">Tidak Masuk Kelas</div>
+        <div class="swipe-area"><div class="sheet-handle"></div></div>
+        <div class="sheet-option" onclick="pilihKelas('Sifir')">Sifir</div>
+        <div class="sheet-option" onclick="pilihKelas('Kelas 1')">Kelas 1</div>
+        <div class="sheet-option" onclick="pilihKelas('Kelas 2')">Kelas 2</div>
+        <div class="sheet-option" onclick="pilihKelas('Kelas 3')">Kelas 3</div>
+        <div class="sheet-option" onclick="pilihKelas('Kelas 4')">Kelas 4</div>
+        <div class="sheet-option" onclick="pilihKelas('Kelas 5')">Kelas 5</div>
+        <div class="sheet-option" onclick="pilihKelas('Kelas 6')">Kelas 6</div>
+        <div class="sheet-option" onclick="pilihKelas('-')">Piket/ Pimpinan</div>
+    </div>
+
+    <div class="bottom-sheet" id="sheet-izin">
+        <div class="swipe-area"><div class="sheet-handle"></div></div>
+        <div class="sheet-title">Formulir Pengajuan</div>
+        
+        <div class="custom-select-btn" style="margin-bottom: 16px; justify-content: center; background: #FAFAFA; border: 1px solid var(--border-color); color: var(--text-main);" onclick="toggleJenisIzin()">
+            <span id="label-jenis-izin">Pilih Jenis: Sakit</span>
+        </div>
+        
+        <textarea class="ios-input" id="keterangan_izin" placeholder="Tulis keterangan / alasan..."></textarea>
+        
+        <button class="btn-absen" id="btn-kirim-izin" onclick="kirimPengajuanIzin()">KIRIM PENGAJUAN</button>
+        <div class="loading" id="izin-loading">Memproses Pengajuan...</div>
     </div>
 
     <div class="alert-overlay" id="iosAlert">
@@ -369,35 +384,32 @@
 </div>
 
 <script>
+    // URL WEB APP ANDA
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6vM-69kO_QCyCGYaIJ-a-JEq5P5PBcbZz0aesjvqSfoAYWLxTeCc-ruOxeempEmHk/exec';
     
     let valSesi = "";
     let valKelas = "";
+    let valJenisIzin = "Sakit";
     
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW reg gagal', err));
-      });
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => {}));
     }
 
     history.pushState(null, null, location.href);
     window.onpopstate = function () { history.go(1); };
 
     window.onload = function() {
+        initSwipeToClose();
         const savedSession = localStorage.getItem('guruSession');
         if (savedSession) {
-            const data = JSON.parse(savedSession);
-            tampilkanDashboard(data);
+            tampilkanDashboard(JSON.parse(savedSession));
         }
     }
 
     const pinInput = document.getElementById('pin');
     pinInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') prosesLogin(); });
     pinInput.addEventListener('input', function() {
-        if (this.value.length >= 6) {
-            this.blur();
-            prosesLogin();
-        }
+        if (this.value.length >= 6) { this.blur(); prosesLogin(); }
     });
 
     function prosesLogin() {
@@ -447,10 +459,7 @@
         document.getElementById('dashboard-view').style.display = 'flex';
         
         const isPimpinan = data.kategori.toLowerCase() === 'pimpinan';
-        
-        if (isPimpinan) {
-            document.getElementById('pimpinan-panel').style.display = 'block';
-        }
+        if (isPimpinan) document.getElementById('pimpinan-panel').style.display = 'block';
 
         if (isPimpinan && !data.punyaJadwal) {
             document.getElementById('form-absen-container').style.display = 'none';
@@ -468,17 +477,11 @@
     }
 
     function ambilLokasiDanAbsen() {
-        if (!valSesi || !valKelas) {
-            showAlert('Peringatan', 'Harap pilih Sesi dan Kelas terlebih dahulu.');
-            return;
-        }
-
+        if (!valSesi || !valKelas) { showAlert('Peringatan', 'Harap pilih Sesi dan Kelas terlebih dahulu.'); return; }
         const btn = document.getElementById('btn-absen');
         const loading = document.getElementById('absen-loading');
         
-        if (!navigator.geolocation) {
-            showAlert('Error', "Fitur GPS tidak didukung di perangkat ini."); return;
-        }
+        if (!navigator.geolocation) { showAlert('Error', "Fitur GPS tidak didukung di perangkat ini."); return; }
 
         btn.style.display = 'none'; loading.style.display = 'block';
 
@@ -488,7 +491,7 @@
             },
             function(error) {
                 btn.style.display = 'block'; loading.style.display = 'none';
-                showAlert('GPS Ditolak', "Gagal mengunci lokasi. Pastikan izin GPS browser menyala.");
+                showAlert('GPS Ditolak', "Gagal mengunci lokasi. Pastikan izin GPS menyala.");
             },
             { enableHighAccuracy: true, timeout: 10000 }
         );
@@ -496,59 +499,78 @@
 
     function kirimDataAbsenKeServer(lat, lon, btn, loading) {
         const sessionData = JSON.parse(localStorage.getItem('guruSession'));
-        
         fetch(SCRIPT_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
-                action: 'absen',
-                no_hp: sessionData.no_hp,
-                nama_guru: sessionData.nama,
-                sesi: valSesi,
-                kelas: valKelas,
-                latitude: lat,
-                longitude: lon
+                action: 'absen', no_hp: sessionData.no_hp, nama_guru: sessionData.nama,
+                sesi: valSesi, kelas: valKelas, latitude: lat, longitude: lon
             })
         })
         .then(response => response.json())
         .then(result => {
-            loading.style.display = 'none';
-            btn.style.display = 'block';
+            loading.style.display = 'none'; btn.style.display = 'block';
             if(result.success) {
-                btn.innerText = '✓ BERHASIL';
-                btn.disabled = true;
+                btn.innerText = '✓ BERHASIL'; btn.disabled = true;
                 showAlert('Berhasil', result.message);
-            } else {
-                showAlert('Gagal', result.message);
-            }
+            } else showAlert('Gagal', result.message);
         })
         .catch(error => {
             btn.style.display = 'block'; loading.style.display = 'none';
-            showAlert('Error', 'Kesalahan jaringan saat mengirim data.');
+            showAlert('Error', 'Kesalahan jaringan.');
         });
     }
 
-    function bukaSheetSesi() { document.getElementById('sheet-overlay').classList.add('active'); document.getElementById('sheet-sesi').classList.add('active'); }
-    function bukaSheetKelas() { document.getElementById('sheet-overlay').classList.add('active'); document.getElementById('sheet-kelas').classList.add('active'); }
+    function kirimPengajuanIzin() {
+        const keterangan = document.getElementById('keterangan_izin').value.trim();
+        if (!keterangan) { showAlert('Peringatan', 'Keterangan tidak boleh kosong.'); return; }
+
+        const btn = document.getElementById('btn-kirim-izin');
+        const loading = document.getElementById('izin-loading');
+        const sessionData = JSON.parse(localStorage.getItem('guruSession'));
+
+        btn.style.display = 'none'; loading.style.display = 'block';
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+                action: 'izin', no_hp: sessionData.no_hp, nama_guru: sessionData.nama,
+                jenis_izin: valJenisIzin, keterangan: keterangan
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            loading.style.display = 'none'; btn.style.display = 'block';
+            if(result.success) {
+                tutupSemuaSheet();
+                document.getElementById('keterangan_izin').value = '';
+                showAlert('Berhasil', result.message);
+            } else showAlert('Gagal', result.message);
+        })
+        .catch(error => {
+            btn.style.display = 'block'; loading.style.display = 'none';
+            showAlert('Error', 'Kesalahan jaringan.');
+        });
+    }
+
+    function toggleJenisIzin() {
+        valJenisIzin = valJenisIzin === "Sakit" ? "Izin/Dinas" : "Sakit";
+        document.getElementById('label-jenis-izin').innerText = "Pilih Jenis: " + valJenisIzin;
+    }
+
+    function bukaSheet(id) { document.getElementById('sheet-overlay').classList.add('active'); document.getElementById(id).classList.add('active'); }
     
     function tutupSemuaSheet() {
         document.getElementById('sheet-overlay').classList.remove('active');
-        document.getElementById('sheet-sesi').classList.remove('active');
-        document.getElementById('sheet-kelas').classList.remove('active');
+        document.querySelectorAll('.bottom-sheet').forEach(sheet => {
+            sheet.classList.remove('active');
+            setTimeout(() => sheet.style.transform = '', 300); // Reset posisi swipe
+        });
     }
 
-    function pilihSesi(val, label) {
-        valSesi = val;
-        document.getElementById('label-sesi').innerText = label;
-        tutupSemuaSheet();
-    }
-
-    function pilihKelas(val) {
-        valKelas = val;
-        let lbl = val === '-' ? 'Tidak Masuk' : 'Kelas ' + val;
-        document.getElementById('label-kelas').innerText = lbl;
-        tutupSemuaSheet();
-    }
+    function pilihSesi(val, label) { valSesi = val; document.getElementById('label-sesi').innerText = label; tutupSemuaSheet(); }
+    function pilihKelas(val) { valKelas = val; let lbl = val === '-' ? 'Piket/ Pimpinan' : val; document.getElementById('label-kelas').innerText = lbl; tutupSemuaSheet(); }
 
     function autoDeteksiSesi() {
         const jam = new Date().getHours() + (new Date().getMinutes() / 60);
@@ -558,12 +580,32 @@
     }
 
     function showAlert(title, message) {
-        document.getElementById('iosAlertTitle').innerText = title;
-        document.getElementById('iosAlertMsg').innerText = message;
-        document.getElementById('iosAlert').classList.add('active');
+        document.getElementById('iosAlertTitle').innerText = title; document.getElementById('iosAlertMsg').innerText = message; document.getElementById('iosAlert').classList.add('active');
     }
     function closeAlert() { document.getElementById('iosAlert').classList.remove('active'); }
 
+    // FITUR SWIPE TO DISMISS LACI BAWAH
+    function initSwipeToClose() {
+        let startY = 0; let currentY = 0; let isSwiping = false;
+        document.querySelectorAll('.bottom-sheet').forEach(sheet => {
+            const handle = sheet.querySelector('.swipe-area');
+            if(!handle) return;
+
+            handle.addEventListener('touchstart', e => { startY = e.touches[0].clientY; isSwiping = true; sheet.style.transition = 'none'; }, {passive: true});
+            handle.addEventListener('touchmove', e => {
+                if (!isSwiping) return;
+                currentY = e.touches[0].clientY;
+                let diffY = currentY - startY;
+                if (diffY > 0) sheet.style.transform = `translateX(-50%) translateY(${diffY}px)`;
+            }, {passive: true});
+            handle.addEventListener('touchend', e => {
+                isSwiping = false; sheet.style.transition = 'transform 0.4s cubic-bezier(0.32, 0.72, 0, 1.15)';
+                let diffY = currentY - startY;
+                if (diffY > 100) tutupSemuaSheet(); else sheet.style.transform = '';
+                startY = 0; currentY = 0;
+            });
+        });
+    }
 </script>
 
 </body>
