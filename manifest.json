@@ -1,5 +1,5 @@
 {
-  "name": "Presensi Guru",
+  "name": "Presensi Madrasah",
   "short_name": "Presensi",
   "description": "Sistem Presensi Guru Madrasah",
   "start_url": "./index.html",
@@ -9,14 +9,10 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon.png",
-      "sizes": "192x192",
-      "type": "image/jpeg"
-    },
-    {
-      "src": "icon.png",
-      "sizes": "512x512",
-      "type": "image/jpeg"
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
