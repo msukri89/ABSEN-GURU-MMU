@@ -26,53 +26,58 @@
 
         .app-container { width: 100%; max-width: 414px; margin: 0 auto; height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; background: #FFF; }
 
-        /* PERBAIKAN: Immersive Header Edge-to-Edge (Rata atas penuh, bulat bawah saja) */
+        /* ==================================================
+           DESAIN HEADER BARU 
+           ================================================== */
         .header-card {
-            background: linear-gradient(135deg, var(--emerald-main), var(--emerald-dark)); 
-            border-radius: 0 0 28px 28px;
-            margin: 0; 
-            padding: calc(env(safe-area-inset-top) + 20px) 24px 24px 24px; 
-            color: white; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            flex-shrink: 0; 
-            box-shadow: 0 10px 30px rgba(15, 107, 61, 0.15);
+            background-color: #245535;
+            color: white;
+            border-radius: 0 0 25px 25px;
+            padding: calc(env(safe-area-inset-top) + 20px) 24px 24px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: none !important;
+            border: none;
+            flex-shrink: 0;
             width: 100%;
             box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
+
+        /* --- Bagian Kiri: Profil --- */
+        .profile-section {
+            display: flex; flex-direction: column; align-items: flex-start; flex: 1.2; text-align: left;
+        }
+        .profile-img-container {
+            width: 65px; height: 85px; background-color: #74b843; border-radius: 12px;
+            overflow: hidden; border: 2px solid #a3c98c; margin-bottom: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; color: white;
+        }
+        .profile-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .greeting { font-size: 11px; margin: 0 0 3px 0; text-transform: uppercase; color: #d1e2d6; }
+        .name { font-size: 17px; margin: 0 0 10px 0; font-weight: bold; line-height: 1.2; }
+        .badge { background-color: rgba(255, 255, 255, 0.2); padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
+
+        /* --- Bagian Kanan: Jam & Kalender --- */
+        .time-section { display: flex; flex-direction: column; align-items: center; flex: 0.8; gap: 15px; }
         
-        /* PERBAIKAN: Tata letak kolom kiri & kanan profil */
-        .header-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 10px; flex: 1; }
-        .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
-
-        /* PERBAIKAN: Foto profil rasio tegak proporsional */
-        .profile-photo { 
-            width: 76px; height: 102px; border-radius: 12px; border: 2.5px solid rgba(255,255,255,0.5); background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; flex-shrink: 0; overflow: hidden; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-        }
-        .profile-photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .analog-clock { width: 75px; height: 75px; position: relative; border-radius: 50%; border: none; background: transparent; }
+        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; border-radius: 10px; background-color: white; transform: translateX(-50%) rotate(0deg); }
+        .hour-hand { width: 4px; height: 20px; z-index: 3; }
+        .minute-hand { width: 3px; height: 30px; z-index: 2; }
+        .second-hand { width: 2px; height: 34px; background-color: #ff4c4c; z-index: 4; }
+        .analog-clock::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 6px; height: 6px; background-color: white; border-radius: 50%; z-index: 5; }
         
-        /* PERBAIKAN: Semua teks identitas wajib rata kiri penuh */
-        .user-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-        .greeting { font-size: 13px; font-weight: 400; opacity: 0.85; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;}
-        .teacher-name { font-size: 18px; font-weight: 700; margin: 0 0 8px 0; letter-spacing: 0.3px; line-height: 1.3; }
-        .teacher-status { font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 100px; display: inline-block; text-transform: uppercase; letter-spacing: 0.3px; }
-
-        /* PERBAIKAN: Jam Analog Apple Style & macOS Glassmorphism */
-        .apple-clock {
-            width: 70px; height: 70px; border: 2px solid rgba(255,255,255,0.7); border-radius: 50%; position: relative; background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: inset 0 2px 8px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05); margin-left: auto;
-        }
-        .clock-center { width: 5px; height: 5px; background: #FFF; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; z-index: 10; }
-        .clock-hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 4px; transform: translateX(-50%) rotate(0deg); }
-        .clock-hand.hour { width: 2.5px; height: 18px; background: #FFF; z-index: 5; }
-        .clock-hand.minute { width: 1.8px; height: 25px; background: #FFF; z-index: 4; }
-        .clock-hand.second { width: 1px; height: 27px; background: #FF3B30; z-index: 6; border-radius: 0; }
-
-        /* PERBAIKAN: Desain Kapsul Tanggal Hijriyah Interaktif */
-        .hijri-date-box {
-            font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.15); padding: 6px 12px; border-radius: 100px; color: #FFF; display: flex; align-items: center; cursor: pointer; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); transition: transform 0.1s, background 0.1s; text-align: right; gap: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .hijri-date-box:active { transform: scale(0.95); background: rgba(255,255,255,0.25); }
+        .mark { position: absolute; width: 1.5px; height: 4px; background-color: rgba(255, 255, 255, 0.4); top: 0; left: 50%; transform-origin: 50% 37.5px; margin-left: -0.75px; }
+        .mark.thick { width: 3px; height: 7px; background-color: white; margin-left: -1.5px; }
+        
+        .hijri-calendar { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.1s; }
+        .hijri-calendar:active { transform: scale(0.95); }
+        .hijri-date { font-size: 34px; font-weight: 900; color: #F6BE00; line-height: 1; margin-bottom: 6px; }
+        .hijri-month-capsule { background-color: white; color: #245535; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hijri-year { color: white; font-size: 12px; font-weight: 500; }
+        /* ================================================== */
 
         .main-content { flex: 1; display: flex; flex-direction: column; padding: 24px 24px 0 24px; overflow: hidden; justify-content: flex-start;}
         .dropdown-row { display: flex; gap: 12px; margin-bottom: 16px; }
@@ -167,28 +172,41 @@
     </div>
 
     <div id="dashboard-view">
+        
+        <!-- ==================================================
+             HEADER BARU DI SINI
+             ================================================== -->
         <div class="header-card">
-            <div class="header-left">
-                <div class="profile-photo"><span id="user-inisial">?</span><img id="user-foto" src="" alt="Foto"></div>
-                <div class="user-text">
-                    <div class="greeting">Assalamualaikum</div>
-                    <h2 class="teacher-name" id="user-nama">Nama Guru</h2>
-                    <span class="teacher-status" id="user-kategori">Status</span>
+            <!-- Bagian Kiri: Profil -->
+            <div class="profile-section">
+                <div class="profile-img-container">
+                    <span id="user-inisial">?</span>
+                    <img id="user-foto" src="" alt="Profile" class="profile-img">
                 </div>
+                <p class="greeting">ASSALAMUALAIKUM</p>
+                <h2 class="name" id="user-nama">Nama Guru</h2>
+                <span class="badge" id="user-kategori">Status</span>
             </div>
-            <div class="header-right">
-                <div class="apple-clock">
-                    <div class="clock-hand hour" id="clock-hour"></div>
-                    <div class="clock-hand minute" id="clock-min"></div>
-                    <div class="clock-hand second" id="clock-sec"></div>
-                    <div class="clock-center"></div>
+
+            <!-- Bagian Kanan: Jam & Kalender -->
+            <div class="time-section">
+                <!-- Jam Analog -->
+                <div class="analog-clock" id="analogClock">
+                    <div id="clockMarks"></div>
+                    <div class="hand hour-hand" id="clock-hour"></div>
+                    <div class="hand minute-hand" id="clock-min"></div>
+                    <div class="hand second-hand" id="clock-sec"></div>
                 </div>
-                <div class="hijri-date-box" onclick="bukaModalHijri()">
-                    <span id="hijri-txt">Mencari...</span>
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="opacity:0.8;"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                
+                <!-- Kalender Hijriyah -->
+                <div class="hijri-calendar" onclick="bukaModalHijri()">
+                    <div class="hijri-date" id="hijri-tanggal">14</div>
+                    <div class="hijri-month-capsule" id="hijri-bulan">Dzulhijjah</div>
+                    <div class="hijri-year" id="hijri-tahun">1447 H</div>
                 </div>
             </div>
         </div>
+        <!-- ================================================== -->
 
         <div class="main-content">
             <div id="form-absen-container" style="width: 100%;">
@@ -292,7 +310,7 @@
     const namaBulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
     let openSheetsStack = [];
-    let hijriOffset = 0, tempHijriOffset = 0; // Untuk Menyimpan Koreksi Hari Kalender Hijriyah
+    let hijriOffset = 0, tempHijriOffset = 0; 
 
     window.history.pushState({ page: 1 }, "", "");
     window.addEventListener('popstate', function (event) {
@@ -306,7 +324,6 @@
         initSwipeToClose();
         jalankanJamAnalog();
         
-        // Muat simpanan koreksi hijriyah dari local storage
         hijriOffset = parseInt(localStorage.getItem('hijriOffset') || '0');
         updateHijriLayar();
 
@@ -314,22 +331,38 @@
         if (savedSession) tampilkanDashboard(JSON.parse(savedSession));
     }
 
-    // ENGINE JAM ANALOG NATIVE MACBOOK/IOS SPEEDY EFFICIENCY
+    // PENYESUAIAN JAM ANALOG
     function jalankanJamAnalog() {
+        const marksContainer = document.getElementById('clockMarks');
+        if(marksContainer && marksContainer.children.length === 0) {
+            for (let i = 0; i < 60; i++) {
+                const mark = document.createElement('div');
+                mark.classList.add('mark');
+                if (i % 15 === 0) mark.classList.add('thick');
+                mark.style.transform = `rotate(${i * 6}deg)`;
+                marksContainer.appendChild(mark);
+            }
+        }
+
         function tick() {
             const sekarang = new Date();
             const h = sekarang.getHours(); const m = sekarang.getMinutes(); const s = sekarang.getSeconds();
-            const hDeg = (h % 12) * 30 + m * 0.5;
-            const mDeg = m * 6;
+            const hDeg = (h % 12) * 30 + (m * 0.5);
+            const mDeg = m * 6 + (s * 0.1);
             const sDeg = s * 6;
-            document.getElementById('clock-hour').style.transform = `translateX(-50%) rotate(${hDeg}deg)`;
-            document.getElementById('clock-min').style.transform = `translateX(-50%) rotate(${mDeg}deg)`;
-            document.getElementById('clock-sec').style.transform = `translateX(-50%) rotate(${sDeg}deg)`;
+            
+            const hHand = document.getElementById('clock-hour');
+            const mHand = document.getElementById('clock-min');
+            const sHand = document.getElementById('clock-sec');
+            
+            if(hHand) hHand.style.transform = `translateX(-50%) rotate(${hDeg}deg)`;
+            if(mHand) mHand.style.transform = `translateX(-50%) rotate(${mDeg}deg)`;
+            if(sHand) sHand.style.transform = `translateX(-50%) rotate(${sDeg}deg)`;
         }
         tick(); setInterval(tick, 1000);
     }
 
-    // ALGORITMA UTAMA KONVERSI TANGGAL HIJRIYAH SECARA AKURAT
+    // PENYESUAIAN ALGORITMA HIJRIYAH UNTUK DESAIN BARU
     function hitungHijriDate(hariKoreksi) {
         let tgl = new Date();
         tgl.setDate(tgl.getDate() + hariKoreksi);
@@ -345,13 +378,27 @@
         let y = 30 * n + j - 30;
         
         const blnHijri = ["Muharram", "Safar", "Rabi'ul Awwal", "Rabi'ul Akhir", "Jumadil Awwal", "Jumadil Akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
-        return `${d} ${blnHijri[m - 1]} ${y} H`;
+        return {
+            d: d,
+            m: blnHijri[m - 1],
+            y: y + " H",
+            full: `${d} ${blnHijri[m - 1]} ${y} H`
+        };
     }
 
-    function updateHijriLayar() { document.getElementById('hijri-txt').innerText = hitungHijriDate(hijriOffset); }
+    function updateHijriLayar() { 
+        let h = hitungHijriDate(hijriOffset);
+        document.getElementById('hijri-tanggal').innerText = h.d;
+        document.getElementById('hijri-bulan').innerText = h.m;
+        document.getElementById('hijri-tahun').innerText = h.y;
+    }
+    
     function bukaModalHijri() { tempHijriOffset = hijriOffset; renderModalHijri(); document.getElementById('modal-hijri').classList.add('active'); }
     function tutupModalHijri() { document.getElementById('modal-hijri').classList.remove('active'); }
-    function renderModalHijri() { document.getElementById('hijri-offset-val').innerText = (tempHijriOffset >= 0 ? '+' : '') + tempHijriOffset; document.getElementById('modal-hijri-preview').innerText = hitungHijriDate(tempHijriOffset); }
+    function renderModalHijri() { 
+        document.getElementById('hijri-offset-val').innerText = (tempHijriOffset >= 0 ? '+' : '') + tempHijriOffset; 
+        document.getElementById('modal-hijri-preview').innerText = hitungHijriDate(tempHijriOffset).full; 
+    }
     function ubahKoreksiHijri(v) { tempHijriOffset += v; renderModalHijri(); }
     function resetKoreksiHijri() { tempHijriOffset = 0; renderModalHijri(); }
     function simpanKoreksiHijri() { hijriOffset = tempHijriOffset; localStorage.setItem('hijriOffset', hijriOffset); updateHijriLayar(); tutupModalHijri(); }
@@ -374,8 +421,15 @@
 
     function tampilkanDashboard(data) {
         document.getElementById('user-nama').innerText = data.nama; document.getElementById('user-kategori').innerText = data.kategori;
-        if(data.foto && data.foto.startsWith('http')) { document.getElementById('user-foto').src = data.foto; document.getElementById('user-foto').style.display = 'block'; document.getElementById('user-inisial').style.display = 'none'; } 
-        else { document.getElementById('user-inisial').innerText = data.nama.charAt(0).toUpperCase(); document.getElementById('user-foto').style.display = 'none'; document.getElementById('user-inisial').style.display = 'block'; }
+        if(data.foto && data.foto.startsWith('http')) { 
+            document.getElementById('user-foto').src = data.foto; 
+            document.getElementById('user-foto').style.display = 'block'; 
+            document.getElementById('user-inisial').style.display = 'none'; 
+        } else { 
+            document.getElementById('user-inisial').innerText = data.nama.charAt(0).toUpperCase(); 
+            document.getElementById('user-foto').style.display = 'none'; 
+            document.getElementById('user-inisial').style.display = 'block'; 
+        }
         document.getElementById('login-view').style.display = 'none'; document.getElementById('dashboard-view').style.display = 'flex';
         
         const isP = data.kategori.toLowerCase() === 'pimpinan';
