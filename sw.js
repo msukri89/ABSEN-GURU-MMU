@@ -2,7 +2,7 @@ const CACHE_NAME = 'presensi-pwa-v1';
 const urlsToCache = [
   './',
   './index.html',
-  './icon.jpg',
+  './icon.png',
   './manifest.json'
 ];
 
