@@ -19,221 +19,120 @@
         }
 
         html, body {
-            height: 100vh;
-            width: 100vw;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            overscroll-behavior-y: none;
+            height: 100vh; width: 100vw; margin: 0; padding: 0;
+            overflow: hidden; overscroll-behavior-y: none;
             background-color: var(--ios-bg);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
+            color: var(--text-main); -webkit-font-smoothing: antialiased;
         }
 
         .app-container {
-            width: 100%;
-            max-width: 414px;
-            margin: 0 auto;
-            height: 100vh;
-            background-color: var(--ios-bg);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            width: 100%; max-width: 414px; margin: 0 auto; height: 100vh;
+            background-color: var(--ios-bg); position: relative;
+            display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* FLOATING HEADER DENGAN SAFE AREA UNTUK PONI HP */
         .header-card {
             background: linear-gradient(135deg, var(--emerald-main), var(--emerald-dark));
-            border-radius: 24px;
-            margin: calc(20px + env(safe-area-inset-top)) 20px 10px 20px;
-            padding: 40px 24px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 10px 25px rgba(15, 107, 61, 0.2);
-            flex-shrink: 0;
+            border-radius: 24px; margin: calc(20px + env(safe-area-inset-top)) 20px 10px 20px;
+            padding: 40px 24px; color: white; display: flex; align-items: center; gap: 16px;
+            box-shadow: 0 10px 25px rgba(15, 107, 61, 0.2); flex-shrink: 0;
         }
 
         .profile-photo {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.6);
-            background-color: rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 500;
-            flex-shrink: 0;
+            width: 65px; height: 65px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.6);
+            background-color: rgba(255,255,255,0.1); display: flex; align-items: center;
+            justify-content: center; font-size: 24px; font-weight: 500; flex-shrink: 0;
         }
 
-        .user-text {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
+        .user-text { display: flex; flex-direction: column; align-items: flex-start; }
         .greeting { font-size: 13px; font-weight: 400; opacity: 0.9; margin-bottom: 6px; }
         .teacher-name { font-size: 18px; font-weight: 700; margin: 0 0 8px 0; letter-spacing: 0.5px; text-transform: uppercase;}
         .teacher-status { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 12px; }
 
-        /* AREA KONTEN (Form Absen Naik ke Atas) */
         .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 10px 24px 0 24px; /* Form langsung menempel di bawah kartu */
-            overflow: hidden;
+            flex: 1; display: flex; flex-direction: column; padding: 10px 24px 0 24px; overflow: hidden;
         }
 
-        .dropdown-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
+        .dropdown-row { display: flex; gap: 12px; margin-bottom: 20px; }
 
         .custom-select-btn {
-            flex: 1;
-            padding: 14px 18px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--emerald-main);
-            background-color: var(--emerald-light);
-            border-radius: 100px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.1s;
+            flex: 1; padding: 14px 18px; font-size: 15px; font-weight: 600;
+            color: var(--emerald-main); background-color: var(--emerald-light);
+            border-radius: 100px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: transform 0.1s;
         }
         .custom-select-btn:active { transform: scale(0.97); }
         .custom-select-btn svg { width: 18px; height: 18px; color: var(--emerald-main); }
 
         .btn-absen {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--emerald-main);
-            color: white;
-            border: none;
-            border-radius: 100px;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 8px 20px rgba(15, 107, 61, 0.2);
-            cursor: pointer;
-            transition: transform 0.1s;
-            text-transform: uppercase;
+            width: 100%; padding: 16px; background-color: var(--emerald-main); color: white;
+            border: none; border-radius: 100px; font-size: 16px; font-weight: 700;
+            letter-spacing: 0.5px; box-shadow: 0 8px 20px rgba(15, 107, 61, 0.2);
+            cursor: pointer; transition: transform 0.1s; text-transform: uppercase;
         }
         .btn-absen:active { transform: scale(0.97); }
 
         .empty-state { text-align: center; color: var(--text-sub); font-size: 15px; font-weight: 500; margin-top: 20px;}
 
-        /* AREA BAWAH (Tombol-tombol menempel di bawah) */
         .bottom-wrapper {
             padding: 0 24px calc(30px + env(safe-area-inset-bottom)) 24px;
-            flex-shrink: 0;
-            margin-top: auto;
+            flex-shrink: 0; margin-top: auto;
         }
 
-        .pimpinan-panel {
-            display: none;
-            margin-bottom: 12px;
-        }
+        .pimpinan-panel { display: none; margin-bottom: 12px; }
         .btn-pimpinan {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--emerald-light);
-            color: var(--emerald-main);
-            border-radius: 100px;
-            font-size: 14px;
-            font-weight: 600;
-            border: none;
-            margin-bottom: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: transform 0.1s;
+            width: 100%; padding: 14px; background-color: var(--emerald-light); color: var(--emerald-main);
+            border-radius: 100px; font-size: 14px; font-weight: 600; border: none; margin-bottom: 8px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.1s;
         }
         .btn-pimpinan:active { transform: scale(0.97); }
 
-        .action-row {
-            display: flex;
-            gap: 16px;
-        }
+        .action-row { display: flex; gap: 16px; }
         
         .btn-izin {
-            flex: 1;
-            padding: 16px;
-            background-color: var(--emerald-light);
-            color: var(--emerald-main);
-            border: none;
-            border-radius: 100px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.1s;
+            flex: 1; padding: 16px; background-color: var(--emerald-light); color: var(--emerald-main);
+            border: none; border-radius: 100px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.1s;
         }
         .btn-izin:active { transform: scale(0.97); }
 
         .btn-logout {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background-color: var(--merah-bata);
-            border: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(192, 57, 43, 0.2);
-            flex-shrink: 0;
-            transition: transform 0.1s;
+            width: 52px; height: 52px; border-radius: 50%; background-color: var(--merah-bata);
+            border: none; color: white; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(192, 57, 43, 0.2); flex-shrink: 0; transition: 0.1s;
         }
         .btn-logout:active { transform: scale(0.92); }
 
-        /* TAMPILAN LOGIN */
         #login-view {
-            padding: 40px 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100vh;
-            background-color: #fff;
-            z-index: 10;
+            padding: 40px 24px; display: flex; flex-direction: column; justify-content: center;
+            height: 100vh; background-color: #fff; z-index: 10;
         }
         .login-logo { width: 120px; margin: 0 auto 30px auto; border-radius: 12px; overflow: hidden; }
         .login-logo img { width: 100%; display: block; }
         .login-title { text-align: center; font-size: 24px; font-weight: 700; color: var(--emerald-main); margin-bottom: 30px; }
         
         .ios-input { 
-            width: 100%; padding: 18px; border: 1px solid var(--border-color); 
-            border-radius: 100px; margin-bottom: 16px; font-size: 16px; 
-            box-sizing: border-box; background: #FAFAFA; outline: none; transition: 0.2s; 
-            text-align: center; font-weight: 500; font-family: inherit;
+            width: 100%; padding: 18px; border: 1px solid var(--border-color); border-radius: 100px;
+            margin-bottom: 16px; font-size: 16px; box-sizing: border-box; background: #FAFAFA;
+            outline: none; transition: 0.2s; text-align: center; font-weight: 500; font-family: inherit;
         }
         .ios-input:focus { border-color: var(--emerald-main); background: #fff; }
 
         textarea.ios-input { border-radius: 24px; height: 100px; resize: none; text-align: left; padding: 18px; }
 
-        /* CUSTOM MODAL & BOTTOM SHEET */
         .alert-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: 0.2s; z-index: 999; backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; }
         .alert-overlay.active { opacity: 1; pointer-events: auto; }
-        .alert-box { background: rgba(255,255,255,0.95); width: 270px; border-radius: 14px; text-align: center; transform: scale(1.1); transition: 0.2s cubic-bezier(0.32, 0.72, 0, 1.15); box-shadow: 0 10px 30px rgba(0,0,0,0.1); backdrop-filter: blur(10px); }
+        .alert-box { background: rgba(255,255,255,0.95); width: 280px; border-radius: 14px; text-align: center; transform: scale(1.1); transition: 0.2s cubic-bezier(0.32, 0.72, 0, 1.15); box-shadow: 0 10px 30px rgba(0,0,0,0.1); backdrop-filter: blur(10px); overflow: hidden; }
         .alert-overlay.active .alert-box { transform: scale(1); }
-        .alert-title { font-weight: 600; font-size: 17px; padding: 20px 16px 4px 16px; }
-        .alert-msg { font-size: 13px; padding: 0 16px 20px 16px; color: var(--text-main); line-height: 1.4; }
-        .alert-btn { border-top: 1px solid rgba(0,0,0,0.1); padding: 12px; color: #007AFF; font-weight: 600; font-size: 17px; cursor: pointer; }
+        .alert-title { font-weight: 600; font-size: 17px; padding: 20px 16px 10px 16px; }
+        .alert-msg { font-size: 14px; padding: 0 16px 20px 16px; color: var(--text-main); line-height: 1.5; text-align: left; }
+        .alert-btn { padding: 14px; font-weight: 600; font-size: 17px; cursor: pointer; flex: 1; text-align: center; }
+        .alert-btn-group { display: flex; border-top: 1px solid rgba(0,0,0,0.1); }
+        .alert-btn-cancel { color: var(--merah-bata); border-right: 1px solid rgba(0,0,0,0.1); }
+        .alert-btn-confirm { color: var(--emerald-main); }
 
         .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 100; backdrop-filter: blur(2px); }
         .sheet-overlay.active { opacity: 1; pointer-events: auto; }
-        
         .bottom-sheet { 
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); 
             width: 100%; max-width: 414px; background: #fff; border-radius: 24px 24px 0 0; 
@@ -242,19 +141,14 @@
             box-shadow: 0 -10px 25px rgba(0,0,0,0.1); max-height: 85vh; overflow-y: auto;
         }
         .bottom-sheet.active { transform: translateX(-50%) translateY(0); }
-        
-        /* Area Handle Swipe */
         .swipe-area { width: 100%; padding: 10px 0 20px 0; display: flex; justify-content: center; align-items: center; }
         .sheet-handle { width: 40px; height: 5px; background-color: #E5E5EA; border-radius: 3px; }
-        
         .sheet-option { padding: 16px; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; }
         .sheet-option:last-child { border-bottom: none; }
-        .sheet-option:active { background: #FAFAFA; }
-
         .sheet-title { font-size: 18px; font-weight: 700; text-align: center; margin: 0 0 20px 0; }
 
         #dashboard-view { display: none; height: 100vh; flex-direction: column; overflow: hidden; }
-        .loading { display: none; text-align: center; font-size: 14px; color: var(--text-sub); margin-top: 10px; }
+        .loading { display: none; text-align: center; font-size: 14px; color: var(--text-sub); margin-top: 10px; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -264,21 +158,15 @@
     <div id="login-view">
         <div class="login-logo"><img src="logo.svg" alt="Logo"></div>
         <div class="login-title">Presensi Madrasah</div>
-        
         <input type="tel" class="ios-input" id="no_hp" placeholder="Nomor Handphone" autocomplete="off">
         <input type="password" class="ios-input" id="pin" placeholder="PIN Keamanan" autocomplete="off">
-        
         <button class="btn-absen" id="btn-login" onclick="prosesLogin()" style="margin-top: 10px;">MASUK</button>
         <div class="loading" id="login-loading">Memvalidasi data...</div>
     </div>
 
-
     <div id="dashboard-view">
-        
         <div class="header-card">
-            <div class="profile-photo" id="user-avatar-container">
-                <span id="user-inisial">?</span>
-            </div>
+            <div class="profile-photo" id="user-avatar-container"><span id="user-inisial">?</span></div>
             <div class="user-text">
                 <div class="greeting">Assalamualaikum</div>
                 <h2 class="teacher-name" id="user-nama">Nama Guru</h2>
@@ -293,49 +181,35 @@
                         <span id="label-sesi">Sesi</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    
                     <div class="custom-select-btn" onclick="bukaSheet('sheet-kelas')">
                         <span id="label-kelas">Kelas</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
                 </div>
-
-                <button class="btn-absen" id="btn-absen" onclick="ambilLokasiDanAbsen()">ABSEN MASUK</button>
-                <div class="loading" id="absen-loading">Mengunci GPS & Mengirim...</div>
+                <button class="btn-absen" id="btn-absen" onclick="mulaiProsesAbsen()">ABSEN MASUK</button>
+                <div class="loading" id="absen-loading">Mengunci Satelit GPS...</div>
             </div>
-
-            <div id="no-jadwal-container" class="empty-state" style="display: none;">
-                Tidak ada jadwal wajib mengajar hari ini.
-            </div>
+            <div id="no-jadwal-container" class="empty-state" style="display: none;">Tidak ada jadwal wajib mengajar hari ini.</div>
         </div>
 
         <div class="bottom-wrapper">
             <div class="pimpinan-panel" id="pimpinan-panel">
-                <button class="btn-pimpinan" onclick="showAlert('Laporan', 'Fitur Rekap Absen akan aktif setelah persetujuan operasional bulan ini.')">
+                <button class="btn-pimpinan" onclick="showAlert('Laporan', 'Fitur Rekap Absen segera aktif.')">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     Download Rekap Absen
                 </button>
-                <button class="btn-pimpinan" style="margin-bottom: 0;" onclick="showAlert('Verifikasi', 'Seluruh pengajuan izin saat ini telah dikonfirmasi.')">
+                <button class="btn-pimpinan" style="margin-bottom: 0;" onclick="showAlert('Verifikasi', 'Segera hadir pada update berikutnya.')">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     Konfirmasi Izin / Sakit
                 </button>
             </div>
-
             <div class="action-row">
-                <button class="btn-izin" onclick="bukaSheet('sheet-izin')">
-                    Pengajuan Izin/ Sakit
-                </button>
-                
+                <button class="btn-izin" onclick="bukaSheet('sheet-izin')">Pengajuan Izin/ Sakit</button>
                 <button class="btn-logout" onclick="prosesLogout()" title="Keluar">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 </button>
             </div>
         </div>
-            
     </div>
 
     <div class="sheet-overlay" id="sheet-overlay" onclick="tutupSemuaSheet()"></div>
@@ -363,47 +237,61 @@
         <div class="swipe-area"><div class="sheet-handle"></div></div>
         <div class="sheet-title">Formulir Pengajuan</div>
         
+        <input type="date" class="ios-input" id="tanggal_izin" style="margin-bottom: 12px; font-family: inherit;">
+
         <div class="custom-select-btn" style="margin-bottom: 16px; justify-content: center; background: #FAFAFA; border: 1px solid var(--border-color); color: var(--text-main);" onclick="toggleJenisIzin()">
-            <span id="label-jenis-izin">Pilih Jenis: Sakit</span>
+            <span id="label-jenis-izin">Jenis: Sakit</span>
         </div>
         
-        <textarea class="ios-input" id="keterangan_izin" placeholder="Tulis keterangan / alasan..."></textarea>
+        <textarea class="ios-input" id="keterangan_izin" placeholder="Tulis alasan detail..."></textarea>
         
         <button class="btn-absen" id="btn-kirim-izin" onclick="kirimPengajuanIzin()">KIRIM PENGAJUAN</button>
         <div class="loading" id="izin-loading">Memproses Pengajuan...</div>
+    </div>
+
+    <div class="alert-overlay" id="previewAlert">
+        <div class="alert-box">
+            <div class="alert-title">Pratinjau Presensi</div>
+            <div class="alert-msg">
+                <strong>Sesi Terpilih:</strong> <span id="prev-sesi"></span><br>
+                <strong>Kelas:</strong> <span id="prev-kelas"></span><br>
+                <strong>Koordinat:</strong> <span id="prev-gps" style="font-size:11px; color:var(--emerald-main);"></span><br><br>
+                <em>Pastikan data di atas sudah benar sebelum divalidasi ke dalam sistem.</em>
+            </div>
+            <div class="alert-btn-group">
+                <div class="alert-btn alert-btn-cancel" onclick="batalPreview()">Batal</div>
+                <div class="alert-btn alert-btn-confirm" onclick="kirimFinalAbsen()">Kirim</div>
+            </div>
+        </div>
     </div>
 
     <div class="alert-overlay" id="iosAlert">
         <div class="alert-box">
             <div class="alert-title" id="iosAlertTitle">Pesan</div>
             <div class="alert-msg" id="iosAlertMsg">Detail pesan</div>
-            <div class="alert-btn" onclick="closeAlert()">OK</div>
+            <div class="alert-btn" style="color: #007AFF;" onclick="closeAlert()">OK</div>
         </div>
     </div>
 
 </div>
 
 <script>
-    // URL WEB APP ANDA
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6vM-69kO_QCyCGYaIJ-a-JEq5P5PBcbZz0aesjvqSfoAYWLxTeCc-ruOxeempEmHk/exec';
     
-    let valSesi = "";
-    let valKelas = "";
-    let valJenisIzin = "Sakit";
+    let valSesi = ""; let valKelas = ""; let valJenisIzin = "Sakit";
+    let tempLat = 0; let tempLon = 0; // Untuk menyimpan GPS sementara di pratinjau
     
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => {}));
     }
 
-    history.pushState(null, null, location.href);
-    window.onpopstate = function () { history.go(1); };
-
     window.onload = function() {
         initSwipeToClose();
+        // Set tanggal izin default hari ini
+        document.getElementById('tanggal_izin').valueAsDate = new Date();
+
         const savedSession = localStorage.getItem('guruSession');
-        if (savedSession) {
-            tampilkanDashboard(JSON.parse(savedSession));
-        }
+        if (savedSession) tampilkanDashboard(JSON.parse(savedSession));
     }
 
     const pinInput = document.getElementById('pin');
@@ -419,12 +307,10 @@
         const loading = document.getElementById('login-loading');
 
         if (!noHp || !pin) { showAlert('Perhatian', 'Mohon lengkapi Nomor HP dan PIN.'); return; }
-
         btn.style.display = 'none'; loading.style.display = 'block';
 
         fetch(SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({ action: 'login', no_hp: noHp, pin: pin })
         })
         .then(response => response.json())
@@ -432,29 +318,20 @@
             btn.style.display = 'block'; loading.style.display = 'none';
             if (result.success) {
                 const sessionData = {
-                    no_hp: noHp,
-                    nama: result.data.nama,
-                    kategori: result.data.kategori,
+                    no_hp: noHp, nama: result.data.nama, kategori: result.data.kategori,
                     punyaJadwal: result.data.jadwal && result.data.jadwal.length > 0
                 };
                 localStorage.setItem('guruSession', JSON.stringify(sessionData));
                 tampilkanDashboard(sessionData);
-            } else {
-                showAlert('Gagal', result.message);
-                document.getElementById('pin').value = '';
-            }
+            } else { showAlert('Gagal', result.message); document.getElementById('pin').value = ''; }
         })
-        .catch(error => {
-            btn.style.display = 'block'; loading.style.display = 'none';
-            showAlert('Koneksi Terputus', 'Pastikan internet stabil.');
-        });
+        .catch(error => { btn.style.display = 'block'; loading.style.display = 'none'; showAlert('Error', 'Koneksi terputus.'); });
     }
 
     function tampilkanDashboard(data) {
         document.getElementById('user-nama').innerText = data.nama;
         document.getElementById('user-kategori').innerText = data.kategori;
         document.getElementById('user-inisial').innerText = data.nama.charAt(0).toUpperCase();
-
         document.getElementById('login-view').style.display = 'none';
         document.getElementById('dashboard-view').style.display = 'flex';
         
@@ -471,59 +348,79 @@
         }
     }
 
-    function prosesLogout() {
-        localStorage.removeItem('guruSession');
-        window.location.reload();
-    }
+    function prosesLogout() { localStorage.removeItem('guruSession'); window.location.reload(); }
 
-    function ambilLokasiDanAbsen() {
-        if (!valSesi || !valKelas) { showAlert('Peringatan', 'Harap pilih Sesi dan Kelas terlebih dahulu.'); return; }
+    // TAHAP 1: MENGAMBIL LOKASI LALU MEMBUKA PRATINJAU
+    function mulaiProsesAbsen() {
+        if (!valSesi || !valKelas) { showAlert('Peringatan', 'Harap pilih Sesi dan Kelas.'); return; }
         const btn = document.getElementById('btn-absen');
         const loading = document.getElementById('absen-loading');
         
-        if (!navigator.geolocation) { showAlert('Error', "Fitur GPS tidak didukung di perangkat ini."); return; }
+        if (!navigator.geolocation) { showAlert('Error', "GPS tidak didukung."); return; }
 
         btn.style.display = 'none'; loading.style.display = 'block';
 
         navigator.geolocation.getCurrentPosition(
             function(position) {
-                kirimDataAbsenKeServer(position.coords.latitude, position.coords.longitude, btn, loading);
+                btn.style.display = 'block'; loading.style.display = 'none';
+                tempLat = position.coords.latitude;
+                tempLon = position.coords.longitude;
+                
+                // Tampilkan Modal Pratinjau
+                document.getElementById('prev-sesi').innerText = valSesi;
+                document.getElementById('prev-kelas').innerText = valKelas === '-' ? 'Piket/Pimpinan' : valKelas;
+                document.getElementById('prev-gps').innerText = tempLat.toFixed(5) + ", " + tempLon.toFixed(5);
+                document.getElementById('previewAlert').classList.add('active');
             },
             function(error) {
                 btn.style.display = 'block'; loading.style.display = 'none';
-                showAlert('GPS Ditolak', "Gagal mengunci lokasi. Pastikan izin GPS menyala.");
+                showAlert('GPS Ditolak', "Gagal mengunci lokasi. Pastikan izin lokasi menyala.");
             },
             { enableHighAccuracy: true, timeout: 10000 }
         );
     }
 
-    function kirimDataAbsenKeServer(lat, lon, btn, loading) {
+    function batalPreview() {
+        document.getElementById('previewAlert').classList.remove('active');
+    }
+
+    // TAHAP 2: KIRIM DATA FINAL SETELAH DIVALIDASI
+    function kirimFinalAbsen() {
+        document.getElementById('previewAlert').classList.remove('active');
+        
+        const btn = document.getElementById('btn-absen');
+        const loading = document.getElementById('absen-loading');
+        btn.style.display = 'none'; loading.style.display = 'block';
+        loading.innerText = 'Mengirim Data...';
+
         const sessionData = JSON.parse(localStorage.getItem('guruSession'));
         fetch(SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
                 action: 'absen', no_hp: sessionData.no_hp, nama_guru: sessionData.nama,
-                sesi: valSesi, kelas: valKelas, latitude: lat, longitude: lon
+                sesi: valSesi, kelas: valKelas, latitude: tempLat, longitude: tempLon
             })
         })
         .then(response => response.json())
         .then(result => {
-            loading.style.display = 'none'; btn.style.display = 'block';
+            loading.style.display = 'none'; btn.style.display = 'block'; loading.innerText = 'Mengunci Satelit GPS...';
             if(result.success) {
-                btn.innerText = '✓ BERHASIL'; btn.disabled = true;
+                btn.innerText = '✓ DATA TEREKAM'; btn.disabled = true;
                 showAlert('Berhasil', result.message);
             } else showAlert('Gagal', result.message);
         })
         .catch(error => {
-            btn.style.display = 'block'; loading.style.display = 'none';
+            btn.style.display = 'block'; loading.style.display = 'none'; loading.innerText = 'Mengunci Satelit GPS...';
             showAlert('Error', 'Kesalahan jaringan.');
         });
     }
 
+    // PENGAJUAN IZIN
     function kirimPengajuanIzin() {
+        const tglIzin = document.getElementById('tanggal_izin').value;
         const keterangan = document.getElementById('keterangan_izin').value.trim();
-        if (!keterangan) { showAlert('Peringatan', 'Keterangan tidak boleh kosong.'); return; }
+        
+        if (!tglIzin || !keterangan) { showAlert('Peringatan', 'Tanggal dan Keterangan harus diisi.'); return; }
 
         const btn = document.getElementById('btn-kirim-izin');
         const loading = document.getElementById('izin-loading');
@@ -532,11 +429,10 @@
         btn.style.display = 'none'; loading.style.display = 'block';
 
         fetch(SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
                 action: 'izin', no_hp: sessionData.no_hp, nama_guru: sessionData.nama,
-                jenis_izin: valJenisIzin, keterangan: keterangan
+                tanggal_izin: tglIzin, jenis_izin: valJenisIzin, keterangan: keterangan
             })
         })
         .then(response => response.json())
@@ -548,27 +444,22 @@
                 showAlert('Berhasil', result.message);
             } else showAlert('Gagal', result.message);
         })
-        .catch(error => {
-            btn.style.display = 'block'; loading.style.display = 'none';
-            showAlert('Error', 'Kesalahan jaringan.');
-        });
+        .catch(error => { btn.style.display = 'block'; loading.style.display = 'none'; showAlert('Error', 'Jaringan putus.'); });
     }
 
     function toggleJenisIzin() {
-        valJenisIzin = valJenisIzin === "Sakit" ? "Izin/Dinas" : "Sakit";
-        document.getElementById('label-jenis-izin').innerText = "Pilih Jenis: " + valJenisIzin;
+        valJenisIzin = valJenisIzin === "Sakit" ? "Izin Dinas" : (valJenisIzin === "Izin Dinas" ? "Urusan Keluarga" : "Sakit");
+        document.getElementById('label-jenis-izin').innerText = "Jenis: " + valJenisIzin;
     }
 
+    // UTILITAS UI
     function bukaSheet(id) { document.getElementById('sheet-overlay').classList.add('active'); document.getElementById(id).classList.add('active'); }
-    
     function tutupSemuaSheet() {
         document.getElementById('sheet-overlay').classList.remove('active');
         document.querySelectorAll('.bottom-sheet').forEach(sheet => {
-            sheet.classList.remove('active');
-            setTimeout(() => sheet.style.transform = '', 300); // Reset posisi swipe
+            sheet.classList.remove('active'); setTimeout(() => sheet.style.transform = '', 300);
         });
     }
-
     function pilihSesi(val, label) { valSesi = val; document.getElementById('label-sesi').innerText = label; tutupSemuaSheet(); }
     function pilihKelas(val) { valKelas = val; let lbl = val === '-' ? 'Piket/ Pimpinan' : val; document.getElementById('label-kelas').innerText = lbl; tutupSemuaSheet(); }
 
@@ -579,34 +470,25 @@
         else if (jam > 10.3 && jam <= 13.0) pilihSesi("Sesi 3", "Sesi 3");
     }
 
-    function showAlert(title, message) {
-        document.getElementById('iosAlertTitle').innerText = title; document.getElementById('iosAlertMsg').innerText = message; document.getElementById('iosAlert').classList.add('active');
-    }
+    function showAlert(title, message) { document.getElementById('iosAlertTitle').innerText = title; document.getElementById('iosAlertMsg').innerText = message; document.getElementById('iosAlert').classList.add('active'); }
     function closeAlert() { document.getElementById('iosAlert').classList.remove('active'); }
 
-    // FITUR SWIPE TO DISMISS LACI BAWAH
     function initSwipeToClose() {
         let startY = 0; let currentY = 0; let isSwiping = false;
         document.querySelectorAll('.bottom-sheet').forEach(sheet => {
             const handle = sheet.querySelector('.swipe-area');
             if(!handle) return;
-
             handle.addEventListener('touchstart', e => { startY = e.touches[0].clientY; isSwiping = true; sheet.style.transition = 'none'; }, {passive: true});
             handle.addEventListener('touchmove', e => {
-                if (!isSwiping) return;
-                currentY = e.touches[0].clientY;
-                let diffY = currentY - startY;
+                if (!isSwiping) return; currentY = e.touches[0].clientY; let diffY = currentY - startY;
                 if (diffY > 0) sheet.style.transform = `translateX(-50%) translateY(${diffY}px)`;
             }, {passive: true});
             handle.addEventListener('touchend', e => {
                 isSwiping = false; sheet.style.transition = 'transform 0.4s cubic-bezier(0.32, 0.72, 0, 1.15)';
-                let diffY = currentY - startY;
-                if (diffY > 100) tutupSemuaSheet(); else sheet.style.transform = '';
-                startY = 0; currentY = 0;
+                if (currentY - startY > 100) tutupSemuaSheet(); else sheet.style.transform = '';
             });
         });
     }
 </script>
-
 </body>
 </html>
