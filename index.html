@@ -9,7 +9,7 @@
     <style>
         :root {
             --emerald-main: #0F6B3D; --emerald-dark: #0B4F2D; --emerald-light: #E8F3ED;
-            --merah-bata: #C0392B; --coklat-header: #8E5A3F; --kuning-piket: #F59E0B; --ios-bg: #FFFFFF; 
+            --merah-bata: #C0392B; --coklat-header: #8E5A3F; --kuning-piket: #F59E0B; --ios-bg: #F2F2F7; 
             --text-main: #1C1C1E; --text-sub: #8E8E93; --border-color: #E5E5EA;
         }
 
@@ -19,103 +19,99 @@
             color: var(--text-main); -webkit-font-smoothing: antialiased;
         }
 
-        .app-container { width: 100%; max-width: 414px; margin: 0 auto; height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+        .app-container { width: 100%; max-width: 414px; margin: 0 auto; height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; background: #FFF; }
 
         .header-card {
             background: linear-gradient(135deg, var(--emerald-main), var(--emerald-dark)); border-radius: 24px;
-            margin: calc(20px + env(safe-area-inset-top)) 20px 10px 20px; padding: 40px 24px; color: white; display: flex; align-items: center; gap: 16px; flex-shrink: 0;
+            margin: calc(20px + env(safe-area-inset-top)) 20px 10px 20px; padding: 30px 24px; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 16px; flex-shrink: 0; min-height: 45vh; box-shadow: 0 10px 25px rgba(15, 107, 61, 0.2);
         }
         .profile-photo { 
-            width: 65px; height: 65px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.6); background-color: rgba(255,255,255,0.1); 
-            display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 500; flex-shrink: 0; overflow: hidden;
+            width: 120px; height: 160px; border-radius: 16px; border: 3px solid rgba(255,255,255,0.6); background-color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 600; flex-shrink: 0; overflow: hidden; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         .profile-photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
         
-        .user-text { display: flex; flex-direction: column; align-items: flex-start; }
-        .greeting { font-size: 13px; font-weight: 400; opacity: 0.9; margin-bottom: 6px; }
-        .teacher-name { font-size: 18px; font-weight: 700; margin: 0 0 8px 0; letter-spacing: 0.5px; text-transform: uppercase;}
-        .teacher-status { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 12px; }
+        .user-text { display: flex; flex-direction: column; align-items: center; }
+        .greeting { font-size: 15px; font-weight: 400; opacity: 0.9; margin-bottom: 8px; }
+        .teacher-name { font-size: 22px; font-weight: 700; margin: 0 0 12px 0; letter-spacing: 0.5px; text-transform: uppercase;}
+        .teacher-status { font-size: 13px; font-weight: 600; background: rgba(255,255,255,0.25); padding: 6px 16px; border-radius: 16px; }
 
-        .main-content { flex: 1; display: flex; flex-direction: column; padding: 10px 24px 0 24px; overflow: hidden; }
-        .dropdown-row { display: flex; gap: 12px; margin-bottom: 20px; }
+        .main-content { flex: 1; display: flex; flex-direction: column; padding: 10px 24px 0 24px; overflow: hidden; justify-content: flex-start;}
+        .dropdown-row { display: flex; gap: 12px; margin-bottom: 16px; }
 
         .custom-select-btn {
-            flex: 1; padding: 14px 18px; font-size: 14px; font-weight: 600; color: var(--emerald-main); background-color: var(--emerald-light);
+            flex: 1; padding: 14px 16px; font-size: 14px; font-weight: 600; color: var(--emerald-main); background-color: var(--emerald-light);
             border-radius: 100px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: transform 0.1s;
         }
         .custom-select-btn:active { transform: scale(0.97); }
         .custom-select-btn svg { width: 18px; height: 18px; color: var(--emerald-main); flex-shrink:0; }
 
         .btn-absen {
-            width: 100%; padding: 16px; background-color: var(--emerald-main); color: white; border: none; border-radius: 100px; font-size: 15px; font-weight: 700;
-            letter-spacing: 0.5px; box-shadow: 0 8px 20px rgba(15, 107, 61, 0.2); cursor: pointer; transition: transform 0.1s; text-transform: uppercase;
+            width: 100%; padding: 16px; background-color: var(--emerald-main); color: white; border: none; border-radius: 100px; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 8px 20px rgba(15, 107, 61, 0.2); cursor: pointer; transition: transform 0.1s; text-transform: uppercase;
         }
         .btn-absen:active { transform: scale(0.97); }
-        .empty-state { text-align: center; color: var(--text-sub); font-size: 15px; font-weight: 500; margin-top: 20px;}
+        .empty-state { text-align: center; color: var(--text-sub); font-size: 14px; font-weight: 500; margin-top: 20px;}
 
         .bottom-wrapper { padding: 0 24px calc(30px + env(safe-area-inset-bottom)) 24px; flex-shrink: 0; margin-top: auto; }
         .pimpinan-panel, .piket-panel { display: none; margin-bottom: 12px; }
-        .btn-pimpinan {
-            width: 100%; padding: 14px; background-color: var(--emerald-light); color: var(--emerald-main); border-radius: 100px; font-size: 14px; font-weight: 600; border: none; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.1s;
-        }
+        .btn-pimpinan { width: 100%; padding: 14px; background-color: var(--emerald-light); color: var(--emerald-main); border-radius: 100px; font-size: 14px; font-weight: 600; border: none; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.1s; }
         .btn-piket { background-color: #FEF3C7; color: #D97706; }
         .action-row { display: flex; gap: 16px; }
-        .btn-izin { flex: 1; padding: 16px; background-color: var(--emerald-light); color: var(--emerald-main); border: none; border-radius: 100px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.1s; }
+        .btn-izin { flex: 1; padding: 16px; background-color: var(--emerald-light); color: var(--emerald-main); border: none; border-radius: 100px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.1s; }
         .btn-logout { width: 52px; height: 52px; border-radius: 50%; background-color: var(--merah-bata); border: none; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(192, 57, 43, 0.2); flex-shrink: 0;}
 
         #login-view { padding: 40px 24px; display: flex; flex-direction: column; justify-content: center; height: 100vh; background-color: #fff; z-index: 10; }
         .login-logo { width: 120px; margin: 0 auto 30px auto; border-radius: 12px; overflow: hidden; }
         .login-logo img { width: 100%; display: block; }
         .login-title { text-align: center; font-size: 24px; font-weight: 700; color: var(--emerald-main); margin-bottom: 30px; }
-        .ios-input { width: 100%; padding: 16px 20px; border: 1px solid var(--border-color); border-radius: 100px; margin-bottom: 12px; font-size: 15px; box-sizing: border-box; background: #FAFAFA; outline: none; transition: 0.2s; text-align: center; font-weight: 500; font-family: inherit; }
+        .ios-input { width: 100%; padding: 16px 20px; border: 1px solid var(--border-color); border-radius: 100px; margin-bottom: 12px; font-size: 14px; box-sizing: border-box; background: #FAFAFA; outline: none; transition: 0.2s; text-align: center; font-weight: 500; font-family: inherit; }
         .ios-input:focus { border-color: var(--emerald-main); background: #fff; }
         textarea.ios-input { border-radius: 20px; height: 80px; resize: none; text-align: left; }
 
         .alert-overlay, .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: 0.2s; z-index: 999; backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; }
         .alert-overlay.active, .sheet-overlay.active { opacity: 1; pointer-events: auto; }
-        .alert-box { background: rgba(255,255,255,0.95); width: 280px; border-radius: 14px; text-align: center; transform: scale(1.1); transition: 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        .alert-box { background: rgba(255,255,255,0.95); width: 280px; border-radius: 16px; text-align: center; transform: scale(1.1); transition: 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
         .alert-overlay.active .alert-box { transform: scale(1); }
-        .alert-title { font-weight: 600; font-size: 17px; padding: 20px 16px 10px 16px; }
-        .alert-msg { font-size: 14px; padding: 0 16px 20px 16px; color: var(--text-main); line-height: 1.5; text-align: center; }
-        .alert-btn { padding: 14px; font-weight: 600; font-size: 17px; cursor: pointer; flex: 1; text-align: center; color: #007AFF;}
+        .alert-title { font-weight: 600; font-size: 16px; padding: 20px 16px 10px 16px; }
+        .alert-msg { font-size: 13px; padding: 0 16px 20px 16px; color: var(--text-main); line-height: 1.5; text-align: center; }
+        .alert-btn { padding: 14px; font-weight: 600; font-size: 16px; cursor: pointer; flex: 1; text-align: center; color: #007AFF;}
         .alert-btn-group { display: flex; border-top: 1px solid rgba(0,0,0,0.1); }
         
         .bottom-sheet { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); width: 100%; max-width: 414px; background: #fff; border-radius: 24px 24px 0 0; padding: 10px 24px calc(30px + env(safe-area-inset-bottom)) 24px; box-sizing: border-box; z-index: 1000; transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1.15); box-shadow: 0 -10px 25px rgba(0,0,0,0.1); max-height: 85vh; display: flex; flex-direction: column; }
         .bottom-sheet.active { transform: translateX(-50%) translateY(0); }
         .swipe-area { width: 100%; padding: 10px 0 20px 0; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
         .sheet-handle { width: 40px; height: 5px; background-color: #E5E5EA; border-radius: 3px; }
-        .sheet-option { padding: 16px; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; }
+        .sheet-option { padding: 16px; border-bottom: 1px solid var(--border-color); font-size: 15px; font-weight: 500; cursor: pointer; text-align: center; }
         .sheet-option:last-child { border-bottom: none; }
-        .sheet-title { font-size: 18px; font-weight: 700; text-align: center; margin: 0 0 20px 0; flex-shrink: 0; }
+        .sheet-title { font-size: 16px; font-weight: 700; text-align: center; margin: 0 0 20px 0; flex-shrink: 0; }
         .sheet-scroll-area { overflow-y: auto; flex: 1; padding-bottom: 10px;}
         
-        /* CALENDAR CSS */
-        .cal-header-top { background: var(--coklat-header); color: white; padding: 20px; border-radius: 12px 12px 0 0; margin: -10px -24px 20px -24px; }
-        .cal-year { font-size: 14px; opacity: 0.8; font-weight: 500;}
-        .cal-date-large { font-size: 28px; font-weight: 700; margin-top: 4px;}
-        .cal-month-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 600; font-size: 16px;}
-        .cal-nav-btn { cursor: pointer; padding: 5px 10px; font-weight: bold; font-size: 18px; user-select: none; color: var(--text-main);}
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; margin-bottom: 16px;}
-        .cal-day-name { font-size: 12px; color: var(--text-sub); font-weight: 600; margin-bottom: 8px; }
-        .cal-day { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto; font-size: 15px; cursor: pointer; font-weight: 500; }
+        /* CALENDAR MINIMALIS CSS (MENGAMBANG SEPERTI MODAL) */
+        #sheet-datepicker { bottom: auto; top: 50%; transform: translateX(-50%) translateY(100vh); padding: 20px; width: 85%; max-width: 320px; border-radius: 20px; border: 1px solid var(--border-color); height: auto; }
+        #sheet-datepicker.active { transform: translateX(-50%) translateY(-50%); }
+        .cal-month-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 700; font-size: 16px; color: var(--text-main);}
+        .cal-nav-btn { cursor: pointer; padding: 5px 15px; font-weight: bold; font-size: 16px; user-select: none; color: var(--emerald-main);}
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; margin-bottom: 10px;}
+        .cal-day-name { font-size: 11px; color: var(--text-sub); font-weight: 600; margin-bottom: 4px; }
+        .cal-day { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin: 0 auto; font-size: 14px; cursor: pointer; font-weight: 500; color: var(--text-main); }
         .cal-day:active { background: #E5E5EA; }
-        .cal-day.active { background: var(--coklat-header); color: white; }
+        .cal-day.active { background: var(--emerald-main); color: white; font-weight: 700; }
         .cal-day.empty { pointer-events: none; }
-        .cal-actions { display: flex; justify-content: space-around; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 16px;}
-        .cal-btn-act { font-weight: 600; font-size: 16px; color: var(--coklat-header); cursor: pointer;}
+        .cal-actions { display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 16px;}
+        .cal-btn-act { font-weight: 600; font-size: 15px; padding: 8px 16px; border-radius: 10px; cursor: pointer;}
+        .btn-cal-batal { color: var(--text-sub); background: #F2F2F7; }
+        .btn-cal-setel { color: white; background: var(--emerald-main); }
 
-        /* VERIFIKASI PIMPINAN & PIKET */
         .verif-card { background: #FAFAFA; border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-bottom: 12px; text-align: left;}
         .verif-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .verif-name { font-weight: 700; font-size: 15px; }
+        .verif-name { font-weight: 700; font-size: 14px; }
         .verif-date { font-size: 11px; font-weight:600; color: var(--emerald-main); background: var(--emerald-light); padding: 4px 8px; border-radius: 8px;}
-        .verif-type { font-size: 12px; font-weight: 700; color: var(--coklat-header); margin-bottom: 6px; text-transform: uppercase; }
-        .verif-desc { font-size: 13px; line-height: 1.4; color: var(--text-sub); margin-bottom: 16px; }
+        .verif-type { font-size: 11px; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; }
+        .verif-desc { font-size: 12px; line-height: 1.4; color: var(--text-sub); margin-bottom: 16px; }
         .verif-actions { display: flex; gap: 8px; }
-        .verif-btn { flex: 1; padding: 10px; border-radius: 10px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; }
+        .verif-btn { flex: 1; padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; }
 
         #dashboard-view { display: none; height: 100vh; flex-direction: column; overflow: hidden; }
-        .loading { display: none; text-align: center; font-size: 14px; color: var(--text-sub); margin-top: 10px; font-weight: 500; }
+        .loading { display: none; text-align: center; font-size: 13px; color: var(--text-sub); margin-top: 10px; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -132,10 +128,7 @@
 
     <div id="dashboard-view">
         <div class="header-card">
-            <div class="profile-photo">
-                <span id="user-inisial">?</span>
-                <img id="user-foto" src="" alt="Foto">
-            </div>
+            <div class="profile-photo"><span id="user-inisial">?</span><img id="user-foto" src="" alt="Foto"></div>
             <div class="user-text">
                 <div class="greeting">Assalamualaikum</div>
                 <h2 class="teacher-name" id="user-nama">Nama Guru</h2>
@@ -160,20 +153,13 @@
         </div>
 
         <div class="bottom-wrapper">
-            <!-- PANEL PIMPINAN -->
             <div class="pimpinan-panel" id="pimpinan-panel">
                 <button class="btn-pimpinan" onclick="showAlert('Laporan', 'Segera hadir.')">Download Rekap Absen</button>
                 <button class="btn-pimpinan" style="margin-bottom: 0;" onclick="bukaVerifikasiIzin()">Konfirmasi Pengajuan</button>
             </div>
-            
-            <!-- PANEL GURU PIKET -->
             <div class="piket-panel" id="piket-panel">
-                <button class="btn-pimpinan btn-piket" style="margin-bottom: 0;" onclick="bukaInfoPiket()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    Info Kelas Kosong (Piket)
-                </button>
+                <button class="btn-pimpinan btn-piket" style="margin-bottom: 0;" onclick="bukaInfoPiket()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> Info Kelas Kosong</button>
             </div>
-
             <div class="action-row" style="margin-top: 12px;">
                 <button class="btn-izin" onclick="bukaSheetIzin()">Pengajuan Izin / Tukar</button>
                 <button class="btn-logout" onclick="prosesLogout()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
@@ -181,87 +167,66 @@
         </div>
     </div>
 
-    <!-- SEMUA BOTTOM SHEETS -->
     <div class="sheet-overlay" id="sheet-overlay" onclick="tutupSemuaSheet()"></div>
     
-    <div class="bottom-sheet" id="sheet-sesi">
-        <div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Pilih Sesi</div>
-        <div class="sheet-option" onclick="pilihSesi('Sesi 1', 'Sesi 1')">Sesi 1 (07.00 - 08.20)</div>
-        <div class="sheet-option" onclick="pilihSesi('Sesi 2', 'Sesi 2')">Sesi 2 (08.50 - 10.10)</div>
-        <div class="sheet-option" onclick="pilihSesi('Sesi 3', 'Sesi 3')">Sesi 3 (10.30 - 11.50)</div>
-    </div>
-    <div class="bottom-sheet" id="sheet-sesi-ganti">
-        <div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Pilih Sesi Pengganti</div>
-        <div class="sheet-option" onclick="pilihSesiGanti('Sesi 1')">Sesi 1</div>
-        <div class="sheet-option" onclick="pilihSesiGanti('Sesi 2')">Sesi 2</div>
-        <div class="sheet-option" onclick="pilihSesiGanti('Sesi 3')">Sesi 3</div>
-    </div>
-    <div class="bottom-sheet" id="sheet-kelas">
-        <div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Pilih Kelas</div>
-        <div class="sheet-scroll-area" id="kelas-container"></div>
-    </div>
+    <div class="bottom-sheet" id="sheet-sesi"><div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Pilih Sesi</div><div class="sheet-option" onclick="pilihSesi('Sesi 1', 'Sesi 1')">Sesi 1 (07.00 - 08.20)</div><div class="sheet-option" onclick="pilihSesi('Sesi 2', 'Sesi 2')">Sesi 2 (08.50 - 10.10)</div><div class="sheet-option" onclick="pilihSesi('Sesi 3', 'Sesi 3')">Sesi 3 (10.30 - 11.50)</div></div>
+    <div class="bottom-sheet" id="sheet-kelas"><div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Pilih Kelas</div><div class="sheet-scroll-area" id="kelas-container"></div></div>
 
-    <!-- SHEET FORM PENGAJUAN -->
+    <div class="bottom-sheet" id="sheet-sesi-ganti"><div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Sesi Pengganti</div><div class="sheet-option" onclick="pilihSesiGanti('Sesi 1')">Sesi 1</div><div class="sheet-option" onclick="pilihSesiGanti('Sesi 2')">Sesi 2</div><div class="sheet-option" onclick="pilihSesiGanti('Sesi 3')">Sesi 3</div></div>
+    <div class="bottom-sheet" id="sheet-kelas-tukar"><div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Kelas Asli yang Ditukar</div><div class="sheet-scroll-area" id="sheet-kelastukar-container"></div></div>
+    <div class="bottom-sheet" id="sheet-pengganti"><div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Pilih Guru Pengganti</div><div class="sheet-scroll-area" id="sheet-pengganti-container"></div></div>
+
     <div class="bottom-sheet" id="sheet-izin">
         <div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Formulir Pengajuan</div>
         <div class="sheet-scroll-area">
             <div class="custom-select-btn" style="margin-bottom: 16px; justify-content: center; border: 1px solid var(--border-color);" onclick="toggleJenisIzin()"><span id="label-jenis-izin">Jenis: Sakit</span></div>
-            <div id="blok-izin">
-                <div class="custom-select-btn" style="margin-bottom: 12px;" onclick="bukaDatePicker('izin_tgl')"><span id="label-izin-tgl">Pilih Tanggal Izin</span></div>
-            </div>
+            
+            <div id="blok-izin"><div class="custom-select-btn" style="margin-bottom: 12px;" onclick="bukaDatePicker('izin_tgl')"><span id="label-izin-tgl">Pilih Tanggal Izin</span></div></div>
+            
             <div id="blok-tukar" style="display:none;">
                 <div class="dropdown-row"><div class="custom-select-btn" onclick="bukaDatePicker('tukar_tgl_asli')"><span id="label-tukar-asli">Tgl Asli</span></div><div class="custom-select-btn" onclick="bukaSheet('sheet-sesi')"><span id="label-tukar-sesi">Sesi Asli</span></div></div>
-                <input type="text" class="ios-input" id="tukar_pengganti" placeholder="Nama Guru Pengganti" autocomplete="off">
+                <div class="custom-select-btn" style="margin-bottom: 16px;" onclick="bukaSheetKelasTukar()"><span id="label-tukar-kelas">Pilih Kelas Asli</span></div>
+                <div class="custom-select-btn" style="margin-bottom: 16px; background:#FAFAFA; border:1px solid #E5E5EA;" onclick="bukaSheetPengganti()"><span id="label-tukar-pengganti">Pilih Guru Pengganti</span></div>
                 <div class="dropdown-row"><div class="custom-select-btn" onclick="bukaDatePicker('tukar_tgl_ganti')"><span id="label-tukar-ganti">Tgl Ganti</span></div><div class="custom-select-btn" onclick="bukaSheet('sheet-sesi-ganti')"><span id="label-tukar-sesiganti">Sesi Ganti</span></div></div>
             </div>
-            <textarea class="ios-input" id="keterangan_izin" placeholder="Tulis keterangan..." style="margin-bottom: 20px;"></textarea>
+
+            <textarea class="ios-input" id="keterangan_izin" placeholder="Tulis alasan singkat..." style="margin-bottom: 20px;"></textarea>
             <button class="btn-absen" id="btn-kirim-izin" onclick="kirimPengajuan()">KIRIM PENGAJUAN</button>
             <div class="loading" id="izin-loading">Memproses...</div>
         </div>
     </div>
 
     <div class="bottom-sheet" id="sheet-datepicker">
-        <div class="cal-header-top"><div class="cal-year" id="cal-disp-year">2026</div><div class="cal-date-large" id="cal-disp-date">Min, 31 Mei</div></div>
         <div class="cal-month-nav"><div class="cal-nav-btn" onclick="gantiBulan(-1)">❮</div><div id="cal-month-title">Mei 2026</div><div class="cal-nav-btn" onclick="gantiBulan(1)">❯</div></div>
         <div class="cal-grid"><div class="cal-day-name">M</div><div class="cal-day-name">S</div><div class="cal-day-name">S</div><div class="cal-day-name">R</div><div class="cal-day-name">K</div><div class="cal-day-name">J</div><div class="cal-day-name">S</div></div>
         <div class="cal-grid" id="cal-days-container"></div>
-        <div class="cal-actions"><div class="cal-btn-act" onclick="tutupSheetLokal('sheet-datepicker')" style="color:var(--text-sub);">Batal</div><div class="cal-btn-act" onclick="setelTanggal()">Setel</div></div>
+        <div class="cal-actions"><div class="cal-btn-act btn-cal-batal" onclick="tutupSheetLokal('sheet-datepicker')">Batal</div><div class="cal-btn-act btn-cal-setel" onclick="setelTanggal()">Pilih Tanggal</div></div>
     </div>
 
-    <!-- SHEET VERIFIKASI PIMPINAN -->
-    <div class="bottom-sheet" id="sheet-verifikasi">
-        <div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Menunggu Konfirmasi</div>
-        <div class="loading" id="verifikasi-loading" style="display:block;">Memuat data...</div><div class="sheet-scroll-area" id="verifikasi-container"></div>
-    </div>
+    <div class="bottom-sheet" id="sheet-verifikasi"><div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Konfirmasi Pimpinan</div><div class="loading" id="verifikasi-loading" style="display:block;">Memuat...</div><div class="sheet-scroll-area" id="verifikasi-container"></div></div>
+    <div class="bottom-sheet" id="sheet-piket"><div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Kelas Kosong Hari Ini</div><div class="loading" id="piket-loading" style="display:block;">Mencari...</div><div class="sheet-scroll-area" id="piket-container"></div></div>
 
-    <!-- SHEET NOTIFIKASI PIKET -->
-    <div class="bottom-sheet" id="sheet-piket">
-        <div class="swipe-area"><div class="sheet-handle"></div></div><div class="sheet-title">Jadwal Kelas Kosong</div>
-        <div class="loading" id="piket-loading" style="display:block;">Mencari data kelas kosong...</div>
-        <div class="sheet-scroll-area" id="piket-container"></div>
-    </div>
-
-    <!-- CUSTOM ALERTS -->
-    <div class="alert-overlay" id="previewAlert">
-        <div class="alert-box">
-            <div class="alert-title">Pratinjau</div><div class="alert-msg"><strong>Sesi:</strong> <span id="prev-sesi"></span><br><strong>Kelas:</strong> <span id="prev-kelas"></span><br>GPS terkunci.</div>
-            <div class="alert-btn-group"><div class="alert-btn" style="color:var(--merah-bata); border-right:1px solid #e5e5ea;" onclick="batalPreview()">Batal</div><div class="alert-btn" onclick="kirimFinalAbsen()">Kirim</div></div>
-        </div>
-    </div>
-    <div class="alert-overlay" id="iosAlert">
-        <div class="alert-box">
-            <div class="alert-title" id="iosAlertTitle">Pesan</div><div class="alert-msg" id="iosAlertMsg">Detail</div><div class="alert-btn-group"><div class="alert-btn" onclick="closeAlert()">OK</div></div>
-        </div>
-    </div>
+    <div class="alert-overlay" id="previewAlert"><div class="alert-box"><div class="alert-title">Pratinjau</div><div class="alert-msg"><strong>Sesi:</strong> <span id="prev-sesi"></span><br><strong>Kelas:</strong> <span id="prev-kelas"></span><br>GPS terkunci.</div><div class="alert-btn-group"><div class="alert-btn" style="color:var(--merah-bata); border-right:1px solid #e5e5ea;" onclick="batalPreview()">Batal</div><div class="alert-btn" onclick="kirimFinalAbsen()">Kirim</div></div></div></div>
+    <div class="alert-overlay" id="iosAlert"><div class="alert-box"><div class="alert-title" id="iosAlertTitle">Pesan</div><div class="alert-msg" id="iosAlertMsg">Detail</div><div class="alert-btn-group"><div class="alert-btn" onclick="closeAlert()">OK</div></div></div></div>
 
 </div>
 
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6vM-69kO_QCyCGYaIJ-a-JEq5P5PBcbZz0aesjvqSfoAYWLxTeCc-ruOxeempEmHk/exec';
     
-    let valSesi = ""; let valKelas = ""; let valSesiGanti = ""; let valJenisIzin = "Sakit"; let tempLat = 0; let tempLon = 0;
-    let dtTargetField = ""; let dtCurrentDate = new Date(); let dtSelDate = new Date(); let dtMap = { 'izin_tgl': null, 'tukar_tgl_asli': null, 'tukar_tgl_ganti': null };
-    const namaBulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]; const namaHari = ["Min","Sen","Sel","Rab","Kam","Jum","Sab"];
+    let valSesi = "", valKelas = "", valSesiGanti = "", valJenisIzin = "Sakit", tempLat = 0, tempLon = 0;
+    let valKelasTukar = "", valPengganti = ""; // State baru untuk filter
+    let dtTargetField = "", dtCurrentDate = new Date(), dtSelDate = new Date(), dtMap = { 'izin_tgl': null, 'tukar_tgl_asli': null, 'tukar_tgl_ganti': null };
+    const namaBulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+    // ANTI SWIPE BACK & TOMBOL KEMBALI
+    window.history.pushState({ page: 1 }, "", "");
+    window.addEventListener('popstate', function (event) {
+        window.history.pushState({ page: 1 }, "", ""); // Jebak ulang
+        if(document.querySelectorAll('.bottom-sheet.active').length > 0 || document.querySelectorAll('.alert-overlay.active').length > 0) {
+            tutupSemuaSheet(); closeAlert(); batalPreview();
+        }
+    });
 
     window.onload = function() {
         initSwipeToClose();
@@ -279,7 +244,7 @@
         .then(res => res.json()).then(result => {
             btn.style.display = 'block'; loading.style.display = 'none';
             if (result.success) {
-                const sData = { no_hp: noHp, nama: result.data.nama, kategori: result.data.kategori, foto: result.data.foto, punyaJadwal: result.data.jadwal && result.data.jadwal.length > 0, jadwal: result.data.jadwal };
+                const sData = { no_hp: noHp, nama: result.data.nama, kategori: result.data.kategori, foto: result.data.foto, punyaJadwal: result.data.jadwal && result.data.jadwal.length > 0, jadwal: result.data.jadwal, kelas_saya: result.data.kelas_saya, rekan_kelas: result.data.rekan_kelas };
                 localStorage.setItem('guruSession', JSON.stringify(sData)); tampilkanDashboard(sData);
             } else { showAlert('Gagal', result.message); document.getElementById('pin').value = ''; }
         }).catch(err => { btn.style.display = 'block'; loading.style.display = 'none'; showAlert('Error', 'Koneksi terputus.'); });
@@ -287,29 +252,16 @@
 
     function tampilkanDashboard(data) {
         document.getElementById('user-nama').innerText = data.nama; document.getElementById('user-kategori').innerText = data.kategori;
-        
-        // Tampilkan Foto Profil jika ada
-        if(data.foto && data.foto.startsWith('http')) {
-            document.getElementById('user-foto').src = data.foto;
-            document.getElementById('user-foto').style.display = 'block';
-            document.getElementById('user-inisial').style.display = 'none';
-        } else {
-            document.getElementById('user-inisial').innerText = data.nama.charAt(0).toUpperCase();
-            document.getElementById('user-foto').style.display = 'none';
-            document.getElementById('user-inisial').style.display = 'block';
-        }
-
+        if(data.foto && data.foto.startsWith('http')) { document.getElementById('user-foto').src = data.foto; document.getElementById('user-foto').style.display = 'block'; document.getElementById('user-inisial').style.display = 'none'; } 
+        else { document.getElementById('user-inisial').innerText = data.nama.charAt(0).toUpperCase(); document.getElementById('user-foto').style.display = 'none'; document.getElementById('user-inisial').style.display = 'block'; }
         document.getElementById('login-view').style.display = 'none'; document.getElementById('dashboard-view').style.display = 'flex';
         
         const isP = data.kategori.toLowerCase() === 'pimpinan';
         if (isP) document.getElementById('pimpinan-panel').style.display = 'block';
 
-        // Logika Tampilan Piket
-        let isPiketHariIni = false;
-        if (data.jadwal) {
-            isPiketHariIni = data.jadwal.some(j => j.kelas.toLowerCase() === 'standby' || j.tugas.toLowerCase().includes('piket'));
-        }
-        if (isPiketHariIni) document.getElementById('piket-panel').style.display = 'block';
+        let isPiket = false;
+        if (data.jadwal) isPiket = data.jadwal.some(j => j.kelas.toLowerCase() === 'standby' || j.tugas.toLowerCase().includes('piket'));
+        if (isPiket) document.getElementById('piket-panel').style.display = 'block';
 
         if (isP && !data.punyaJadwal) {
             document.getElementById('form-absen-container').style.display = 'none'; document.getElementById('no-jadwal-container').style.display = 'block';
@@ -318,10 +270,8 @@
             const kCont = document.getElementById('kelas-container'); kCont.innerHTML = '';
             if (data.jadwal) {
                 [...new Set(data.jadwal.map(j => j.kelas))].forEach(k => {
-                    const div = document.createElement('div'); div.className = 'sheet-option';
-                    div.innerText = k.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : k;
-                    div.onclick = () => { valKelas = k; document.getElementById('label-kelas').innerText = div.innerText; tutupSemuaSheet(); };
-                    kCont.appendChild(div);
+                    const div = document.createElement('div'); div.className = 'sheet-option'; div.innerText = k.toLowerCase() === 'standby' ? 'Piket / Pimpinan' : k;
+                    div.onclick = () => { valKelas = k; document.getElementById('label-kelas').innerText = div.innerText; tutupSemuaSheet(); }; kCont.appendChild(div);
                 });
             }
             const jam = new Date().getHours() + (new Date().getMinutes() / 60);
@@ -347,6 +297,7 @@
         .then(res => res.json()).then(res => { document.getElementById('absen-loading').style.display = 'none'; if(res.success) { showAlert('Berhasil', res.message); } else showAlert('Gagal', res.message); });
     }
 
+    // ALUR PENGAJUAN
     function bukaSheetIzin() { valJenisIzin = "Sakit"; document.getElementById('label-jenis-izin').innerText = "Jenis: Sakit"; document.getElementById('blok-izin').style.display = 'block'; document.getElementById('blok-tukar').style.display = 'none'; bukaSheet('sheet-izin'); }
     function toggleJenisIzin() {
         if(valJenisIzin === "Sakit") valJenisIzin = "Izin Dinas"; else if(valJenisIzin === "Izin Dinas") valJenisIzin = "Tukar Jam"; else valJenisIzin = "Sakit"; document.getElementById('label-jenis-izin').innerText = "Jenis: " + valJenisIzin;
@@ -355,12 +306,32 @@
     function pilihSesi(v, lbl) { valSesi = v; document.getElementById('label-sesi').innerText = lbl; document.getElementById('label-tukar-sesi').innerText = lbl; tutupSheetLokal('sheet-sesi'); }
     function pilihSesiGanti(v) { valSesiGanti = v; document.getElementById('label-tukar-sesiganti').innerText = v; tutupSheetLokal('sheet-sesi-ganti'); }
 
+    // FILTER GURU PENGGANTI DINAMIS
+    function bukaSheetKelasTukar() {
+        const sData = JSON.parse(localStorage.getItem('guruSession')); const kCont = document.getElementById('sheet-kelastukar-container'); kCont.innerHTML = '';
+        if(sData.kelas_saya && sData.kelas_saya.length > 0) {
+            sData.kelas_saya.forEach(k => { kCont.innerHTML += `<div class="sheet-option" onclick="pilihKelasTukar('${k}')">Kelas ${k}</div>`; });
+        } else kCont.innerHTML = '<div class="empty-state">Jadwal Anda kosong.</div>';
+        bukaSheet('sheet-kelas-tukar');
+    }
+    function pilihKelasTukar(k) { valKelasTukar = k; document.getElementById('label-tukar-kelas').innerText = "Kelas: " + k; valPengganti = ""; document.getElementById('label-tukar-pengganti').innerText = "Pilih Guru Pengganti"; tutupSheetLokal('sheet-kelas-tukar'); }
+    function bukaSheetPengganti() {
+        if(!valKelasTukar) { showAlert("Peringatan", "Pilih Kelas Asli terlebih dahulu."); return; }
+        const sData = JSON.parse(localStorage.getItem('guruSession')); const pCont = document.getElementById('sheet-pengganti-container'); pCont.innerHTML = '';
+        const rekan = sData.rekan_kelas[valKelasTukar];
+        if(rekan && rekan.length > 0) {
+            rekan.forEach(r => { pCont.innerHTML += `<div class="sheet-option" onclick="pilihPengganti('${r}')">${r}</div>`; });
+        } else pCont.innerHTML = '<div class="empty-state">Tidak ada guru pengganti yang relevan di kelas ini.</div>';
+        bukaSheet('sheet-pengganti');
+    }
+    function pilihPengganti(p) { valPengganti = p; document.getElementById('label-tukar-pengganti').innerText = p; tutupSheetLokal('sheet-pengganti'); }
+
     function kirimPengajuan() {
         const ket = document.getElementById('keterangan_izin').value.trim(); const session = JSON.parse(localStorage.getItem('guruSession'));
         let payload = { action: '', no_hp: session.no_hp, nama_guru: session.nama, keterangan: ket };
         if(valJenisIzin === "Tukar Jam") {
-            if(!dtMap['tukar_tgl_asli'] || !valSesi || !document.getElementById('tukar_pengganti').value || !dtMap['tukar_tgl_ganti'] || !valSesiGanti) { showAlert('Peringatan', 'Lengkapi seluruh formulir.'); return; }
-            payload.action = 'tukar_jam'; payload.tanggal_asli_raw = toDateString(dtMap['tukar_tgl_asli']); payload.sesi_asli = valSesi; payload.pengganti = document.getElementById('tukar_pengganti').value; payload.tanggal_ganti_raw = toDateString(dtMap['tukar_tgl_ganti']); payload.sesi_ganti = valSesiGanti;
+            if(!dtMap['tukar_tgl_asli'] || !valSesi || !valKelasTukar || !valPengganti || !dtMap['tukar_tgl_ganti'] || !valSesiGanti) { showAlert('Peringatan', 'Lengkapi seluruh formulir.'); return; }
+            payload.action = 'tukar_jam'; payload.tanggal_asli_raw = toDateString(dtMap['tukar_tgl_asli']); payload.sesi_asli = valSesi; payload.kelas_asli = valKelasTukar; payload.pengganti = valPengganti; payload.tanggal_ganti_raw = toDateString(dtMap['tukar_tgl_ganti']); payload.sesi_ganti = valSesiGanti;
         } else {
             if(!dtMap['izin_tgl']) { showAlert('Peringatan', 'Pilih Tanggal.'); return; }
             payload.action = 'izin'; payload.jenis_izin = valJenisIzin; payload.tanggal_izin_raw = toDateString(dtMap['izin_tgl']);
@@ -369,19 +340,21 @@
         fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) }).then(res => res.json()).then(res => { document.getElementById('izin-loading').style.display = 'none'; if(res.success) { tutupSemuaSheet(); showAlert('Berhasil', res.message); } else showAlert('Ditolak', res.message); });
     }
 
-    function bukaDatePicker(fieldId) { dtTargetField = fieldId; dtCurrentDate = dtMap[fieldId] ? new Date(dtMap[fieldId]) : new Date(); dtSelDate = new Date(dtCurrentDate); renderKalender(); document.getElementById('sheet-datepicker').classList.add('active'); }
+    // KALENDER
+    function bukaDatePicker(fieldId) { dtTargetField = fieldId; dtCurrentDate = dtMap[fieldId] ? new Date(dtMap[fieldId]) : new Date(); dtSelDate = new Date(dtCurrentDate); renderKalender(); document.getElementById('sheet-datepicker').classList.add('active'); document.getElementById('sheet-overlay').classList.add('active');}
     function renderKalender() {
         const yr = dtCurrentDate.getFullYear(); const mo = dtCurrentDate.getMonth();
-        document.getElementById('cal-month-title').innerText = namaBulan[mo] + " " + yr; document.getElementById('cal-disp-year').innerText = dtSelDate.getFullYear(); document.getElementById('cal-disp-date').innerText = namaHari[dtSelDate.getDay()] + ", " + dtSelDate.getDate() + " " + namaBulan[dtSelDate.getMonth()];
+        document.getElementById('cal-month-title').innerText = namaBulan[mo] + " " + yr; 
         const firstDay = new Date(yr, mo, 1).getDay(); const daysInMonth = new Date(yr, mo + 1, 0).getDate(); const calContainer = document.getElementById('cal-days-container'); calContainer.innerHTML = '';
         for (let i = 0; i < firstDay; i++) { calContainer.innerHTML += '<div class="cal-day empty"></div>'; }
         for (let i = 1; i <= daysInMonth; i++) { let cls = 'cal-day'; if(i === dtSelDate.getDate() && mo === dtSelDate.getMonth() && yr === dtSelDate.getFullYear()) cls += ' active'; calContainer.innerHTML += `<div class="${cls}" onclick="pilihTanggal(${i})">${i}</div>`; }
     }
     function gantiBulan(dir) { dtCurrentDate.setMonth(dtCurrentDate.getMonth() + dir); renderKalender(); }
     function pilihTanggal(d) { dtSelDate = new Date(dtCurrentDate.getFullYear(), dtCurrentDate.getMonth(), d); renderKalender(); }
-    function setelTanggal() { dtMap[dtTargetField] = new Date(dtSelDate); let txt = dtSelDate.getDate() + " " + namaBulan[dtSelDate.getMonth()] + " " + dtSelDate.getFullYear(); if(dtTargetField === 'izin_tgl') document.getElementById('label-izin-tgl').innerText = txt; else if(dtTargetField === 'tukar_tgl_asli') document.getElementById('label-tukar-asli').innerText = txt; else if(dtTargetField === 'tukar_tgl_ganti') document.getElementById('label-tukar-ganti').innerText = txt; tutupSheetLokal('sheet-datepicker'); }
+    function setelTanggal() { dtMap[dtTargetField] = new Date(dtSelDate); let txt = String(dtSelDate.getDate()).padStart(2,'0') + " " + namaBulan[dtSelDate.getMonth()] + " " + dtSelDate.getFullYear(); if(dtTargetField === 'izin_tgl') document.getElementById('label-izin-tgl').innerText = txt; else if(dtTargetField === 'tukar_tgl_asli') document.getElementById('label-tukar-asli').innerText = txt; else if(dtTargetField === 'tukar_tgl_ganti') document.getElementById('label-tukar-ganti').innerText = txt; tutupSheetLokal('sheet-datepicker'); }
     function toDateString(d) { return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,'0') + "-" + String(d.getDate()).padStart(2,'0'); }
 
+    // PIMPINAN & PIKET
     function bukaVerifikasiIzin() {
         bukaSheet('sheet-verifikasi'); const vCont = document.getElementById('verifikasi-container'); document.getElementById('verifikasi-loading').style.display = 'block'; vCont.innerHTML = '';
         fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_pending' }) }).then(res => res.json()).then(res => {
@@ -396,34 +369,26 @@
     }
     function verifAct(tipe, rowIdx, status, btn) { const card = btn.closest('.verif-card'); card.style.opacity = '0.5'; fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'verifikasi', tipe: tipe, row_index: rowIdx, status_baru: status }) }).then(res => res.json()).then(res => { if(res.success) card.style.display = 'none'; else { card.style.opacity = '1'; showAlert('Gagal', res.message); } }); }
 
-    // --- FITUR GURU PIKET ---
     function bukaInfoPiket() {
-        bukaSheet('sheet-piket');
-        const pCont = document.getElementById('piket-container');
-        document.getElementById('piket-loading').style.display = 'block'; pCont.innerHTML = '';
+        bukaSheet('sheet-piket'); const pCont = document.getElementById('piket-container'); document.getElementById('piket-loading').style.display = 'block'; pCont.innerHTML = '';
         fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_piket' }) })
         .then(res => res.json()).then(res => {
             document.getElementById('piket-loading').style.display = 'none';
             if(res.success && res.data.length > 0) {
-                res.data.forEach(item => {
-                    pCont.innerHTML += `
-                        <div class="verif-card" style="border-left: 4px solid var(--kuning-piket);">
-                            <div class="verif-header"><span class="verif-name">${item.kelas}</span><span class="verif-date" style="background:#FEF3C7; color:#D97706;">${item.sesi}</span></div>
-                            <div class="verif-type" style="color:var(--text-main);">${item.mapel}</div>
-                            <div class="verif-desc" style="margin-bottom:0;">Guru Absen: <strong>${item.nama_guru}</strong></div>
-                        </div>`;
-                });
-            } else pCont.innerHTML = '<div class="empty-state">Alhamdulillah, tidak ada kelas kosong hari ini.</div>';
+                res.data.forEach(item => { pCont.innerHTML += `<div class="verif-card" style="border-left: 4px solid var(--kuning-piket);"><div class="verif-header"><span class="verif-name">${item.kelas}</span><span class="verif-date" style="background:#FEF3C7; color:#D97706;">${item.sesi}</span></div><div class="verif-type" style="color:var(--text-main);">${item.mapel}</div><div class="verif-desc" style="margin-bottom:0;">Guru Absen: <strong>${item.nama_guru}</strong></div></div>`; });
+            } else pCont.innerHTML = '<div class="empty-state">Alhamdulillah, kelas lengkap hari ini.</div>';
         });
     }
 
     function bukaSheet(id) { document.getElementById('sheet-overlay').classList.add('active'); document.getElementById(id).classList.add('active'); }
-    function tutupSheetLokal(id) { document.getElementById(id).classList.remove('active'); }
+    function tutupSheetLokal(id) { document.getElementById(id).classList.remove('active'); 
+        if(document.querySelectorAll('.bottom-sheet.active').length === 0) document.getElementById('sheet-overlay').classList.remove('active'); 
+    }
     function tutupSemuaSheet() { document.getElementById('sheet-overlay').classList.remove('active'); document.querySelectorAll('.bottom-sheet').forEach(s => s.classList.remove('active')); }
     function showAlert(title, msg) { document.getElementById('iosAlertTitle').innerText=title; document.getElementById('iosAlertMsg').innerText=msg; document.getElementById('iosAlert').classList.add('active'); }
     function closeAlert() { document.getElementById('iosAlert').classList.remove('active'); }
 
-    function initSwipeToClose() { let sy = 0, cy = 0, isSwip = false; document.querySelectorAll('.bottom-sheet').forEach(sheet => { const h = sheet.querySelector('.swipe-area'); if(!h) return; h.addEventListener('touchstart', e => { sy = e.touches[0].clientY; isSwip = true; sheet.style.transition = 'none'; }, {passive: true}); h.addEventListener('touchmove', e => { if(!isSwip) return; cy = e.touches[0].clientY; if (cy - sy > 0) sheet.style.transform = `translateX(-50%) translateY(${cy - sy}px)`; }, {passive: true}); h.addEventListener('touchend', () => { isSwip = false; sheet.style.transition = 'transform 0.4s cubic-bezier(0.32, 0.72, 0, 1.15)'; if (cy - sy > 100) sheet.classList.remove('active'); sheet.style.transform = ''; }); }); }
+    function initSwipeToClose() { let sy = 0, cy = 0, isSwip = false; document.querySelectorAll('.bottom-sheet').forEach(sheet => { const h = sheet.querySelector('.swipe-area'); if(!h) return; h.addEventListener('touchstart', e => { sy = e.touches[0].clientY; isSwip = true; sheet.style.transition = 'none'; }, {passive: true}); h.addEventListener('touchmove', e => { if(!isSwip) return; cy = e.touches[0].clientY; if (cy - sy > 0) sheet.style.transform = `translateX(-50%) translateY(${cy - sy}px)`; }, {passive: true}); h.addEventListener('touchend', () => { isSwip = false; sheet.style.transition = 'transform 0.4s cubic-bezier(0.32, 0.72, 0, 1.15)'; if (cy - sy > 100) tutupSheetLokal(sheet.id); else sheet.style.transform = ''; }); }); }
 </script>
 </body>
 </html>
