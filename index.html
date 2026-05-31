@@ -3,272 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Presensi iOS</title>
+    <title>Presensi Guru PWA</title>
     <style>
-        /* CSS STANDAR APPLE iOS SQUIRCLE & PALETTE */
+        /* =========================================
+           CSS VARIABEL & PALET WARNA KUSTOM
+           ========================================= */
         :root {
-            --ios-blue: #007AFF;
-            --ios-green: #34C759;
-            --ios-red: #FF3B30;
-            --ios-orange: #FF9500;
-            --ios-gray-bg: #F2F2F7;
-            --ios-card-bg: #FFFFFF;
-            --ios-text-main: #1C1C1E;
-            --ios-text-sub: #8E8E93;
-            --ios-border: #E5E5EA;
+            --emerald-main: #0F6B3D; /* Hijau Emerald Logo */
+            --emerald-dark: #0A4A2A;
+            --emerald-light: #E7F1EC;
+            --merah-bata: #C0392B; /* Merah elegan, tidak norak */
+            --ios-bg: #F2F2F7;
+            --ios-card: #FFFFFF;
+            --text-main: #1C1C1E;
+            --text-sub: #8E8E93;
+            --border-color: #E5E5EA;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
-            background-color: var(--ios-gray-bg);
+            background-color: var(--ios-bg);
             margin: 0;
             padding: 0;
-            color: var(--ios-text-main);
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
+            color: var(--text-main);
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        .phone-wrapper {
+        /* Pembungkus utama ala layar HP */
+        .app-container {
             width: 100%;
             max-width: 414px;
-            padding: 24px 16px;
-            box-sizing: border-box;
-        }
-
-        /* TAMPILAN KARTU MODEREN (iOS Grouped Style) */
-        .ios-group {
-            background-color: var(--ios-card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .logo-area {
-            text-align: center;
-            margin: 40px 0 30px 0;
-        }
-
-        .logo-box {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #30B0C7, var(--ios-blue));
-            border-radius: 20px; /* Squircle */
-            margin: 0 auto 16px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 16px rgba(0, 122, 255, 0.2);
-        }
-
-        .logo-box svg {
-            width: 44px;
-            height: 44px;
-            color: white;
-        }
-
-        h2 { margin: 0 0 6px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-        p.subtitle { margin: 0; font-size: 15px; color: var(--ios-text-sub); }
-
-        /* FORM INPUT STYLING (iOS Settings Style) */
-        .ios-input-row {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--ios-border);
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: var(--ios-bg);
             position: relative;
-        }
-        .ios-input-row:last-child { border-bottom: none; }
-        
-        .ios-input-icon {
-            width: 24px;
-            height: 24px;
-            color: var(--ios-text-sub);
-            margin-right: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
             display: flex;
-            align-items: center;
+            flex-direction: column;
         }
 
-        .ios-input-row input {
-            flex: 1;
-            border: none;
-            font-size: 17px;
-            padding: 8px 0;
-            background: transparent;
-            outline: none;
-            color: var(--ios-text-main);
-            -webkit-appearance: none;
-        }
-        .ios-input-row input::placeholder { color: #C7C7CC; }
-
-        /* TOMBOL UTAMA */
-        .ios-btn {
-            width: 100%;
-            padding: 16px;
-            font-size: 17px;
-            font-weight: 600;
-            color: white;
-            background-color: var(--ios-blue);
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-        .ios-btn:active { opacity: 0.7; }
-        .ios-btn.success { background-color: var(--ios-green); }
-        .ios-btn.secondary { background-color: #E5E5EA; color: var(--ios-blue); }
-        .ios-btn.danger { background-color: #FDE8E7; color: var(--ios-red); }
-
-        /* STATUS LOADING & NAVIGASI PANELS */
-        .loading { display: none; text-align: center; font-size: 15px; color: var(--ios-text-sub); margin-top: 16px; }
-        #dashboard-view, #pimpinan-panel { display: none; }
-
-        /* HEADER USER DI DASHBOARD */
-        .profile-header {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-        }
-        .avatar {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #E5E5EA, #D1D1D6);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 22px;
-            margin-right: 16px;
-            color: #8E8E93;
-        }
-        .user-info h4 { margin: 0 0 4px 0; font-size: 19px; font-weight: 600; }
-        .user-info span { font-size: 14px; color: var(--ios-text-sub); }
-
-        /* INFO JADWAL CARD */
-        .schedule-card {
-            padding: 20px 16px;
-            text-align: center;
-        }
-        .schedule-badge {
-            display: inline-block;
-            background: #E5F0FF;
-            color: var(--ios-blue);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        .schedule-title { font-size: 20px; font-weight: 700; margin: 0 0 8px 0; }
-        .schedule-detail { font-size: 15px; color: var(--ios-text-sub); margin: 0 0 20px 0; }
-
-        .alert-box {
-            padding: 24px 16px;
-            text-align: center;
-            color: var(--ios-text-sub);
-            font-size: 15px;
+        /* =========================================
+           TAMPILAN HEADER (1/3 HALAMAN 9:16)
+           ========================================= */
+        .emerald-header {
+            background: linear-gradient(135deg, var(--emerald-main), var(--emerald-dark));
+            height: 33vh; /* Tepat 1/3 tinggi layar */
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
         }
-        .alert-box svg { width: 32px; height: 32px; color: #C7C7CC; }
 
-        .section-title { font-size: 13px; font-weight: 500; color: var(--ios-text-sub); text-transform: uppercase; margin: 0 0 8px 16px; letter-spacing: 0.5px; }
+        /* Profil Area */
+        .profile-photo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+            background-color: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .greeting {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .teacher-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+            letter-spacing: 0.3px;
+        }
+
+        .teacher-status {
+            font-size: 12px;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* =========================================
+           KONTEN UTAMA (OVERLAP SEAMLESS)
+           ========================================= */
+        .main-content {
+            background-color: var(--ios-card);
+            flex: 1;
+            border-radius: 30px 30px 0 0; /* Rounded atas ala iOS */
+            margin-top: -25px; /* Overlap ke header hijau */
+            padding: 35px 24px 24px 24px;
+            z-index: 2;
+            position: relative;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Dropdown ala iOS */
+        .ios-select-group {
+            margin-bottom: 24px;
+        }
+
+        .ios-select-wrapper {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .ios-select-wrapper select {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-main);
+            background-color: var(--ios-bg);
+            border: 1px solid transparent;
+            border-radius: 16px;
+            appearance: none;
+            -webkit-appearance: none;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .ios-select-wrapper select:focus {
+            border-color: var(--emerald-main);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px var(--emerald-light);
+        }
+
+        /* Ikon Panah Dropdown Custom */
+        .ios-select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+        }
+
+        /* =========================================
+           TOMBOL-TOMBOL AKSI
+           ========================================= */
+        .btn-absen {
+            width: 100%;
+            padding: 18px;
+            background-color: var(--emerald-main);
+            color: white;
+            border: none;
+            border-radius: 18px; /* Lebih rounded memanjang */
+            font-size: 17px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(15, 107, 61, 0.25);
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            margin-bottom: 24px;
+        }
+        .btn-absen:active { transform: scale(0.97); opacity: 0.9; }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: auto; /* Mendorong ke bawah jika layar panjang */
+        }
+
+        .btn-izin {
+            flex: 1; /* Mengisi ruang sisa (lebar) */
+            padding: 16px;
+            background-color: var(--emerald-light);
+            color: var(--emerald-main);
+            border: none;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.1s;
+        }
+        .btn-izin:active { transform: scale(0.97); }
+
+        .btn-logout {
+            width: 52px; /* Bundar sempurna */
+            height: 52px;
+            border-radius: 50%;
+            background-color: var(--merah-bata);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(192, 57, 43, 0.2);
+            transition: transform 0.1s;
+            flex-shrink: 0;
+        }
+        .btn-logout:active { transform: scale(0.92); }
+
+        /* =========================================
+           BOTTOM SHEET (MODAL IZIN ANIMASI MAHAL)
+           ========================================= */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 99;
+            backdrop-filter: blur(2px);
+        }
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .bottom-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            width: 100%;
+            max-width: 414px;
+            background-color: #fff;
+            border-radius: 24px 24px 0 0;
+            padding: 30px 24px;
+            box-sizing: border-box;
+            z-index: 100;
+            /* Apple Spring Animation Cubic Bezier */
+            transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1.15);
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+        }
+        .bottom-sheet.active {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .sheet-handle {
+            width: 40px;
+            height: 5px;
+            background-color: #E5E5EA;
+            border-radius: 3px;
+            margin: -10px auto 20px auto;
+        }
+
+        .sheet-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .ios-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background: #FAFAFA;
+            outline: none;
+            font-family: inherit;
+        }
+        .ios-input:focus { border-color: var(--emerald-main); }
+
+        textarea.ios-input { height: 100px; resize: none; }
+
+        /* Loader */
+        .loading { display: none; text-align: center; font-size: 14px; color: var(--text-sub); margin-top: 10px; }
+
+        /* Sembunyikan view sebelum login */
+        #dashboard-view { display: none; height: 100vh; flex-direction: column; }
+        
+        /* Halaman Login Minimalis */
+        #login-view {
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #fff;
+        }
+        .login-logo {
+            width: 100px;
+            margin: 0 auto 30px auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(15, 107, 61, 0.15);
+        }
+        .login-logo img { width: 100%; display: block; }
+        .login-title { text-align: center; font-size: 24px; font-weight: 700; color: var(--emerald-main); margin-bottom: 30px; }
+
     </style>
 </head>
 <body>
 
-<div class="phone-wrapper">
+<div class="app-container">
 
+    <!-- ================= HALAMAN LOGIN ================= -->
     <div id="login-view">
-        <div class="logo-area">
-            <div class="logo-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-            </div>
-            <h2>Presensi Madrasah</h2>
-            <p class="subtitle">Portal Kehadiran Guru</p>
+        <div class="login-logo">
+            <!-- Memanggil icon.jpg dari repository Anda -->
+            <img src="icon.jpg" alt="Logo Santri">
         </div>
-
-        <div class="ios-group">
-            <div class="ios-input-row">
-                <div class="ios-input-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                </div>
-                <input type="tel" id="no_hp" placeholder="Nomor Handphone" autocomplete="off">
-            </div>
-            <div class="ios-input-row">
-                <div class="ios-input-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                </div>
-                <input type="password" id="pin" placeholder="PIN Keamanan" autocomplete="off">
-            </div>
-        </div>
-
-        <button class="ios-btn" onclick="prosesLogin()">Masuk</button>
-        <div class="loading" id="login-loading">Memvalidasi data...</div>
+        <div class="login-title">Presensi Madrasah</div>
+        
+        <input type="tel" class="ios-input" id="no_hp" placeholder="Nomor Handphone" autocomplete="off">
+        <input type="password" class="ios-input" id="pin" placeholder="PIN Keamanan" autocomplete="off">
+        
+        <button class="btn-absen" onclick="prosesLogin()" style="margin-top: 10px;">Masuk Aplikasi</button>
+        <div class="loading" id="login-loading">Memvalidasi data Anda...</div>
     </div>
 
 
+    <!-- ================= HALAMAN DASHBOARD ================= -->
     <div id="dashboard-view">
         
-        <div class="ios-group">
-            <div class="profile-header">
-                <div class="avatar" id="user-avatar">?</div>
-                <div class="user-info">
-                    <h4 id="user-nama">Nama Guru</h4>
-                    <span id="user-kategori">Jabatan</span>
+        <!-- HEADER 1/3 HALAMAN -->
+        <div class="emerald-header">
+            <div class="profile-photo" id="user-avatar-container">
+                <!-- Inisial atau tempat <img> foto profil nantinya -->
+                <span id="user-inisial">?</span>
+            </div>
+            <div class="greeting">Assalamualaikum,</div>
+            <h2 class="teacher-name" id="user-nama">Nama Guru</h2>
+            <div class="teacher-status" id="user-kategori">Memuat Status...</div>
+        </div>
+
+        <!-- KONTEN BAWAH (SEAMLESS) -->
+        <div class="main-content">
+            
+            <div class="ios-select-group">
+                <div class="ios-select-wrapper">
+                    <select id="sesi">
+                        <option value="Sesi 1">Sesi 1 (07.00 - 08.20)</option>
+                        <option value="Sesi 2">Sesi 2 (08.50 - 10.10)</option>
+                        <option value="Sesi 3">Sesi 3 (10.30 - 11.50)</option>
+                    </select>
+                </div>
+                
+                <div class="ios-select-wrapper">
+                    <select id="kelas">
+                        <option value="VII-A">Kelas VII - A</option>
+                        <option value="VII-B">Kelas VII - B</option>
+                        <option value="VIII-A">Kelas VIII - A</option>
+                        <option value="VIII-B">Kelas VIII - B</option>
+                        <option value="IX-A">Kelas IX - A</option>
+                        <option value="IX-B">Kelas IX - B</option>
+                        <option value="-">Tidak Masuk Kelas (Piket/Pimpinan)</option>
+                    </select>
                 </div>
             </div>
-        </div>
 
-        <div class="section-title">Status Jadwal Saat Ini</div>
-        <div class="ios-group" id="jadwal-container">
+            <button class="btn-absen" id="btn-absen" onclick="ambilLokasiDanAbsen()">Kirim Presensi Hadir</button>
+            <div class="loading" id="absen-loading" style="margin-bottom: 20px;">Mengunci GPS & Mengirim...</div>
+
+            <!-- ROW BAWAH: IZIN (LEBAR) & LOGOUT (BUNDAR MERAH BATA) -->
+            <div class="action-row">
+                <button class="btn-izin" onclick="bukaModalIzin()">
+                    <!-- Icon Surat iOS -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    Pengajuan Izin / Sakit
+                </button>
+                
+                <button class="btn-logout" onclick="window.location.reload()" title="Keluar">
+                    <!-- Icon Logout Minimalis -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </button>
             </div>
-
-        <div class="section-title">Layanan Lainnya</div>
-        <div class="ios-group">
-            <button class="ios-btn secondary" style="border-radius: 0; background: transparent; color: var(--ios-orange); border-bottom: 1px solid var(--ios-border);" onclick="alert('Fitur Pengajuan Izin akan segera hadir.')">
-                Ajukan Surat Izin / Sakit
-            </button>
-            <button class="ios-btn danger" style="border-radius: 0; background: transparent;" onclick="window.location.reload()">
-                Keluar Aplikasi
-            </button>
+            
         </div>
+    </div>
 
-        <div id="pimpinan-panel">
-            <div class="section-title" style="color: #8A6D1C;">Panel Kontrol Pimpinan</div>
-            <div class="ios-group" style="background-color: #FFFBF0;">
-                <button class="ios-btn" style="background: transparent; color: #5856D6; border-radius: 0; border-bottom: 1px solid #E6DFCD;" onclick="alert('Fitur Generate Rekap Otomatis akan segera hadir.')">Download Rekap Excel</button>
-                <button class="ios-btn" style="background: transparent; color: #AF52DE; border-radius: 0;" onclick="alert('Fitur Verifikasi Izin akan segera hadir.')">Verifikasi Izin Guru</button>
-            </div>
-        </div>
-
+    <!-- ================= BOTTOM SHEET IZIN ================= -->
+    <div class="overlay" id="overlay" onclick="tutupModalIzin()"></div>
+    <div class="bottom-sheet" id="modal-izin">
+        <div class="sheet-handle"></div>
+        <h3 class="sheet-title">Formulir Izin / Sakit</h3>
+        
+        <select class="ios-input" id="jenis_izin">
+            <option value="Sakit">Sakit (Lampirkan Surat Medis di WA)</option>
+            <option value="Izin Dinas">Izin Dinas Luar</option>
+            <option value="Izin Kepentingan Keluarga">Izin Kepentingan Keluarga</option>
+        </select>
+        
+        <textarea class="ios-input" id="keterangan_izin" placeholder="Tuliskan keterangan singkat..."></textarea>
+        
+        <button class="btn-absen" onclick="kirimIzin()" style="margin-bottom: 0;">Kirim Pengajuan</button>
     </div>
 
 </div>
 
 <script>
-    // URL Web App Google Apps Script Anda (PASTIKAN DIGANTI)
+    // URL Web App Google Apps Script Anda (PASTIKAN DIGANTI DENGAN MILIK ANDA)
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6vM-69kO_QCyCGYaIJ-a-JEq5P5PBcbZz0aesjvqSfoAYWLxTeCc-ruOxeempEmHk/exec';
     
-    // Variabel Sesi
-    let GURU_AKTIF = { no_hp: '', nama: '', kategori: '', jadwalHariIni: [] };
-    let JADWAL_TERPILIH = null; // Menyimpan jadwal yang terdeteksi valid saat ini
+    let GURU_AKTIF = { no_hp: '', nama: '', kategori: '' };
 
-    // 1. PROSES LOGIN & AMBIL JADWAL
+    // --- FUNGSI LOGIN ---
     function prosesLogin() {
         const noHp = document.getElementById('no_hp').value;
         const pin = document.getElementById('pin').value;
-        const btn = document.querySelector('#login-view button');
+        const btn = document.querySelector('#login-view .btn-absen');
         const loading = document.getElementById('login-loading');
 
         if (!noHp || !pin) { alert('Mohon lengkapi Nomor HP dan PIN.'); return; }
@@ -282,158 +445,115 @@
         })
         .then(response => response.json())
         .then(result => {
-            btn.style.display = 'flex'; loading.style.display = 'none';
-
+            btn.style.display = 'block'; loading.style.display = 'none';
             if (result.success) {
-                // Simpan data
                 GURU_AKTIF.no_hp = noHp;
                 GURU_AKTIF.nama = result.data.nama;
                 GURU_AKTIF.kategori = result.data.kategori;
-                GURU_AKTIF.jadwalHariIni = result.data.jadwal; // Menerima jadwal khusus hari ini dari backend
 
-                // Sinkronisasi Profil
+                // Terapkan ke UI Header
                 document.getElementById('user-nama').innerText = GURU_AKTIF.nama;
                 document.getElementById('user-kategori').innerText = GURU_AKTIF.kategori;
-                document.getElementById('user-avatar').innerText = GURU_AKTIF.nama.charAt(0).toUpperCase();
+                document.getElementById('user-inisial').innerText = GURU_AKTIF.nama.charAt(0).toUpperCase();
 
-                // Deteksi Otomatis Jadwal
-                renderTampilanJadwal();
-
-                // Pindah Layar
                 document.getElementById('login-view').style.display = 'none';
-                document.getElementById('dashboard-view').style.display = 'block';
-
-                if (GURU_AKTIF.kategori.toLowerCase() === 'pimpinan') {
-                    document.getElementById('pimpinan-panel').style.display = 'block';
-                }
+                document.getElementById('dashboard-view').style.display = 'flex';
+                
+                autoDeteksiSesi(); // Opsional: Pilih sesi otomatis berdasarkan jam
             } else {
                 alert(result.message);
             }
         })
         .catch(error => {
-            btn.style.display = 'flex'; loading.style.display = 'none';
+            btn.style.display = 'block'; loading.style.display = 'none';
             alert('Koneksi terputus. Pastikan internet stabil.');
         });
     }
 
-    // 2. DETEKSI SESI & RENDER UI PINTAR
-    function renderTampilanJadwal() {
-        const sekarang = new Date();
-        const jam = sekarang.getHours();
-        const menit = sekarang.getMinutes();
-        const waktuDesimal = jam + (menit / 60);
-        
-        let sesiSekarang = null;
-
-        // Aturan jam sesi (sesuaikan jika perlu)
-        if (waktuDesimal >= 6.0 && waktuDesimal <= 8.50) { sesiSekarang = "Sesi 1"; } 
-        else if (waktuDesimal > 8.50 && waktuDesimal <= 10.30) { sesiSekarang = "Sesi 2"; } 
-        else if (waktuDesimal > 10.30 && waktuDesimal <= 13.0) { sesiSekarang = "Sesi 3"; }
-
-        const container = document.getElementById('jadwal-container');
-
-        if (!sesiSekarang) {
-            container.innerHTML = `
-                <div class="alert-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span>Saat ini di luar jam operasional mengajar.</span>
-                </div>`;
-            return;
-        }
-
-        // Cari apakah guru ini punya jadwal di sesi sekarang
-        JADWAL_TERPILIH = GURU_AKTIF.jadwalHariIni.find(j => j.sesi === sesiSekarang);
-
-        if (JADWAL_TERPILIH) {
-            // Punya Jadwal -> Munculkan Tombol Absen
-            container.innerHTML = `
-                <div class="schedule-card">
-                    <div class="schedule-badge">${JADWAL_TERPILIH.sesi}</div>
-                    <h3 class="schedule-title">${JADWAL_TERPILIH.mapel}</h3>
-                    <p class="schedule-detail">Kelas: ${JADWAL_TERPILIH.kelas} • ${JADWAL_TERPILIH.tugas}</p>
-                    <button class="ios-btn success" id="btn-absen" onclick="ambilLokasiDanAbsen()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                        Kirim Presensi Hadir
-                    </button>
-                    <div class="loading" id="absen-loading">Mengunci GPS & Mengirim...</div>
-                </div>`;
-        } else {
-            // Tidak punya jadwal di sesi ini
-            container.innerHTML = `
-                <div class="alert-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    <span>Anda tidak memiliki jadwal mengajar pada ${sesiSekarang}. Selamat beristirahat.</span>
-                </div>`;
-        }
-    }
-
-    // 3. LOGIKA GEOLOCATION
+    // --- FUNGSI ABSEN ---
     function ambilLokasiDanAbsen() {
-        if (!JADWAL_TERPILIH) return;
-
         const btn = document.getElementById('btn-absen');
         const loading = document.getElementById('absen-loading');
-
+        
         if (!navigator.geolocation) {
-            alert("Fitur GPS tidak didukung di handphone Anda.");
-            return;
+            alert("Fitur GPS tidak didukung di perangkat ini."); return;
         }
 
         btn.style.display = 'none'; loading.style.display = 'block';
 
         navigator.geolocation.getCurrentPosition(
             function(position) {
-                kirimDataAbsenKeServer(position.coords.latitude, position.coords.longitude);
+                kirimDataAbsenKeServer(position.coords.latitude, position.coords.longitude, btn, loading);
             },
             function(error) {
-                btn.style.display = 'flex'; loading.style.display = 'none';
-                if(error.code === error.PERMISSION_DENIED) alert("Akses Lokasi Ditolak. Izinkan GPS di pengaturan browser/HP Anda.");
-                else alert("Gagal mengunci lokasi. Pastikan sinyal GPS stabil.");
+                btn.style.display = 'block'; loading.style.display = 'none';
+                alert("Gagal mengunci lokasi. Pastikan izin GPS menyala.");
             },
             { enableHighAccuracy: true, timeout: 10000 }
         );
     }
 
-    // 4. KIRIM DATA KE SERVER
-    function kirimDataAbsenKeServer(lat, lon) {
-        const btn = document.getElementById('btn-absen');
-        const loading = document.getElementById('absen-loading');
+    function kirimDataAbsenKeServer(lat, lon, btn, loading) {
+        const sesi = document.getElementById('sesi').value;
+        const kelas = document.getElementById('kelas').value;
         
-        const payload = {
-            action: 'absen',
-            no_hp: GURU_AKTIF.no_hp,
-            nama_guru: GURU_AKTIF.nama,
-            sesi: JADWAL_TERPILIH.sesi,
-            kelas: JADWAL_TERPILIH.kelas,
-            latitude: lat,
-            longitude: lon
-        };
-
         fetch(SCRIPT_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify({
+                action: 'absen',
+                no_hp: GURU_AKTIF.no_hp,
+                nama_guru: GURU_AKTIF.nama,
+                sesi: sesi,
+                kelas: kelas,
+                latitude: lat,
+                longitude: lon
+            })
         })
         .then(response => response.json())
         .then(result => {
-            // Sembunyikan loading, ganti tombol jadi sukses
             loading.style.display = 'none';
+            btn.style.display = 'block';
             if(result.success) {
-                btn.style.display = 'flex';
-                btn.style.backgroundColor = '#E5E5EA';
-                btn.style.color = '#34C759';
-                btn.innerHTML = '✓ Presensi Berhasil Tercatat';
+                // Ubah tombol jadi sukses
+                btn.style.backgroundColor = '#E7F1EC';
+                btn.style.color = '#0F6B3D';
+                btn.innerText = '✓ Berhasil';
                 btn.disabled = true;
-                alert(result.message);
+                setTimeout(() => alert(result.message), 100);
             } else {
-                btn.style.display = 'flex';
                 alert(result.message);
             }
         })
         .catch(error => {
-            btn.style.display = 'flex'; loading.style.display = 'none';
-            alert('Kesalahan Pengiriman: Jaringan internet tidak stabil.');
+            btn.style.display = 'block'; loading.style.display = 'none';
+            alert('Kesalahan jaringan.');
         });
+    }
+
+    // --- KONTROL BOTTOM SHEET (ANIMASI MEMBAL) ---
+    function bukaModalIzin() {
+        document.getElementById('overlay').classList.add('active');
+        document.getElementById('modal-izin').classList.add('active');
+    }
+
+    function tutupModalIzin() {
+        document.getElementById('overlay').classList.remove('active');
+        document.getElementById('modal-izin').classList.remove('active');
+    }
+
+    function kirimIzin() {
+        alert("Fitur pengajuan izin akan dikembangkan di tahap berikutnya.");
+        tutupModalIzin();
+    }
+
+    // --- BANTUAN UI ---
+    function autoDeteksiSesi() {
+        const jam = new Date().getHours() + (new Date().getMinutes() / 60);
+        const select = document.getElementById('sesi');
+        if (jam >= 6.5 && jam <= 8.5) select.value = "Sesi 1";
+        else if (jam > 8.5 && jam <= 10.3) select.value = "Sesi 2";
+        else if (jam > 10.3 && jam <= 13.0) select.value = "Sesi 3";
     }
 </script>
 
