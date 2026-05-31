@@ -27,7 +27,7 @@
         .app-container { width: 100%; max-width: 414px; margin: 0 auto; height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; background: #FFF; }
 
         /* ==================================================
-           DESAIN HEADER BARU 
+           DESAIN HEADER
            ================================================== */
         .header-card {
             background-color: #245535;
@@ -59,22 +59,65 @@
         .name { font-size: 17px; margin: 0 0 10px 0; font-weight: bold; line-height: 1.2; }
         .badge { background-color: rgba(255, 255, 255, 0.2); padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
 
-        /* --- Bagian Kanan: Jam & Kalender --- */
-        .time-section { display: flex; flex-direction: column; align-items: center; flex: 0.8; gap: 15px; }
+        /* --- Bagian Kanan: Jam Flip Digital & Kalender --- */
+        .time-section { display: flex; flex-direction: column; align-items: center; flex: 0.8; gap: 8px; }
         
-        .analog-clock { width: 75px; height: 75px; position: relative; border-radius: 50%; border: none; background: transparent; }
-        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; border-radius: 10px; background-color: white; transform: translateX(-50%) rotate(0deg); }
-        .hour-hand { width: 4px; height: 20px; z-index: 3; }
-        .minute-hand { width: 3px; height: 30px; z-index: 2; }
-        .second-hand { width: 2px; height: 34px; background-color: #ff4c4c; z-index: 4; }
-        .analog-clock::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 6px; height: 6px; background-color: white; border-radius: 50%; z-index: 5; }
+        /* Gaya Flip Clock Digital */
+        .digital-clock {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .flip-card {
+            background: #143520; /* Warna lebih gelap dari background header */
+            color: #FFFFFF;
+            font-size: 28px;
+            font-weight: 800;
+            padding: 8px 10px;
+            border-radius: 8px;
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.3), 0 4px 6px rgba(0,0,0,0.2);
+            position: relative;
+            min-width: 38px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            line-height: 1;
+        }
+        /* Garis horizontal tengah untuk efek flip clock */
+        .flip-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+        .colon {
+            font-size: 24px;
+            font-weight: 900;
+            color: rgba(255,255,255,0.7);
+            padding-bottom: 4px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
         
-        .mark { position: absolute; width: 1.5px; height: 4px; background-color: rgba(255, 255, 255, 0.4); top: 0; left: 50%; transform-origin: 50% 37.5px; margin-left: -0.75px; }
-        .mark.thick { width: 3px; height: 7px; background-color: white; margin-left: -1.5px; }
-        
+        /* Gaya Kalender Hijriyah */
         .hijri-calendar { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.1s; }
         .hijri-calendar:active { transform: scale(0.95); }
-        .hijri-date { font-size: 34px; font-weight: 900; color: #F6BE00; line-height: 1; margin-bottom: 6px; }
+        .hijri-date { 
+            font-size: 46px; /* Diperbesar dari 34px */
+            font-weight: 900; /* Dibuat lebih tebal/heavy */
+            color: #F6BE00; 
+            line-height: 1; 
+            margin-bottom: 8px; 
+            text-shadow: 1px 2px 4px rgba(0,0,0,0.2); 
+        }
         .hijri-month-capsule { background-color: white; color: #245535; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
         .hijri-year { color: white; font-size: 12px; font-weight: 500; }
         /* ================================================== */
@@ -174,7 +217,7 @@
     <div id="dashboard-view">
         
         <!-- ==================================================
-             HEADER BARU DI SINI
+             HEADER BARU (FLIP CLOCK & HIJRI BOLD)
              ================================================== -->
         <div class="header-card">
             <!-- Bagian Kiri: Profil -->
@@ -188,14 +231,13 @@
                 <span class="badge" id="user-kategori">Status</span>
             </div>
 
-            <!-- Bagian Kanan: Jam & Kalender -->
+            <!-- Bagian Kanan: Jam Digital & Kalender -->
             <div class="time-section">
-                <!-- Jam Analog -->
-                <div class="analog-clock" id="analogClock">
-                    <div id="clockMarks"></div>
-                    <div class="hand hour-hand" id="clock-hour"></div>
-                    <div class="hand minute-hand" id="clock-min"></div>
-                    <div class="hand second-hand" id="clock-sec"></div>
+                <!-- Jam Flip Digital -->
+                <div class="digital-clock" id="digitalClock">
+                    <div class="flip-card" id="clock-hour">00</div>
+                    <span class="colon">:</span>
+                    <div class="flip-card" id="clock-min">00</div>
                 </div>
                 
                 <!-- Kalender Hijriyah -->
@@ -322,7 +364,7 @@
 
     window.onload = function() {
         initSwipeToClose();
-        jalankanJamAnalog();
+        jalankanJamDigital(); // Diganti dari jalankanJamAnalog
         
         hijriOffset = parseInt(localStorage.getItem('hijriOffset') || '0');
         updateHijriLayar();
@@ -331,38 +373,26 @@
         if (savedSession) tampilkanDashboard(JSON.parse(savedSession));
     }
 
-    // PENYESUAIAN JAM ANALOG
-    function jalankanJamAnalog() {
-        const marksContainer = document.getElementById('clockMarks');
-        if(marksContainer && marksContainer.children.length === 0) {
-            for (let i = 0; i < 60; i++) {
-                const mark = document.createElement('div');
-                mark.classList.add('mark');
-                if (i % 15 === 0) mark.classList.add('thick');
-                mark.style.transform = `rotate(${i * 6}deg)`;
-                marksContainer.appendChild(mark);
+    // FUNGSI JAM DIGITAL FLIP CLOCK
+    function jalankanJamDigital() {
+        function updateTime() {
+            const sekarang = new Date();
+            const jam = String(sekarang.getHours()).padStart(2, '0');
+            const menit = String(sekarang.getMinutes()).padStart(2, '0');
+            
+            const elJam = document.getElementById('clock-hour');
+            const elMenit = document.getElementById('clock-min');
+            
+            if(elJam && elMenit) {
+                elJam.innerText = jam;
+                elMenit.innerText = menit;
             }
         }
-
-        function tick() {
-            const sekarang = new Date();
-            const h = sekarang.getHours(); const m = sekarang.getMinutes(); const s = sekarang.getSeconds();
-            const hDeg = (h % 12) * 30 + (m * 0.5);
-            const mDeg = m * 6 + (s * 0.1);
-            const sDeg = s * 6;
-            
-            const hHand = document.getElementById('clock-hour');
-            const mHand = document.getElementById('clock-min');
-            const sHand = document.getElementById('clock-sec');
-            
-            if(hHand) hHand.style.transform = `translateX(-50%) rotate(${hDeg}deg)`;
-            if(mHand) mHand.style.transform = `translateX(-50%) rotate(${mDeg}deg)`;
-            if(sHand) sHand.style.transform = `translateX(-50%) rotate(${sDeg}deg)`;
-        }
-        tick(); setInterval(tick, 1000);
+        updateTime();
+        setInterval(updateTime, 1000);
     }
 
-    // PENYESUAIAN ALGORITMA HIJRIYAH UNTUK DESAIN BARU
+    // PENYESUAIAN ALGORITMA HIJRIYAH
     function hitungHijriDate(hariKoreksi) {
         let tgl = new Date();
         tgl.setDate(tgl.getDate() + hariKoreksi);
