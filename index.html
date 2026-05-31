@@ -2,22 +2,24 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Presensi Madrasah iOS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Presensi iOS</title>
     <style>
         /* CSS STANDAR APPLE iOS SQUIRCLE & PALETTE */
         :root {
             --ios-blue: #007AFF;
             --ios-green: #34C759;
             --ios-red: #FF3B30;
+            --ios-orange: #FF9500;
             --ios-gray-bg: #F2F2F7;
             --ios-card-bg: #FFFFFF;
             --ios-text-main: #1C1C1E;
             --ios-text-sub: #8E8E93;
+            --ios-border: #E5E5EA;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
             background-color: var(--ios-gray-bg);
             margin: 0;
             padding: 0;
@@ -25,207 +27,229 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
         .phone-wrapper {
             width: 100%;
-            max-width: 414px; /* Standar Lebar Layar iPhone Plus/Max */
-            padding: 20px;
+            max-width: 414px;
+            padding: 24px 16px;
             box-sizing: border-box;
         }
 
-        /* TAMPILAN KARTU MODEREN */
-        .ios-card {
+        /* TAMPILAN KARTU MODEREN (iOS Grouped Style) */
+        .ios-group {
             background-color: var(--ios-card-bg);
-            border-radius: 20px;
-            padding: 25px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 20px;
-            box-sizing: border-box;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .logo-area {
             text-align: center;
-            margin: 20px 0;
+            margin: 40px 0 30px 0;
         }
 
         .logo-box {
-            width: 75px;
-            height: 75px;
-            background-color: var(--ios-blue);
-            border-radius: 18px;
-            margin: 0 auto 15px auto;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #30B0C7, var(--ios-blue));
+            border-radius: 20px; /* Squircle */
+            margin: 0 auto 16px auto;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 8px 16px rgba(0, 122, 255, 0.2);
+        }
+
+        .logo-box svg {
+            width: 44px;
+            height: 44px;
             color: white;
-            font-size: 30px;
-            font-weight: bold;
         }
 
-        h2 { margin: 0 0 5px 0; font-size: 22px; font-weight: 600; text-align: center; }
-        p.subtitle { margin: 0 0 25px 0; font-size: 14px; color: var(--ios-text-sub); text-align: center; }
+        h2 { margin: 0 0 6px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        p.subtitle { margin: 0; font-size: 15px; color: var(--ios-text-sub); }
 
-        /* FORM INPUT STYLING */
-        .form-group {
-            margin-bottom: 16px;
+        /* FORM INPUT STYLING (iOS Settings Style) */
+        .ios-input-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--ios-border);
+            position: relative;
         }
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 500;
+        .ios-input-row:last-child { border-bottom: none; }
+        
+        .ios-input-icon {
+            width: 24px;
+            height: 24px;
             color: var(--ios-text-sub);
-            margin-bottom: 6px;
-            padding-left: 4px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
         }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 16px;
-            border: 1px solid #E5E5EA;
-            border-radius: 12px;
-            box-sizing: border-box;
-            background-color: #FAFAFA;
+
+        .ios-input-row input {
+            flex: 1;
+            border: none;
+            font-size: 17px;
+            padding: 8px 0;
+            background: transparent;
             outline: none;
-            -webkit-appearance: none; /* Menghilangkan style bawaan android/browser */
+            color: var(--ios-text-main);
+            -webkit-appearance: none;
         }
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--ios-blue);
-            background-color: #FFFFFF;
-        }
+        .ios-input-row input::placeholder { color: #C7C7CC; }
 
         /* TOMBOL UTAMA */
         .ios-btn {
             width: 100%;
             padding: 16px;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 600;
             color: white;
             background-color: var(--ios-blue);
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: opacity 0.2s;
             box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
         }
-        .ios-btn:active { background-color: #0056b3; }
+        .ios-btn:active { opacity: 0.7; }
         .ios-btn.success { background-color: var(--ios-green); }
-        .ios-btn.success:active { background-color: #24923F; }
+        .ios-btn.secondary { background-color: #E5E5EA; color: var(--ios-blue); }
+        .ios-btn.danger { background-color: #FDE8E7; color: var(--ios-red); }
 
         /* STATUS LOADING & NAVIGASI PANELS */
-        .loading { display: none; text-align: center; font-size: 14px; color: var(--ios-text-sub); margin-top: 15px; }
+        .loading { display: none; text-align: center; font-size: 15px; color: var(--ios-text-sub); margin-top: 16px; }
         #dashboard-view, #pimpinan-panel { display: none; }
 
         /* HEADER USER DI DASHBOARD */
-        .user-profile {
+        .profile-header {
             display: flex;
             align-items: center;
-            border-bottom: 1px solid #F2F2F7;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding: 16px;
         }
         .avatar {
-            width: 45px;
-            height: 45px;
-            background-color: #E5E5EA;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #E5E5EA, #D1D1D6);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 18px;
-            margin-right: 12px;
-            color: #555;
+            font-size: 22px;
+            margin-right: 16px;
+            color: #8E8E93;
         }
-        .user-info h4 { margin: 0; font-size: 16px; font-weight: 600; }
-        .user-info span { font-size: 12px; color: var(--ios-text-sub); background: #E5E5EA; padding: 2px 8px; border-radius: 10px; margin-top: 3px; display: inline-block;}
+        .user-info h4 { margin: 0 0 4px 0; font-size: 19px; font-weight: 600; }
+        .user-info span { font-size: 14px; color: var(--ios-text-sub); }
 
-        /* BADGE KELAS KOSONG INFO */
-        .alert-box {
-            background-color: #FFF9E6;
-            border-left: 4px solid #FFCC00;
-            padding: 12px;
+        /* INFO JADWAL CARD */
+        .schedule-card {
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .schedule-badge {
+            display: inline-block;
+            background: #E5F0FF;
+            color: var(--ios-blue);
+            padding: 6px 12px;
             border-radius: 8px;
             font-size: 13px;
-            margin-bottom: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
         }
+        .schedule-title { font-size: 20px; font-weight: 700; margin: 0 0 8px 0; }
+        .schedule-detail { font-size: 15px; color: var(--ios-text-sub); margin: 0 0 20px 0; }
+
+        .alert-box {
+            padding: 24px 16px;
+            text-align: center;
+            color: var(--ios-text-sub);
+            font-size: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .alert-box svg { width: 32px; height: 32px; color: #C7C7CC; }
+
+        .section-title { font-size: 13px; font-weight: 500; color: var(--ios-text-sub); text-transform: uppercase; margin: 0 0 8px 16px; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
 
 <div class="phone-wrapper">
 
-    <div id="login-view" class="ios-card">
+    <div id="login-view">
         <div class="logo-area">
-            <div class="logo-box">M</div>
+            <div class="logo-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            </div>
             <h2>Presensi Madrasah</h2>
-            <p class="subtitle">Sistem Absensi Kehadiran Guru</p>
+            <p class="subtitle">Portal Kehadiran Guru</p>
         </div>
-        <div class="form-group">
-            <input type="tel" id="no_hp" placeholder="Nomor Handphone" autocomplete="off">
+
+        <div class="ios-group">
+            <div class="ios-input-row">
+                <div class="ios-input-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </div>
+                <input type="tel" id="no_hp" placeholder="Nomor Handphone" autocomplete="off">
+            </div>
+            <div class="ios-input-row">
+                <div class="ios-input-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+                <input type="password" id="pin" placeholder="PIN Keamanan" autocomplete="off">
+            </div>
         </div>
-        <div class="form-group">
-            <input type="password" id="pin" placeholder="PIN Keamanan" autocomplete="off">
-        </div>
+
         <button class="ios-btn" onclick="prosesLogin()">Masuk</button>
-        <div class="loading" id="login-loading">Memvalidasi data Anda...</div>
+        <div class="loading" id="login-loading">Memvalidasi data...</div>
     </div>
 
 
     <div id="dashboard-view">
         
-        <div class="ios-card" style="padding: 15px 20px; margin-bottom: 15px;">
-            <div class="user-profile">
+        <div class="ios-group">
+            <div class="profile-header">
                 <div class="avatar" id="user-avatar">?</div>
                 <div class="user-info">
                     <h4 id="user-nama">Nama Guru</h4>
                     <span id="user-kategori">Jabatan</span>
                 </div>
             </div>
-            <button class="ios-btn" style="background-color: #E5E5EA; color: #FF3B30; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="window.location.reload()">Keluar Aplikasi</button>
         </div>
 
-        <div class="ios-card">
-            <h3 style="margin: 0 0 15px 0; font-size: 18px; font-weight: 600;">Form Presensi Kehadiran</h3>
-            
-            <div class="form-group">
-                <label>Pilihan Sesi Pelajaran</label>
-                <select id="sesi">
-                    <option value="Sesi 1">Sesi 1 (07.00 - 08.20)</option>
-                    <option value="Sesi 2">Sesi 2 (08.50 - 10.10)</option>
-                    <option value="Sesi 3">Sesi 3 (10.30 - 11.50)</option>
-                </select>
+        <div class="section-title">Status Jadwal Saat Ini</div>
+        <div class="ios-group" id="jadwal-container">
             </div>
 
-            <div class="form-group">
-                <label>Pilih Kelas Mengajar Saat Ini</label>
-                <select id="kelas">
-                    <option value="VII-A">Kelas VII - A</option>
-                    <option value="VII-B">Kelas VII - B</option>
-                    <option value="VIII-A">Kelas VIII - A</option>
-                    <option value="VIII-B">Kelas VIII - B</option>
-                    <option value="IX-A">Kelas IX - A</option>
-                    <option value="IX-B">Kelas IX - B</option>
-                    <option value="-">Tidak Masuk Kelas (Piket/Pimpinan)</option>
-                </select>
-                <small style="font-size: 11px; color: var(--ios-text-sub);">*Silakan sesuaikan pilihan kelas Anda mengajar hari ini.</small>
+        <div class="section-title">Layanan Lainnya</div>
+        <div class="ios-group">
+            <button class="ios-btn secondary" style="border-radius: 0; background: transparent; color: var(--ios-orange); border-bottom: 1px solid var(--ios-border);" onclick="alert('Fitur Pengajuan Izin akan segera hadir.')">
+                Ajukan Surat Izin / Sakit
+            </button>
+            <button class="ios-btn danger" style="border-radius: 0; background: transparent;" onclick="window.location.reload()">
+                Keluar Aplikasi
+            </button>
+        </div>
+
+        <div id="pimpinan-panel">
+            <div class="section-title" style="color: #8A6D1C;">Panel Kontrol Pimpinan</div>
+            <div class="ios-group" style="background-color: #FFFBF0;">
+                <button class="ios-btn" style="background: transparent; color: #5856D6; border-radius: 0; border-bottom: 1px solid #E6DFCD;" onclick="alert('Fitur Generate Rekap Otomatis akan segera hadir.')">Download Rekap Excel</button>
+                <button class="ios-btn" style="background: transparent; color: #AF52DE; border-radius: 0;" onclick="alert('Fitur Verifikasi Izin akan segera hadir.')">Verifikasi Izin Guru</button>
             </div>
-
-            <button class="ios-btn success" id="btn-absen" onclick="ambilLokasiDanAbsen()">Kirim Presensi Hadir</button>
-            <div class="loading" id="absen-loading">Mengunci Satelit GPS & Mengirim Absen...</div>
-        </div>
-
-        <div class="ios-card" style="text-align: center; padding: 15px;">
-            <p style="margin: 0 0 10px 0; font-size: 13px; color: var(--ios-text-sub);">Berhalangan hadir mengajar hari ini?</p>
-            <button class="ios-btn" style="background-color: #FF9500; padding: 10px; font-size: 14px;" onclick="alert('Fitur Pengajuan Izin Teks akan kita aktifkan di tahap berikutnya!')">Ajukan Surat Izin / Sakit</button>
-        </div>
-
-        <div id="pimpinan-panel" class="ios-card" style="border: 1px solid #FFD60A; background-color: #FFFBF0;">
-            <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #B88600;">🛡️ Panel Kontrol Pimpinan</h3>
-            <p style="margin: 0 0 15px 0; font-size: 12px; color: #8A6D1C;">Menu khusus pemantauan & laporan Yayasan.</p>
-            
-            <button class="ios-btn" style="background-color: #5856D6; margin-bottom: 10px; font-size: 14px; padding: 12px;" onclick="alert('Fitur Generate Rekap Otomatis (Tanggal 20-19) akan kita aktifkan di tahap berikutnya!')">📊 Download Rekap Excel Yayasan</button>
-            <button class="ios-btn" style="background-color: #AF52DE; font-size: 14px; padding: 12px;" onclick="alert('Fitur Verifikasi Izin Proaktif Guru akan kita aktifkan di tahap berikutnya!')">✍️ Verifikasi Pengajuan Izin Guru</button>
         </div>
 
     </div>
@@ -233,20 +257,21 @@
 </div>
 
 <script>
-    // URL Web App Google Apps Script Anda (Sudah Terkunci Otomatis)
+    // URL Web App Google Apps Script Anda (PASTIKAN DIGANTI)
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6vM-69kO_QCyCGYaIJ-a-JEq5P5PBcbZz0aesjvqSfoAYWLxTeCc-ruOxeempEmHk/exec';
     
-    // Variabel Global Penyimpan Sesi Login Guru
-    let GURU_AKTIF = { no_hp: '', nama: '', kategori: '' };
+    // Variabel Sesi
+    let GURU_AKTIF = { no_hp: '', nama: '', kategori: '', jadwalHariIni: [] };
+    let JADWAL_TERPILIH = null; // Menyimpan jadwal yang terdeteksi valid saat ini
 
-    // 1. LOGIKA UTAMA: PROSES LOGIN
+    // 1. PROSES LOGIN & AMBIL JADWAL
     function prosesLogin() {
         const noHp = document.getElementById('no_hp').value;
         const pin = document.getElementById('pin').value;
         const btn = document.querySelector('#login-view button');
         const loading = document.getElementById('login-loading');
 
-        if (!noHp || !pin) { alert('Mohon masukkan Nomor HP dan PIN.'); return; }
+        if (!noHp || !pin) { alert('Mohon lengkapi Nomor HP dan PIN.'); return; }
 
         btn.style.display = 'none'; loading.style.display = 'block';
 
@@ -257,27 +282,27 @@
         })
         .then(response => response.json())
         .then(result => {
-            btn.style.display = 'block'; loading.style.display = 'none';
+            btn.style.display = 'flex'; loading.style.display = 'none';
 
             if (result.success) {
-                // Simpan data guru ke variabel sesi global
+                // Simpan data
                 GURU_AKTIF.no_hp = noHp;
                 GURU_AKTIF.nama = result.data.nama;
                 GURU_AKTIF.kategori = result.data.kategori;
+                GURU_AKTIF.jadwalHariIni = result.data.jadwal; // Menerima jadwal khusus hari ini dari backend
 
-                // Sinkronisasi data ke tampilan Dashboard
+                // Sinkronisasi Profil
                 document.getElementById('user-nama').innerText = GURU_AKTIF.nama;
                 document.getElementById('user-kategori').innerText = GURU_AKTIF.kategori;
                 document.getElementById('user-avatar').innerText = GURU_AKTIF.nama.charAt(0).toUpperCase();
 
-                // Deteksi otomatis Sesi mengajar berdasarkan Jam asli HP
-                autoDeteksiSesiWaktu();
+                // Deteksi Otomatis Jadwal
+                renderTampilanJadwal();
 
-                // Tampilkan halaman dashboard, sembunyikan halaman login
+                // Pindah Layar
                 document.getElementById('login-view').style.display = 'none';
                 document.getElementById('dashboard-view').style.display = 'block';
 
-                // HAK AKSES: Jika Pimpinan, buka panel rahasianya
                 if (GURU_AKTIF.kategori.toLowerCase() === 'pimpinan') {
                     document.getElementById('pimpinan-panel').style.display = 'block';
                 }
@@ -286,36 +311,69 @@
             }
         })
         .catch(error => {
-            btn.style.display = 'block'; loading.style.display = 'none';
-            alert('Koneksi terputus. Silakan coba kembali.');
+            btn.style.display = 'flex'; loading.style.display = 'none';
+            alert('Koneksi terputus. Pastikan internet stabil.');
         });
     }
 
-    // 2. LOGIKA OTOMATISASI REKOMENDASI SESI WAKTU
-    function autoDeteksiSesiWaktu() {
+    // 2. DETEKSI SESI & RENDER UI PINTAR
+    function renderTampilanJadwal() {
         const sekarang = new Date();
         const jam = sekarang.getHours();
         const menit = sekarang.getMinutes();
-        // Mengonversi waktu ke format desimal jam untuk mempermudah perbandingan matematika (misal 07:30 jadi 7.5)
         const waktuDesimal = jam + (menit / 60);
-        const selectSesi = document.getElementById('sesi');
+        
+        let sesiSekarang = null;
 
-        // Batasan Logika Jendela Waktu Sesi Anda:
-        if (waktuDesimal >= 6.5 && waktuDesimal <= 8.33) { // Rentang 06.30 - 08.20
-            selectSesi.value = "Sesi 1";
-        } else if (waktuDesimal > 8.33 && waktuDesimal <= 10.16) { // Rentang 08.21 - 10.10
-            selectSesi.value = "Sesi 2";
-        } else if (waktuDesimal > 10.16 && waktuDesimal <= 13.0) { // Rentang 10.11 - 13.00
-            selectSesi.value = "Sesi 3";
+        // Aturan jam sesi (sesuaikan jika perlu)
+        if (waktuDesimal >= 6.0 && waktuDesimal <= 8.50) { sesiSekarang = "Sesi 1"; } 
+        else if (waktuDesimal > 8.50 && waktuDesimal <= 10.30) { sesiSekarang = "Sesi 2"; } 
+        else if (waktuDesimal > 10.30 && waktuDesimal <= 13.0) { sesiSekarang = "Sesi 3"; }
+
+        const container = document.getElementById('jadwal-container');
+
+        if (!sesiSekarang) {
+            container.innerHTML = `
+                <div class="alert-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Saat ini di luar jam operasional mengajar.</span>
+                </div>`;
+            return;
+        }
+
+        // Cari apakah guru ini punya jadwal di sesi sekarang
+        JADWAL_TERPILIH = GURU_AKTIF.jadwalHariIni.find(j => j.sesi === sesiSekarang);
+
+        if (JADWAL_TERPILIH) {
+            // Punya Jadwal -> Munculkan Tombol Absen
+            container.innerHTML = `
+                <div class="schedule-card">
+                    <div class="schedule-badge">${JADWAL_TERPILIH.sesi}</div>
+                    <h3 class="schedule-title">${JADWAL_TERPILIH.mapel}</h3>
+                    <p class="schedule-detail">Kelas: ${JADWAL_TERPILIH.kelas} • ${JADWAL_TERPILIH.tugas}</p>
+                    <button class="ios-btn success" id="btn-absen" onclick="ambilLokasiDanAbsen()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        Kirim Presensi Hadir
+                    </button>
+                    <div class="loading" id="absen-loading">Mengunci GPS & Mengirim...</div>
+                </div>`;
+        } else {
+            // Tidak punya jadwal di sesi ini
+            container.innerHTML = `
+                <div class="alert-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>Anda tidak memiliki jadwal mengajar pada ${sesiSekarang}. Selamat beristirahat.</span>
+                </div>`;
         }
     }
 
-    // 3. LOGIKA GEOLOCATION: AMBIL KOORDINAT GPS HP GURU
+    // 3. LOGIKA GEOLOCATION
     function ambilLokasiDanAbsen() {
+        if (!JADWAL_TERPILIH) return;
+
         const btn = document.getElementById('btn-absen');
         const loading = document.getElementById('absen-loading');
 
-        // Memeriksa apakah perangkat HP mendukung fitur lokasi
         if (!navigator.geolocation) {
             alert("Fitur GPS tidak didukung di handphone Anda.");
             return;
@@ -323,51 +381,30 @@
 
         btn.style.display = 'none'; loading.style.display = 'block';
 
-        // Meminta izin akses satelit lokasi HP
         navigator.geolocation.getCurrentPosition(
             function(position) {
-                // Berhasil mengunci koordinat satelit HP guru
-                const latGuru = position.coords.latitude;
-                const lonGuru = position.coords.longitude;
-                
-                // Teruskan data koordinat ke fungsi pengiriman database GAS
-                kirimDataAbsenKeServer(latGuru, lonGuru);
+                kirimDataAbsenKeServer(position.coords.latitude, position.coords.longitude);
             },
             function(error) {
-                // Gagal mengambil GPS karena izin ditolak atau sinyal buruk
-                btn.style.display = 'block'; loading.style.display = 'none';
-                switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                        alert("Gagal: Izin GPS ditolak. Harap izinkan situs ini mengakses lokasi di pengaturan HP Anda.");
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        alert("Gagal: Sinyal lokasi tidak akurat/tidak tersedia.");
-                        break;
-                    case error.TIMEOUT:
-                        alert("Gagal: Waktu pengambilan lokasi habis (Sinyal Lemah).");
-                        break;
-                    default:
-                        alert("Gagal mengunci lokasi GPS: " + error.message);
-                }
+                btn.style.display = 'flex'; loading.style.display = 'none';
+                if(error.code === error.PERMISSION_DENIED) alert("Akses Lokasi Ditolak. Izinkan GPS di pengaturan browser/HP Anda.");
+                else alert("Gagal mengunci lokasi. Pastikan sinyal GPS stabil.");
             },
-            { enableHighAccuracy: true, timeout: 10000 } // Pengaturan akurasi tinggi
+            { enableHighAccuracy: true, timeout: 10000 }
         );
     }
 
-    // 4. LOGIKA FRONTEND-SERVER: KUMPULKAN DAN KIRIM PAKET DATA PRESENSI
+    // 4. KIRIM DATA KE SERVER
     function kirimDataAbsenKeServer(lat, lon) {
         const btn = document.getElementById('btn-absen');
         const loading = document.getElementById('absen-loading');
         
-        const sesiTerpilih = document.getElementById('sesi').value;
-        const kelasTerpilih = document.getElementById('kelas').value;
-
         const payload = {
             action: 'absen',
             no_hp: GURU_AKTIF.no_hp,
             nama_guru: GURU_AKTIF.nama,
-            sesi: sesiTerpilih,
-            kelas: kelasTerpilih,
+            sesi: JADWAL_TERPILIH.sesi,
+            kelas: JADWAL_TERPILIH.kelas,
             latitude: lat,
             longitude: lon
         };
@@ -379,13 +416,22 @@
         })
         .then(response => response.json())
         .then(result => {
-            btn.style.display = 'block'; loading.style.display = 'none';
-            
-            // Membuka Kotak Pesan Alert Dialog iOS Kustom Berdasarkan Respon Server
-            alert(result.message);
+            // Sembunyikan loading, ganti tombol jadi sukses
+            loading.style.display = 'none';
+            if(result.success) {
+                btn.style.display = 'flex';
+                btn.style.backgroundColor = '#E5E5EA';
+                btn.style.color = '#34C759';
+                btn.innerHTML = '✓ Presensi Berhasil Tercatat';
+                btn.disabled = true;
+                alert(result.message);
+            } else {
+                btn.style.display = 'flex';
+                alert(result.message);
+            }
         })
         .catch(error => {
-            btn.style.display = 'block'; loading.style.display = 'none';
+            btn.style.display = 'flex'; loading.style.display = 'none';
             alert('Kesalahan Pengiriman: Jaringan internet tidak stabil.');
         });
     }
