@@ -13,8 +13,9 @@
             --text-main: #1C1C1E; --text-sub: #8E8E93; --border-color: #E5E5EA;
         }
 
-        *, button, .custom-select-btn, .sheet-option, .cal-day {
-            -webkit-tap-highlight-color: transparent;
+        /* Anti kotak biru saat di-tap */
+        *, button, .custom-select-btn, .sheet-option, .cal-day, .hijri-calendar {
+            -webkit-tap-highlight-color: transparent !important;
             outline: none;
         }
 
@@ -27,102 +28,63 @@
         .app-container { width: 100%; max-width: 414px; margin: 0 auto; height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; background: #FFF; }
 
         /* ==================================================
-           DESAIN HEADER
+           1. BAR WAKTU DI LUAR KARTU (ATAS)
            ================================================== */
-        .header-card {
-            background-color: #245535;
-            color: white;
-            border-radius: 0 0 25px 25px;
-            padding: calc(env(safe-area-inset-top) + 20px) 24px 24px 24px;
+        .time-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: none !important;
-            border: none;
-            flex-shrink: 0;
-            width: 100%;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            padding: calc(env(safe-area-inset-top) + 15px) 24px 10px 24px;
+            background-color: #FFF;
         }
-
-        /* --- Bagian Kiri: Profil --- */
-        .profile-section {
-            display: flex; flex-direction: column; align-items: flex-start; flex: 1.2; text-align: left;
-        }
-        .profile-img-container {
-            width: 65px; height: 85px; background-color: #74b843; border-radius: 12px;
-            overflow: hidden; border: 2px solid #a3c98c; margin-bottom: 10px;
-            display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; color: white;
-        }
-        .profile-img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .greeting { font-size: 11px; margin: 0 0 3px 0; text-transform: uppercase; color: #d1e2d6; }
-        .name { font-size: 17px; margin: 0 0 10px 0; font-weight: bold; line-height: 1.2; }
-        .badge { background-color: rgba(255, 255, 255, 0.2); padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
-
-        /* --- Bagian Kanan: Jam Flip Digital & Kalender --- */
-        .time-section { display: flex; flex-direction: column; align-items: center; flex: 0.8; gap: 8px; }
-        
-        /* Gaya Flip Clock Digital */
         .digital-clock {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            font-family: "Courier New", Courier, monospace;
+            letter-spacing: 1px;
+        }
+        .hijri-calendar {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--emerald-main);
+            background-color: var(--emerald-light);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .hijri-calendar:active { transform: scale(0.95); }
+
+        /* ==================================================
+           2. KARTU PROFIL EKSKLUSIF (LEGA & ELEGAN)
+           ================================================== */
+        .header-card {
+            background: linear-gradient(135deg, var(--emerald-main), var(--emerald-dark));
+            border-radius: 24px;
+            margin: 10px 20px 20px 20px; /* Jarak luar kartu */
+            padding: 24px;
+            color: white;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 4px;
-            margin-bottom: 8px;
+            gap: 16px;
+            box-shadow: 0 10px 25px rgba(15, 107, 61, 0.2);
+            flex-shrink: 0;
         }
-        .flip-card {
-            background: #143520; /* Warna lebih gelap dari background header */
-            color: #FFFFFF;
-            font-size: 28px;
-            font-weight: 800;
-            padding: 8px 10px;
-            border-radius: 8px;
-            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.3), 0 4px 6px rgba(0,0,0,0.2);
-            position: relative;
-            min-width: 38px;
-            text-align: center;
-            font-family: "Courier New", Courier, monospace;
-            line-height: 1;
+
+        .profile-img-container {
+            width: 65px; height: 65px; background-color: rgba(255,255,255,0.1); border-radius: 50%;
+            overflow: hidden; border: 2px solid rgba(255,255,255,0.6); flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 600; color: white;
         }
-        /* Garis horizontal tengah untuk efek flip clock */
-        .flip-card::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: rgba(0,0,0,0.5);
-            z-index: 1;
-        }
-        .colon {
-            font-size: 24px;
-            font-weight: 900;
-            color: rgba(255,255,255,0.7);
-            padding-bottom: 4px;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        /* Gaya Kalender Hijriyah */
-        .hijri-calendar { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.1s; }
-        .hijri-calendar:active { transform: scale(0.95); }
-        .hijri-date { 
-            font-size: 46px; /* Diperbesar dari 34px */
-            font-weight: 900; /* Dibuat lebih tebal/heavy */
-            color: #F6BE00; 
-            line-height: 1; 
-            margin-bottom: 8px; 
-            text-shadow: 1px 2px 4px rgba(0,0,0,0.2); 
-        }
-        .hijri-month-capsule { background-color: white; color: #245535; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .hijri-year { color: white; font-size: 12px; font-weight: 500; }
+        .profile-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .user-text { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+        .greeting { font-size: 11px; margin: 0 0 4px 0; text-transform: uppercase; color: #d1e2d6; letter-spacing: 0.5px;}
+        .name { font-size: 18px; margin: 0 0 8px 0; font-weight: 700; line-height: 1.2; letter-spacing: 0.3px;}
+        .badge { background-color: rgba(255, 255, 255, 0.25); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; }
         /* ================================================== */
 
-        .main-content { flex: 1; display: flex; flex-direction: column; padding: 24px 24px 0 24px; overflow: hidden; justify-content: flex-start;}
+        .main-content { flex: 1; display: flex; flex-direction: column; padding: 0 24px; overflow: hidden; justify-content: flex-start;}
         .dropdown-row { display: flex; gap: 12px; margin-bottom: 16px; }
 
         .custom-select-btn {
@@ -138,6 +100,7 @@
         .btn-absen:active { transform: scale(0.97); }
         .empty-state { text-align: center; color: var(--text-sub); font-size: 14px; font-weight: 500; margin-top: 40px; width: 100%;}
 
+        /* Tanpa shadow berlebih di area bawah */
         .bottom-wrapper { padding: 0 24px calc(30px + env(safe-area-inset-bottom)) 24px; flex-shrink: 0; margin-top: auto; }
         .pimpinan-panel, .piket-panel { display: none; margin-bottom: 12px; }
         .btn-pimpinan { width: 100%; padding: 14px; background-color: var(--emerald-light); color: var(--emerald-main); border-radius: 100px; font-size: 14px; font-weight: 600; border: none; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.1s; }
@@ -216,39 +179,24 @@
 
     <div id="dashboard-view">
         
-        <!-- ==================================================
-             HEADER BARU (FLIP CLOCK & HIJRI BOLD)
-             ================================================== -->
+        <div class="time-bar">
+            <div class="digital-clock" id="digitalClock">00:00</div>
+            <div class="hijri-calendar" onclick="bukaModalHijri()">
+                <span id="hijri-tanggal">14</span> <span id="hijri-bulan">Dzulhijjah</span> <span id="hijri-tahun">1447 H</span>
+            </div>
+        </div>
+
         <div class="header-card">
-            <!-- Bagian Kiri: Profil -->
-            <div class="profile-section">
-                <div class="profile-img-container">
-                    <span id="user-inisial">?</span>
-                    <img id="user-foto" src="" alt="Profile" class="profile-img">
-                </div>
+            <div class="profile-img-container">
+                <span id="user-inisial">?</span>
+                <img id="user-foto" src="" alt="Profile" class="profile-img">
+            </div>
+            <div class="user-text">
                 <p class="greeting">ASSALAMUALAIKUM</p>
                 <h2 class="name" id="user-nama">Nama Guru</h2>
                 <span class="badge" id="user-kategori">Status</span>
             </div>
-
-            <!-- Bagian Kanan: Jam Digital & Kalender -->
-            <div class="time-section">
-                <!-- Jam Flip Digital -->
-                <div class="digital-clock" id="digitalClock">
-                    <div class="flip-card" id="clock-hour">00</div>
-                    <span class="colon">:</span>
-                    <div class="flip-card" id="clock-min">00</div>
-                </div>
-                
-                <!-- Kalender Hijriyah -->
-                <div class="hijri-calendar" onclick="bukaModalHijri()">
-                    <div class="hijri-date" id="hijri-tanggal">14</div>
-                    <div class="hijri-month-capsule" id="hijri-bulan">Dzulhijjah</div>
-                    <div class="hijri-year" id="hijri-tahun">1447 H</div>
-                </div>
-            </div>
         </div>
-        <!-- ================================================== -->
 
         <div class="main-content">
             <div id="form-absen-container" style="width: 100%;">
@@ -364,7 +312,7 @@
 
     window.onload = function() {
         initSwipeToClose();
-        jalankanJamDigital(); // Diganti dari jalankanJamAnalog
+        jalankanJamDigital();
         
         hijriOffset = parseInt(localStorage.getItem('hijriOffset') || '0');
         updateHijriLayar();
@@ -373,26 +321,21 @@
         if (savedSession) tampilkanDashboard(JSON.parse(savedSession));
     }
 
-    // FUNGSI JAM DIGITAL FLIP CLOCK
+    // FUNGSI JAM DIGITAL BAR ATAS (MINIMALIS)
     function jalankanJamDigital() {
         function updateTime() {
             const sekarang = new Date();
             const jam = String(sekarang.getHours()).padStart(2, '0');
             const menit = String(sekarang.getMinutes()).padStart(2, '0');
-            
-            const elJam = document.getElementById('clock-hour');
-            const elMenit = document.getElementById('clock-min');
-            
-            if(elJam && elMenit) {
-                elJam.innerText = jam;
-                elMenit.innerText = menit;
+            const elClock = document.getElementById('digitalClock');
+            if(elClock) {
+                elClock.innerText = jam + ":" + menit;
             }
         }
         updateTime();
         setInterval(updateTime, 1000);
     }
 
-    // PENYESUAIAN ALGORITMA HIJRIYAH
     function hitungHijriDate(hariKoreksi) {
         let tgl = new Date();
         tgl.setDate(tgl.getDate() + hariKoreksi);
@@ -408,12 +351,7 @@
         let y = 30 * n + j - 30;
         
         const blnHijri = ["Muharram", "Safar", "Rabi'ul Awwal", "Rabi'ul Akhir", "Jumadil Awwal", "Jumadil Akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
-        return {
-            d: d,
-            m: blnHijri[m - 1],
-            y: y + " H",
-            full: `${d} ${blnHijri[m - 1]} ${y} H`
-        };
+        return { d: d, m: blnHijri[m - 1], y: y + " H", full: `${d} ${blnHijri[m - 1]} ${y} H` };
     }
 
     function updateHijriLayar() { 
@@ -481,11 +419,7 @@
                     div.className = 'sheet-option'; 
                     let namaKelasLayar = k.toLowerCase().trim() === 'standby' ? 'Piket / Pimpinan' : k;
                     div.innerText = namaKelasLayar;
-                    div.onclick = () => { 
-                        valKelas = k; 
-                        document.getElementById('label-kelas').innerText = namaKelasLayar; 
-                        tutupSemuaSheet(); 
-                    }; 
+                    div.onclick = () => { valKelas = k; document.getElementById('label-kelas').innerText = namaKelasLayar; tutupSemuaSheet(); }; 
                     kCont.appendChild(div);
                 });
             }
@@ -609,7 +543,7 @@
         const sheet = document.getElementById(id);
         sheet.classList.remove('active'); 
         openSheetsStack = openSheetsStack.filter(s => s !== id);
-        setTimeout(() => { sheet.style.zIndex = ''; }, 400); 
+        setTimeout(() => { sheet.style.zIndex = ''; }, 300); 
         if(openSheetsStack.length === 0) {
             document.getElementById('sheet-overlay').classList.remove('active');
             document.getElementById('sheet-overlay').style.zIndex = '999';
@@ -625,27 +559,38 @@
         setTimeout(() => { 
             document.querySelectorAll('.bottom-sheet').forEach(s => s.style.zIndex = ''); 
             document.getElementById('sheet-overlay').style.zIndex = '999';
-        }, 400);
+        }, 300);
     }
 
     function showAlert(title, msg) { document.getElementById('iosAlertTitle').innerText=title; document.getElementById('iosAlertMsg').innerText=msg; document.getElementById('iosAlert').classList.add('active'); }
     function closeAlert() { document.getElementById('iosAlert').classList.remove('active'); }
 
+    // FUNGSI SWIPE YANG SUDAH DIBENAHI (LEBIH MULUS)
     function initSwipeToClose() { 
         document.querySelectorAll('.bottom-sheet').forEach(sheet => { 
             const swipeArea = sheet.querySelector('.swipe-area'); 
             if(!swipeArea) return; 
             let startY = 0; let currentY = 0; let isSwiping = false; 
-            swipeArea.addEventListener('touchstart', e => { startY = e.touches[0].clientY; isSwiping = true; sheet.style.transition = 'none'; }, {passive: true}); 
+            
+            swipeArea.addEventListener('touchstart', e => { 
+                startY = e.touches[0].clientY; isSwiping = true; sheet.style.transition = 'none'; 
+            }, {passive: true}); 
+            
             swipeArea.addEventListener('touchmove', e => { 
                 if(!isSwiping) return; 
                 currentY = e.touches[0].clientY; let diffY = currentY - startY;
                 if (diffY > 0) { sheet.style.transform = `translateX(-50%) translateY(${diffY}px)`; }
             }, {passive: true}); 
+            
             swipeArea.addEventListener('touchend', () => { 
-                isSwiping = false; sheet.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'; 
+                isSwiping = false; sheet.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'; 
                 let diffY = currentY - startY;
-                if (diffY > 100) { tutupSheetLokal(sheet.id); setTimeout(() => sheet.style.transform = '', 400); } else { sheet.style.transform = ''; } 
+                if (diffY > 100) { 
+                    tutupSheetLokal(sheet.id); 
+                    setTimeout(() => sheet.style.transform = '', 300); 
+                } else { 
+                    sheet.style.transform = ''; 
+                } 
                 startY = 0; currentY = 0;
             }); 
         }); 
